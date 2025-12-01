@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Nós - AlertaSeguro</title>
+    <link rel="stylesheet" href="{% static 'css/Sobre.css' %}">
+</head>
+
+<body>
+    <header id="header">
+        <a href="{% url 'mainpage' %}"><h1>AlertaSeguro</h1></a>
+    </header>
+
+    <div id="menu-container">
+        <button id="menu-btn">☰</button>
+        <div id="menu-dropdown">
+            <a href="{% url 'mainpage' %}">Home</a>
+            <a href="{% url 'sobre' %}">Sobre nós</a>
+            <a href="#">Avisos</a>
+            <a href="#">Notificações</a>
+            {% if user.is_authenticated %}
+                <p style="color:white; padding-left:15px;">
+                    Olá, <b>{{ user.username }}</b>
+                </p>
+                <a href="{% url 'perfil' %}">Perfil</a>
+            {% else %}
+                <a href="{% url 'login' %}">Entrar</a>
+                <a href="{% url 'registo' %}">Registar</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <main id="content">
+        <div class="cards-container">
+            <div class="card">
+                <h3>Sobre nós</h3>
+                <img src="{% static 'imagens/logoPreto.png' %}" alt="Logo">
+
+                <p>Este site foi criado com o propósito de ajudar as pessoas com o acesso a informação delicada...</p>
+
+                <p>Sobre os dados:</p>
+                <ul>
+                    <li>Os dados são retirados da ANEPC</li>
+                    <li>A localização é aproximada</li>
+                </ul>
+
+                <p>Caso tenha sugestões ou bugs contacte:</p>
+                <ul>
+                    <li>Email: 5477@eclisboa.net</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer id="footer">
+        <a href="{% url 'precaucoes' %}">Precauções</a>
+        <a href="{% url 'mainpage' %}">Mapa</a>
+        <a href="{% url 'doacoes' %}">Doações</a>
+    </footer>
+
+    <script>
+        const menuBtn = document.getElementById("menu-btn");
+        const menuDropdown = document.getElementById("menu-dropdown");
+
+        menuBtn.addEventListener("click", () => {
+            menuDropdown.classList.toggle("show");
+        });
+
+        document.addEventListener("click", (event) => {
+            if (!menuBtn.contains(event.target) && !menuDropdown.contains(event.target)) {
+                menuDropdown.classList.remove("show");
+            }
+        });
+    </script>
+</body>
+</html>

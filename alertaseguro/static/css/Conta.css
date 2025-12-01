@@ -1,0 +1,173 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #bfe3f0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+a{
+    text-decoration: none;
+}
+
+#header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    text-align: center;
+    background: linear-gradient(#b43030, #ff1e00, #9c1717);
+    color: white;
+    padding: 15px 0;
+    z-index: 1000;
+}
+
+#header h1 {
+    color: white;
+    font-size: 40px;
+    margin: 0;
+}
+
+#menu-hamb {
+    position: fixed;
+    top: 9px;
+    right: 25px;
+    z-index: 1000;
+}
+
+#menu-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#menu-btn:hover {
+    transform: scale(1.1);
+}
+
+#menu-dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 70px;
+    background: linear-gradient(#b43030, #ff1e00, #9c1717);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    min-width: 160px;
+    text-align: left;
+}
+
+#menu-dropdown a {
+    display: block;
+    padding: 12px 20px;
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+#menu-dropdown a:hover {
+    background: #ffdddd;
+}
+
+#menu-dropdown.show {
+    display: block;
+}
+
+.container {
+    margin-top: 150px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.card-form {
+    background-color: #ffffffcc;
+    width: 420px;
+    padding: 30px;
+    border-radius: 25px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.card-form h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #9c1717;
+}
+
+.card-form input {
+    width: 90%;
+    padding: 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.card-form button {
+    width: 95%;
+    padding: 12px;
+    margin-top: 20px;
+    border: none;
+    font-size: 18px;
+    border-radius: 15px;
+    background: linear-gradient(#b43030, #ff1e00, #9c1717);
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.card-form button:hover {
+    transform: scale(1.05);
+}
+
+.card-form a {
+    display: inline-block;
+    margin-top: 15px;
+    font-size: 16px;
+    text-decoration: none;
+    color: #9c1717;
+    font-weight: bold;
+}
+
+.card-profile {
+    background-color: #ffffffcc;
+    width: 500px;
+    padding: 30px;
+    border-radius: 25px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.card-profile h2 {
+    color: #9c1717;
+    margin-bottom: 20px;
+}
+
+.card-profile p {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.btn-logout {
+    display: inline-block;
+    padding: 12px 25px;
+    margin-top: 25px;
+    background: #c62828;
+    color: white;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 18px;
+    transition: 0.2s;
+}
+
+.btn-logout:hover {
+    background: #ff4444;
+    transform: scale(1.05);
+}

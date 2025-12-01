@@ -1,0 +1,116 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #bfe3f0;
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+#header {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    background: linear-gradient(#b43030, #ff1e00, #9c1717);
+    color: white;
+    padding: 0px 50px;
+    margin-top: 20px;
+    border-radius: 30px;
+}
+
+#header h1 {
+    font-size: 40px;
+    font-weight: bold;
+}
+
+#menu-hamb {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    z-index: 1000;
+}
+
+#menu-btn {
+    background: linear-gradient(#b43030, #ff1e00, #9c1717);
+    border: none;
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#menu-btn:hover {
+    transform: scale(1.1);
+}
+
+#menu-dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 70px;
+    background: linear-gradient(#b43030, #ff1e00, #9c1717);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    min-width: 160px;
+    text-align: left;
+}
+
+#menu-dropdown a {
+    display: block;
+    padding: 12px 20px;
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+#menu-dropdown a:hover {
+    background: #ffdddd;
+}
+
+#menu-dropdown.show {
+    display: block;
+}
+
+#map {
+    height: 93.3vh; 
+    width: 100vw; 
+    margin: 0;
+    border-radius: 0;
+}
+
+#footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(#b43030, #ff1e00, #9c1717);
+    display: flex;
+    justify-content: center;
+    gap: 250px;
+    padding: 10px 0;
+}
+
+#footer a {
+    background-color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 10px 25px;
+    font-size: 20px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+#footer a:hover {
+    background-color: #ffe0e0;
+    transform: scale(1.05);
+}

@@ -1,0 +1,113 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Precauções - AlertaSeguro</title>
+    <link rel="stylesheet" href="{% static 'css/Preca.css' %}">
+</head>
+
+<body>
+    <header id="header">
+        <a href="{% url 'mainpage' %}"><h1>AlertaSeguro</h1></a>
+    </header>
+
+    <div id="menu-hamb">
+        <button id="menu-btn">☰</button>
+        <div id="menu-dropdown">
+            <a href="{% url 'mainpage' %}">Home</a>
+            <a href="{% url 'sobre' %}">Sobre nós</a>
+            <a href="#">Avisos</a>
+            <a href="#">Notificações</a>
+            {% if user.is_authenticated %}
+                <p style="color:white; padding-left:15px;">
+                    Olá, <b>{{ user.username }}</b>
+                </p>
+                <a href="{% url 'perfil' %}">Perfil</a>
+            {% else %}
+                <a href="{% url 'login' %}">Entrar</a>
+                <a href="{% url 'registo' %}">Registar</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <main id="content">
+
+        <section class="titulo-pagina">
+            <h2>Precauções</h2>
+        </section>
+
+        <section class="secao">
+            <div class="imagem-lateral">
+                <img src="{% static 'imagens/797948.png' %}" alt="Incêndio">
+            </div>
+            <div class="conteudo">
+                <h2>Incêndios</h2>
+
+                <div class="subsecao">
+                    <h3>Como prevenir</h3>
+                    <p>
+                        - Evite fazer fogueiras...<br>
+                        - Não deite pontas de cigarro...
+                    </p>
+                </div>
+
+                <div class="subsecao">
+                    <h3>Como agir</h3>
+                    <p>
+                        - Ligue 112 ou 117...<br>
+                        - Afaste-se das zonas de perigo...
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="secao">
+            <div class="imagem-lateral">
+                <img src="{% static 'imagens/acidente-de-via-com-carros-esmagados_342744-677.jpg' %}" alt="Acidente Rodoviário">
+            </div>
+            <div class="conteudo">
+                <h2>Acidentes Rodoviários</h2>
+
+                <div class="subsecao">
+                    <h3>Como prevenir</h3>
+                    <p>
+                        - Respeite os limites de velocidade...<br>
+                        - Não use o telemóvel...
+                    </p>
+                </div>
+
+                <div class="subsecao">
+                    <h3>Como agir</h3>
+                    <p>
+                        - Ligue 112...<br>
+                        - Ajude as vítimas apenas se souber como...
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer id="footer">
+        <a href="{% url 'mainpage' %}">Mapa</a>
+        <a href="{% url 'doacoes' %}">Doações</a>
+    </footer>
+
+    <script>
+        const menuBtn = document.getElementById("menu-btn");
+        const menuDropdown = document.getElementById("menu-dropdown");
+
+        menuBtn.addEventListener("click", () => {
+            menuDropdown.classList.toggle("show");
+        });
+
+        document.addEventListener("click", (event) => {
+            if (!menuBtn.contains(event.target) && !menuDropdown.contains(event.target)) {
+                menuDropdown.classList.remove("show");
+            }
+        });
+    </script>
+
+</body>
+</html>

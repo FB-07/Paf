@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil</title>
+    <link rel="stylesheet" href="{% static 'css/Conta.css' %}">
+</head>
+
+<body>
+    <header id="header">
+        <a href="{% url 'mainpage' %}"><h1>AlertaSeguro</h1></a>
+    </header>
+
+    <div id="menu-hamb">
+        <button id="menu-btn">☰</button>
+        <div id="menu-dropdown">
+            <a href="{% url 'mainpage' %}">Home</a>
+            <a href="{% url 'sobre' %}">Sobre nós</a>
+            <a href="#">Avisos</a>
+            <a href="#">Notificações</a>
+            {% if user.is_authenticated %}
+                <p style="color:white; padding-left:15px;">
+                    Olá, <b>{{ user.username }}</b>
+                </p>
+                <a href="{% url 'perfil' %}">Perfil</a>
+            {% else %}
+                <a href="{% url 'login' %}">Entrar</a>
+                <a href="{% url 'registo' %}">Registar</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="card-profile">
+            <h2>Perfil do Utilizador</h2>
+
+            <p><b>Utilizador:</b> {{ user.username }}</p>
+            <p><b>Email:</b> {{ user.email }}</p>
+            <p><b>Conta criada:</b> {{ user.date_joined }}</p>
+            
+            <a href="{% url 'logout' %}" class="btn-logout">Logout</a> <a href="{% url 'mainpage' %}" class="btn-logout">Voltar</a>
+        </div>
+    </div>
+
+    <script>
+        const menuBtn = document.getElementById("menu-btn");
+        const menuDropdown = document.getElementById("menu-dropdown");
+
+        menuBtn.addEventListener("click", () => {
+          menuDropdown.classList.toggle("show");
+        });
+
+        document.addEventListener("click", (event) => {
+            if (!menuBtn.contains(event.target) && !menuDropdown.contains(event.target)) {
+                menuDropdown.classList.remove("show");
+            }
+        });
+    </script>
+</body>
+</html>

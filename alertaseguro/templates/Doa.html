@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Doações - AlertaSeguro</title>
+    <link rel="stylesheet" href="{% static 'css/Doa.css' %}">
+</head>
+
+<body>
+    <header id="header">
+        <a href="{% url 'mainpage' %}"><h1>AlertaSeguro</h1></a>
+    </header>
+
+    <div id="menu-container">
+        <button id="menu-btn">☰</button>
+        <div id="menu-dropdown">
+            <a href="{% url 'mainpage' %}">Home</a>
+            <a href="{% url 'sobre' %}">Sobre nós</a>
+            <a href="#">Avisos</a>
+            <a href="#">Notificações</a>
+            {% if user.is_authenticated %}
+                <p style="color:white; padding-left:15px;">
+                    Olá, <b>{{ user.username }}</b>
+                </p>
+                <a href="{% url 'perfil' %}">Perfil</a>
+            {% else %}
+                <a href="{% url 'login' %}">Entrar</a>
+                <a href="{% url 'registo' %}">Registar</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <main id="content">
+        <section class="titulo-pagina">
+            <h2>Doações</h2>
+        </section>
+
+        <div class="cards-container">
+
+            <div class="card">
+                <h3>GoFundMe</h3>
+                <img src="https://cdn.pixabay.com/photo/2016/03/27/21/16/firefighters-1282360_1280.jpg" alt="GoFundMe">
+                <p>Lorem Ipsum é simplesmente um texto fictício da indústria tipográfica...</p>
+            </div>
+
+            <div class="card">
+                <h3>IRA</h3>
+                <img src="https://cdn.pixabay.com/photo/2017/02/20/19/21/dog-2088428_1280.jpg" alt="IRA">
+                <p>Lorem Ipsum é simplesmente um texto fictício da indústria tipográfica...</p>
+            </div>
+
+            <div class="card">
+                <h3>Ajuda de berço</h3>
+                <img src="https://cdn.pixabay.com/photo/2017/01/23/23/57/child-2004344_1280.jpg" alt="Ajuda de berço">
+                <p>Lorem Ipsum é simplesmente um texto fictício da indústria tipográfica...</p>
+            </div>
+
+        </div>
+    </main>
+
+    <footer id="footer">
+        <a href="{% url 'precaucoes' %}">Precauções</a>
+        <a href="{% url 'mainpage' %}">Mapa</a>
+    </footer>
+
+    <script>
+        const menuBtn = document.getElementById("menu-btn");
+        const menuDropdown = document.getElementById("menu-dropdown");
+
+        menuBtn.addEventListener("click", () => {
+            menuDropdown.classList.toggle("show");
+        });
+
+        document.addEventListener("click", (event) => {
+            if (!menuBtn.contains(event.target) && !menuDropdown.contains(event.target)) {
+                menuDropdown.classList.remove("show");
+            }
+        });
+    </script>
+</body>
+</html>

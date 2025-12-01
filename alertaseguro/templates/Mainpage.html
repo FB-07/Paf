@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlertaSeguro</title>
+    <link rel="stylesheet" href="{% static 'css/Mainstyle.css' %}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+</head>
+
+<body>
+    <div id="header">
+        <a href="{% url 'mainpage' %}"><h1>AlertaSeguro</h1></a>
+    </div>
+
+    <div id="menu-hamb">
+        <button id="menu-btn">☰</button>
+        <div id="menu-dropdown">
+            <a href="{% url 'mainpage' %}">Home</a>
+            <a href="{% url 'sobre' %}">Sobre nós</a>
+            <a href="#">Avisos</a>
+            <a href="#">Notificações</a>
+            {% if user.is_authenticated %}
+                <p style="color:white; padding-left:15px;">
+                    Olá, <b>{{ user.username }}</b>
+                </p>
+                <a href="{% url 'perfil' %}">Perfil</a>
+            {% else %}
+                <a href="{% url 'login' %}">Entrar</a>
+                <a href="{% url 'registo' %}">Registar</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="main">
+        <div id="map"></div>
+    </div>
+
+    <footer id="footer">
+        <a href="{% url 'precaucoes' %}">Precauções</a>
+        <a href="{% url 'doacoes' %}">Doações</a>
+    </footer>
+
+    <script>
+      var map = L.map('map').setView([39.9, -8.0], 7);
+
+      var OpenStreetMap_Mapnik = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      });
+      OpenStreetMap_Mapnik.addTo(map);
+
+    fetch("/api/incidentes/")
+        .then(resp => resp.json())
+        .then(lista => {
+            lista.forEach(inc => {
+                L.marker([inc.latitude, inc.longitude])
+                    .addTo(map)
+                    .bindPopup(`<b>${inc.titulo}</b><br>${inc.descricao}`);
+            });
+        });
+
+      const menuBtn = document.getElementById("menu-btn");
+      const menuDropdown = document.getElementById("menu-dropdown");
+
+      menuBtn.addEventListener("click", () => {
+          menuDropdown.classList.toggle("show");
+      });
+
+      document.addEventListener("click", (event) => {
+          if (!menuBtn.contains(event.target) && !menuDropdown.contains(event.target)) {
+              menuDropdown.classList.remove("show");
+          }
+      });
+    </script>
+</body>
+</html>
