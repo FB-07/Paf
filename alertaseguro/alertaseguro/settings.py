@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -137,4 +137,13 @@ TEMPLATES[0]['DIRS'] = [
     BASE_DIR / "templates",
 ]
 
+TIME_ZONE = "Europe/Lisbon"
+USE_TZ = True
 
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+ALLOWED_HOSTS = [
+    os.environ.get("RENDER_EXTERNAL_HOSTNAME", ""),
+    "127.0.0.1",
+    "localhost",
+]
