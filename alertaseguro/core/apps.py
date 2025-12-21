@@ -7,3 +7,8 @@ class CoreConfig(AppConfig):
 
     def ready(self):
         import core.signals
+        from django.core.management import call_command
+        try:
+            call_command("ipma_avisos")
+        except Exception:
+            pass
