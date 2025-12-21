@@ -124,26 +124,27 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 INSTALLED_APPS += [
-    'core',
+    "core",
 ]
 
-STATIC_URL = '/static/'
-
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
-
-TEMPLATES[0]['DIRS'] = [
+TEMPLATES[0]["DIRS"] = [
     BASE_DIR / "templates",
 ]
 
 TIME_ZONE = "Europe/Lisbon"
 USE_TZ = True
 
+STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 ALLOWED_HOSTS = [
     os.environ.get("RENDER_EXTERNAL_HOSTNAME", ""),
     "127.0.0.1",
     "localhost",
 ]
+
+DEBUG = os.environ.get("DEBUG", "False") == "True"
+SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-dev-key")
