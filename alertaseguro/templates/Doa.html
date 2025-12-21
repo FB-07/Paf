@@ -17,7 +17,7 @@
         <div id="menu-dropdown">
             <a href="{% url 'mainpage' %}">Home</a>
             <a href="{% url 'sobre' %}">Sobre nós</a>
-            <a href="#">Avisos</a>
+            <a href="{% url 'avisos' %}">Avisos</a>
             <a href="#">Notificações</a>
             {% if user.is_authenticated %}
                 <p style="color:white; padding-left:15px;">

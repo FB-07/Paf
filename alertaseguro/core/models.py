@@ -58,16 +58,27 @@ class Incidente(models.Model):
 # -----------------------------
 #  AVISOS
 # -----------------------------
+
 class Aviso(models.Model):
+    GRAVIDADE_CHOICES = [
+        ("green", "Verde"),
+        ("yellow", "Amarelo"),
+        ("orange", "Laranja"),
+        ("red", "Vermelho"),
+    ]
+
+    api_id = models.CharField(max_length=120, unique=True)
     titulo = models.CharField(max_length=200)
-    descricao = models.TextField()
-    tipo = models.CharField(max_length=100)
-    latitude = models.FloatField()
-    longitude = models.FloatField()
-    data = models.DateTimeField(auto_now_add=True)
+    descricao = models.TextField(blank=True)
+    gravidade = models.CharField(max_length=10, choices=GRAVIDADE_CHOICES, default="green")
+    dataInicio = models.DateTimeField()
+    dataFim = models.DateTimeField()
+    idAreaAviso = models.CharField(max_length=10, blank=True)
+    criado_em = models.DateTimeField(auto_now_add=True)
+    atualizado_em = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.titulo
+        return f"{self.titulo} ({self.gravidade}) {self.dataInicio:%Y-%m-%d %H:%M}"
 
 
 # -----------------------------

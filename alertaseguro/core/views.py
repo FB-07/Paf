@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-from .models import Incidente, UsersProfile
+from .models import Incidente, UsersProfile, Aviso
 from django.contrib.auth import authenticate, login, logout
 from .forms import RegistoForm
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 
 
 #############################
@@ -23,6 +24,15 @@ def doacoes(request):
 
 def precaucoes(request):
     return render(request, "Preca.html")
+
+def avisos(request):
+    agora = timezone.now()
+    avisos = Aviso.objects.filter(
+        dataInicio__lte=agora,
+        dataFim__gte=agora
+    ).exclude(gravidade="green").order_by("gravidade", "dataInicio")
+    print("DEBUG AVISOS:", avisos.count())
+    return render(request, "Avisos.html", {"avisos": avisos})
 
 def incidentes_json(request):
     dados = list(Incidente.objects.values())

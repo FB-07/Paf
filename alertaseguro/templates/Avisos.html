@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Avisos - AlertaSeguro</title>
+  <link rel="stylesheet" href="{% static 'css/Avisos.css' %}">
+</head>
+
+<body>
+  <header id="header">
+    <a href="{% url 'mainpage' %}"><h1>AlertaSeguro</h1></a>
+  </header>
+
+  <div id="menu-container">
+    <button id="menu-btn">☰</button>
+    <div id="menu-dropdown">
+      <a href="{% url 'mainpage' %}">Home</a>
+      <a href="{% url 'sobre' %}">Sobre nós</a>
+      <a href="{% url 'avisos' %}">Avisos</a>
+      <a href="#">Notificações</a>
+
+      {% if user.is_authenticated %}
+        <p style="color:white; padding-left:15px;">
+          Olá, <b>{{ user.username }}</b>
+        </p>
+        <a href="{% url 'perfil' %}">Perfil</a>
+      {% else %}
+        <a href="{% url 'login' %}">Entrar</a>
+        <a href="{% url 'registo' %}">Registar</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <main id="content">
+    <div class="titulo-pagina">
+      <h2>Avisos</h2>
+    </div>
+
+    <section class="avisos-container">
+        {% if avisos %}
+        {% for aviso in avisos %}
+            <article class="aviso-card aviso-{{ aviso.gravidade }}">
+            <h3 class="aviso-titulo">{{ aviso.titulo }}</h3>
+            
+            <div class="aviso-nivel">
+                <p>
+                <strong>Nível:</strong>
+                    {% if aviso.gravidade == "green" %}
+                        Residual
+                    {% elif aviso.gravidade == "yellow" %}
+                        Moderado
+                    {% elif aviso.gravidade == "orange" %}
+                        Elevado
+                    {% elif aviso.gravidade == "red" %}
+                        Extremo
+                    {% endif %}
+                <strong>Aréa:</strong>{{aviso.idAreaAviso}}
+                </p>
+            </div>
+
+            <div class="aviso-datas">
+                <span><strong>Início:</strong> {{ aviso.dataInicio|date:"d/m/Y H:i" }}</span>
+                <span><strong>Fim:</strong> {{ aviso.dataFim|date:"d/m/Y H:i" }}</span>
+            </div>
+
+            <div class="aviso-sep"></div>
+
+            {% if aviso.descricao %}
+                <p class="aviso-texto">{{ aviso.descricao }}</p>
+            {% else %}
+                <p class="aviso-texto">Sem descrição.</p>
+            {% endif %}
+            </article>
+        {% endfor %}
+        {% else %}
+        <article class="aviso-card">
+            <p class="aviso-texto">Não existem avisos ativos para mostrar.</p>
+        </article>
+        {% endif %}
+    </section>
+  </main>
+
+  <footer id="footer">
+    <a href="{% url 'precaucoes' %}">Prevenção</a>
+    <a href="{% url 'doacoes' %}">Doações</a>
+  </footer>
+
+  <script>
+    const menuBtn = document.getElementById("menu-btn");
+    const menuDropdown = document.getElementById("menu-dropdown");
+
+    menuBtn.addEventListener("click", () => {
+      menuDropdown.classList.toggle("show");
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!menuBtn.contains(event.target) && !menuDropdown.contains(event.target)) {
+        menuDropdown.classList.remove("show");
+      }
+    });
+  </script>
+</body>
+</html>
