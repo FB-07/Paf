@@ -81,6 +81,10 @@ a {
     display: block;
 }
 
+#filtros {
+    z-index: 1100;
+}
+
 #map {
     height: 93.3vh; 
     width: 100vw; 
