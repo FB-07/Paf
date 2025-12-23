@@ -35,6 +35,13 @@
     </div>
 
     <div class="main">
+        <div id="filtros">
+            <input type="checkbox" value="municipios" id="toggleMunicipios"><label for="municipios">Municipios</label>
+            <input type="checkbox" value="" id="">
+            <input type="checkbox" value="" id="">
+            <input type="checkbox" value="" id="">
+            <input type="checkbox" value="" id="">
+        </div>
         <div id="map"></div>
     </div>
 
@@ -44,6 +51,7 @@
     </footer>
 
     <script>
+    // Mapa principal
       var map = L.map('map').setView([39.9, -8.0], 7);
 
       var OpenStreetMap_Mapnik = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -52,6 +60,7 @@
       });
       OpenStreetMap_Mapnik.addTo(map);
 
+    // API_Incidentes
     fetch("/api/incidentes/")
         .then(resp => resp.json())
         .then(lista => {
@@ -62,18 +71,76 @@
             });
         });
 
-      const menuBtn = document.getElementById("menu-btn");
-      const menuDropdown = document.getElementById("menu-dropdown");
+    // Menu dropdown
+    const menuBtn = document.getElementById("menu-btn");
+    const menuDropdown = document.getElementById("menu-dropdown");
 
-      menuBtn.addEventListener("click", () => {
-          menuDropdown.classList.toggle("show");
-      });
+    menuBtn.addEventListener("click", () => {
+        menuDropdown.classList.toggle("show");
+    });
 
-      document.addEventListener("click", (event) => {
-          if (!menuBtn.contains(event.target) && !menuDropdown.contains(event.target)) {
-              menuDropdown.classList.remove("show");
-          }
-      });
+    document.addEventListener("click", (event) => {
+        if (!menuBtn.contains(event.target) && !menuDropdown.contains(event.target)) {
+            menuDropdown.classList.remove("show");
+        }
+    });
+
+    // Mostrar Municipios
+    municipiosLayer = L.geoJSON(null, {
+        style: {
+            weight: 1,
+            color: '#555',
+            fillOpacity: 0.2
+        }
+    });
+
+    fetch("{% static 'municipios.geojson' %}")
+        .then(response => response.json())
+        .then(data => {
+            municipiosLayer.addData(data);
+        });
+
+    const checkboxMu = document.getElementById('toggleMunicipios');
+
+    checkboxMu.addEventListener('change', () => {
+        if (checkboxMu.checked) {
+            municipiosLayer.addTo(map);
+        } else {
+            map.removeLayer(municipiosLayer);
+        }
+    });
+
+    // Risco de incendio dos municipios (Hoje)
+    /*
+    Ver ta ativado ou nao
+    Comparar dico de geojson e api_incendios 
+        Caso sejam diferentes ignorar 
+        Se forem iguais ir buscar o rcm da api e mudar a cor do json no mapa
+    */
+
+    municipiosLayer = L.geoJSON(null, {
+        style: {
+            weight: 1,
+            color: '#555',
+            fillOpacity: 0.2
+        }
+    });
+
+    fetch("{% static 'municipios.geojson' %}")
+        .then(response => response.json())
+        .then(data => {
+            municipiosLayer.addData(data);
+        });
+
+    const checkboxMufogos1 = document.getElementById('toggleMunicipios');
+
+    checkboxMufogos1.addEventListener('change', () => {
+        if (checkboxMufogos1.checked) {
+            municipiosLayer.addTo(map);
+        } else {
+            map.removeLayer(municipiosLayer);
+        }
+    });
     </script>
 </body>
 </html>
