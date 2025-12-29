@@ -37,7 +37,7 @@
     <div class="main">
         <div id="filtros">
             <input type="checkbox" value="municipios" id="toggleMunicipios"><label for="municipios">Municipios</label>
-            <input type="checkbox" value="" id="">
+            <input type="checkbox" value="risco0" id="toggleRisco0"><label for="risco0">Risco de incendio hoje</label>
             <input type="checkbox" value="" id="">
             <input type="checkbox" value="" id="">
             <input type="checkbox" value="" id="">
@@ -85,23 +85,27 @@
         }
     });
 
-    // Mostrar Municipios
-    municipiosLayer = L.geoJSON(null, {
-        style: {
-            weight: 1,
-            color: '#555',
-            fillOpacity: 0.2
+    // Camada dos municípios
+    var municipiosLayer = L.geoJSON(null, {
+        style: function(feature) {
+            return {
+                weight: 1,
+                color: '#555',
+                fillColor: feature.properties.cor || '#cccccc',
+                fillOpacity: 0.7
+            };
         }
     });
 
     fetch("{% static 'municipios.geojson' %}")
-        .then(response => response.json())
-        .then(data => {
-            municipiosLayer.addData(data);
-        });
+    .then(resp => resp.json())
+    .then(data => {
+        data.features.forEach(f => f.properties.cor = "#cccccc");
+        municipiosLayer.addData(data);
+    });
 
+    // Checkbox municípios
     const checkboxMu = document.getElementById('toggleMunicipios');
-
     checkboxMu.addEventListener('change', () => {
         if (checkboxMu.checked) {
             municipiosLayer.addTo(map);
@@ -110,36 +114,60 @@
         }
     });
 
-    // Risco de incendio dos municipios (Hoje)
-    /*
-    Ver ta ativado ou nao
-    Comparar dico de geojson e api_incendios 
-        Caso sejam diferentes ignorar 
-        Se forem iguais ir buscar o rcm da api e mudar a cor do json no mapa
-    */
+    // Checkbox risco de incêndio hoje
+    const cores_risco = {
+    1: "#00ff00",
+    2: "#7fff00",
+    3: "#ffff00",
+    4: "#ff7f00",
+    5: "#ff0000"
+    };
 
-    municipiosLayer = L.geoJSON(null, {
-        style: {
-            weight: 1,
-            color: '#555',
-            fillOpacity: 0.2
-        }
-    });
+    let municipiosData = null;
 
     fetch("{% static 'municipios.geojson' %}")
-        .then(response => response.json())
-        .then(data => {
-            municipiosLayer.addData(data);
+    .then(r => r.json())
+    .then(data => { municipiosData = data; });
+
+    var riscoHojeLayer = L.geoJSON(null, {
+    style: f => ({
+        weight: 1,
+        color: '#555',
+        fillColor: f.properties.cor || '#cccccc',
+        fillOpacity: 0.7
+    })
+    });
+
+    const checkboxRisco0 = document.getElementById('toggleRisco0');
+
+    checkboxRisco0.addEventListener('change', () => {
+    if (!checkboxRisco0.checked) {
+        map.removeLayer(riscoHojeLayer);
+        return;
+    }
+
+    if (!municipiosData) {
+        console.warn("Municípios ainda a carregar...");
+        checkboxRisco0.checked = false;
+        return;
+    }
+
+    fetch("/api/rcm_hoje/")
+        .then(r => r.json())
+        .then(rcmDict => {
+        const geo = structuredClone(municipiosData);
+
+        geo.features.forEach(f => {
+            const dico = String(f.properties.DICO).padStart(4, "0");
+            const rcm = rcmDict[dico];
+            f.properties.cor = cores_risco[rcm] || "#cccccc";
         });
 
-    const checkboxMufogos1 = document.getElementById('toggleMunicipios');
-
-    checkboxMufogos1.addEventListener('change', () => {
-        if (checkboxMufogos1.checked) {
-            municipiosLayer.addTo(map);
-        } else {
-            map.removeLayer(municipiosLayer);
-        }
+        riscoHojeLayer.clearLayers();
+        riscoHojeLayer.addData(geo);
+        riscoHojeLayer.addTo(map);
+        })
+        .catch(err => console.error("Erro /api/rcm_hoje/", err));
     });
     </script>
 </body>
