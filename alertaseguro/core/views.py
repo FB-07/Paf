@@ -1,3 +1,8 @@
+import os
+import json
+import requests
+from django.views.decorators.cache import cache_page
+from django.conf import settings
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from .models import Incidente, UsersProfile, Aviso
@@ -25,6 +30,7 @@ def doacoes(request):
 def precaucoes(request):
     return render(request, "Preca.html")
 
+#Avisos
 def avisos(request):
     agora = timezone.now()
     avisos = Aviso.objects.filter(
@@ -34,11 +40,29 @@ def avisos(request):
     print("DEBUG AVISOS:", avisos.count())
     return render(request, "Avisos.html", {"avisos": avisos})
 
+#Incidentes
 def incidentes_json(request):
     dados = list(Incidente.objects.values())
     return JsonResponse(dados, safe=False)
 
-def login_view(request):
+#Municipios incendio
+@cache_page(60 * 60)
+def rcm_hoje(request):
+    r = requests.get(
+        "https://api.ipma.pt/open-data/forecast/meteorology/rcm/rcm-d0.json",
+        timeout=10
+    )
+    r.raise_for_status()
+    data = r.json()
+
+    rcm_dict = {
+        str(dico).zfill(4): info["data"]["rcm"]
+        for dico, info in data["local"].items()
+    }
+    return JsonResponse(rcm_dict)
+
+#Prefil
+def login(request):
     if request.method == "POST":
         user = authenticate(
             request,
@@ -53,7 +77,7 @@ def login_view(request):
     return render(request, "login.html")
 
 
-def registo_view(request):
+def registo(request):
     if request.method == "POST":
         form = RegistoForm(request.POST)
         if form.is_valid():
@@ -67,11 +91,11 @@ def registo_view(request):
     return render(request, "registo.html", {"form": form})
 
 
-def logout_view(request):
+def logout(request):
     logout(request)
     return redirect('mainpage')
 
 @login_required
-def perfil_view(request):
+def perfil(request):
     profile = UsersProfile.objects.get(user=request.user)
     return render(request, "perfil.html", {"profile": profile})
