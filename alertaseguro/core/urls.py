@@ -10,14 +10,15 @@ urlpatterns = [
     path('avisos/', views.avisos, name='avisos'),
     
     #Login/Logout/Registo/Perfil
-    path('login/', views.login, name='login'),
-    path('registo/', views.registo, name='registo'),
-    path('logout/', views.logout, name='logout'),
-    path('perfil/', views.perfil, name='perfil'),
+    path('login_view/', views.login_view, name='login'),
+    path('registo_view/', views.registo_view, name='registo'),
+    path('logout_view/', views.logout_view, name='logout'),
+    path('perfil_view/', views.perfil_view, name='perfil'),
 
 
     #API
     path("api/incidentes/", views.incidentes_json, name="api_incidentes"),
     path("api/rcm_hoje/", views.rcm_hoje, name="rcm_hoje"),
+    path("api/rcm_amanha/", views.rcm_hoje, name="rcm_amanha"),
 ]
 

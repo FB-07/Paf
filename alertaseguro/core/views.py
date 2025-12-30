@@ -55,14 +55,29 @@ def rcm_hoje(request):
     r.raise_for_status()
     data = r.json()
 
-    rcm_dict = {
+    rcm0_dict = {
         str(dico).zfill(4): info["data"]["rcm"]
         for dico, info in data["local"].items()
     }
-    return JsonResponse(rcm_dict)
+    return JsonResponse(rcm0_dict)
+
+@cache_page(60 * 60)
+def rcm_amanha(request):
+    r = requests.get(
+        "https://api.ipma.pt/open-data/forecast/meteorology/rcm/rcm-d1.json",
+        timeout=10
+    )
+    r.raise_for_status()
+    data = r.json()
+
+    rcm1_dict = {
+        str(dico).zfill(4): info["data"]["rcm"]
+        for dico, info in data["local"].items()
+    }
+    return JsonResponse(rcm1_dict)
 
 #Prefil
-def login(request):
+def login_view(request):
     if request.method == "POST":
         user = authenticate(
             request,
@@ -77,7 +92,7 @@ def login(request):
     return render(request, "login.html")
 
 
-def registo(request):
+def registo_view(request):
     if request.method == "POST":
         form = RegistoForm(request.POST)
         if form.is_valid():
@@ -91,11 +106,11 @@ def registo(request):
     return render(request, "registo.html", {"form": form})
 
 
-def logout(request):
+def logout_view(request):
     logout(request)
     return redirect('mainpage')
 
 @login_required
-def perfil(request):
+def perfil_view(request):
     profile = UsersProfile.objects.get(user=request.user)
     return render(request, "perfil.html", {"profile": profile})
