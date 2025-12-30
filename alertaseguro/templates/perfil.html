@@ -35,8 +35,9 @@
         <div class="card-profile">
             <h2>Perfil do Utilizador</h2>
 
-            <p><b>Utilizador:</b> {{ user.username }}</p>
-            <p><b>Email:</b> {{ user.email }}</p>
+            <p><b>Utilizador:</b> {{ user.username }} <a href="#">Change</a></p>
+            <p><b>Password:</b> ●●●●●●●●● <a href="#">Change</a></p>
+            <p><b>Email:</b> {{ user.email }} <a href="#">Change</a></p>
             <p><b>Conta criada:</b> {{ user.date_joined }}</p>
             
             <a href="{% url 'logout' %}" class="btn-logout">Logout</a> <a href="{% url 'mainpage' %}" class="btn-logout">Voltar</a>

@@ -38,7 +38,7 @@
         <div id="filtros">
             <input type="checkbox" value="municipios" id="toggleMunicipios"><label for="municipios">Municipios</label>
             <input type="checkbox" value="risco0" id="toggleRisco0"><label for="risco0">Risco de incendio hoje</label>
-            <input type="checkbox" value="" id="">
+            <input type="checkbox" value="risco1" id="toggleRisco1"><label for="risco1">Risco de incendio amanha</label>
             <input type="checkbox" value="" id="">
             <input type="checkbox" value="" id="">
         </div>
@@ -114,20 +114,21 @@
         }
     });
 
-    // Checkbox risco de incêndio hoje
+    // Cores risco de incêndio
     const cores_risco = {
-    1: "#00ff00",
-    2: "#7fff00",
-    3: "#ffff00",
-    4: "#ff7f00",
-    5: "#ff0000"
+        1: "#00ff00",
+        2: "#7fff00",
+        3: "#ffff00",
+        4: "#ff7f00",
+        5: "#ff0000"
     };
-
-    let municipiosData = null;
+    
+    // Checkbox risco de incêndio hoje
+    let municipiosData0 = null;
 
     fetch("{% static 'municipios.geojson' %}")
     .then(r => r.json())
-    .then(data => { municipiosData = data; });
+    .then(data => { municipiosData0 = data; });
 
     var riscoHojeLayer = L.geoJSON(null, {
     style: f => ({
@@ -146,16 +147,10 @@
         return;
     }
 
-    if (!municipiosData) {
-        console.warn("Municípios ainda a carregar...");
-        checkboxRisco0.checked = false;
-        return;
-    }
-
     fetch("/api/rcm_hoje/")
         .then(r => r.json())
         .then(rcmDict => {
-        const geo = structuredClone(municipiosData);
+        const geo = structuredClone(municipiosData0);
 
         geo.features.forEach(f => {
             const dico = String(f.properties.DICO).padStart(4, "0");
@@ -168,6 +163,49 @@
         riscoHojeLayer.addTo(map);
         })
         .catch(err => console.error("Erro /api/rcm_hoje/", err));
+    });
+
+    // Checkbox risco de incêndio amanha
+
+    let municipiosData1 = null;
+
+    fetch("{% static 'municipios.geojson' %}")
+    .then(r => r.json())
+    .then(data => { municipiosData1 = data; });
+
+    var riscoAmanhaLayer = L.geoJSON(null, {
+    style: f => ({
+        weight: 1,
+        color: '#555',
+        fillColor: f.properties.cor || '#cccccc',
+        fillOpacity: 0.7
+    })
+    });
+
+    const checkboxRisco1 = document.getElementById('toggleRisco1');
+
+    checkboxRisco1.addEventListener('change', () => {
+    if (!checkboxRisco1.checked) {
+        map.removeLayer(riscoAmanhaLayer);
+        return;
+    }
+
+    fetch("/api/rcm_amanha/")
+        .then(r => r.json())
+        .then(rcmDict => {
+        const geo = structuredClone(municipiosData1);
+
+        geo.features.forEach(f => {
+            const dico = String(f.properties.DICO).padStart(4, "0");
+            const rcm = rcmDict[dico];
+            f.properties.cor = cores_risco[rcm] || "#cccccc";
+        });
+
+        riscoAmanhaLayer.clearLayers();
+        riscoAmanhaLayer.addData(geo);
+        riscoAmanhaLayer.addTo(map);
+        })
+        .catch(err => console.error("Erro /api/rcm_amanha/", err));
     });
     </script>
 </body>
