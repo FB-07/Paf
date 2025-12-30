@@ -9,6 +9,10 @@ class RegistoForm(forms.ModelForm):
         model = User
         fields = ['username', 'email', 'password']
 
+        help_texts = {
+            'username': '150 caracteres no maximo.',
+        }
+
     def clean(self):
         cleaned = super().clean()
         p1 = cleaned.get("password")
@@ -18,3 +22,5 @@ class RegistoForm(forms.ModelForm):
             raise forms.ValidationError("As palavras-passe não coincidem!")
 
         return cleaned
+
+
