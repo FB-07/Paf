@@ -34,14 +34,29 @@
         </div>
     </div>
 
-    <div class="main">
-        <div id="filtros">
-            <input type="checkbox" value="municipios" id="toggleMunicipios"><label for="municipios">Municipios</label>
-            <input type="checkbox" value="risco0" id="toggleRisco0"><label for="risco0">Risco de incendio hoje</label>
-            <input type="checkbox" value="risco1" id="toggleRisco1"><label for="risco1">Risco de incendio amanha</label>
-            <input type="checkbox" value="" id="">
-            <input type="checkbox" value="" id="">
+    <div id="menu-filtros">
+    <button id="menu-btn-filtros">Filtros</button>
+
+    <div id="menu-drop-filtros">
+        <div class="dropdown-item">
+        <input type="checkbox" id="toggleMunicipios">
+        <label for="toggleMunicipios">Municípios</label>
         </div>
+
+        <div class="dropdown-item">
+        <input type="checkbox" id="toggleRisco0">
+        <label for="toggleRisco0">Risco de incêndio hoje</label>
+        </div>
+
+        <div class="dropdown-item">
+        <input type="checkbox" id="toggleRisco1">
+        <label for="toggleRisco1">Risco de incêndio amanhã</label>
+        </div>
+    </div>
+    </div>
+
+
+    <div class="main">
         <div id="map"></div>
     </div>
 
@@ -82,6 +97,20 @@
     document.addEventListener("click", (event) => {
         if (!menuBtn.contains(event.target) && !menuDropdown.contains(event.target)) {
             menuDropdown.classList.remove("show");
+        }
+    });
+
+    //Menu dropdown filtros
+    const menuBtnfiltros = document.getElementById("menu-btn-filtros");
+    const menuDropfiltros = document.getElementById("menu-drop-filtros");
+
+    menuBtnfiltros.addEventListener("click", () => {
+        menuDropfiltros.classList.toggle("show");
+    });
+
+    document.addEventListener("click", (event) => {
+        if (!menuBtnfiltros.contains(event.target) && !menuDropfiltros.contains(event.target)) {
+            menuDropfiltros.classList.remove("show");
         }
     });
 
