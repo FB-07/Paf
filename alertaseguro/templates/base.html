@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>AlertaSeguro</title>
+    <link rel="stylesheet" href="{% static 'css/Base.css' %}">
+</head>
+<body>
+
+<header id="header">
+    <a href="{% url 'mainpage' %}"><h1>AlertaSeguro</h1></a>
+</header>
+
+<div id="menu-hamb">
+    <button id="menu-btn">☰</button>
+    <div id="menu-dropdown">
+        <a href="{% url 'mainpage' %}">Home</a>
+        <a href="{% url 'sobre' %}">Sobre nós</a>
+        <a href="{% url 'avisos' %}">Avisos</a>
+        <a href="#">Notificações</a>
+
+        {% if user.is_authenticated %}
+            <p style="color:white; padding-left:15px;">
+                Olá, <b>{{ user.username }}</b>
+            </p>
+            <a href="{% url 'perfil' %}">Perfil</a>
+        {% else %}
+            <a href="{% url 'loginn' %}">Entrar</a>
+            <a href="{% url 'registo' %}">Registar</a>
+        {% endif %}
+    </div>
+</div>
+
+<main>
+    {% block content %}
+     
+    {% endblock %}
+</main>
+
+<script>
+    const menuBtn = document.getElementById("menu-btn");
+    const menuDropdown = document.getElementById("menu-dropdown");
+
+    menuBtn.addEventListener("click", () => {
+        menuDropdown.classList.toggle("show");
+    });
+
+    document.addEventListener("click", (event) => {
+        if (!menuBtn.contains(event.target) && !menuDropdown.contains(event.target)) {
+            menuDropdown.classList.remove("show");
+        }
+    });
+</script>
+
+</body>
+</html>
