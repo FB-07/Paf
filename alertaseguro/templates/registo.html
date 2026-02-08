@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Registo</title>
+  <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
+</head>
+
+<body class="m-0 p-0 bg-[#bfe3f0] font-sans caret-transparent">
+
+{% include "components/header.html" %}
+
+{% include "components/menulateral.html" %}
+
+<div class="mt-[150px] w-full flex justify-center">
+  <div class="bg-[#ffffffcc] w-[420px] p-[30px] rounded-[25px] shadow-[0_4px_10px_rgba(0,0,0,0.2)] text-center">
+    <h2 class="text-[32px] mb-[20px] text-[#9c1717]">Criar Conta</h2>
+
+    <form method="POST" class="[&>p]:my-[10px] [&_input]:w-[90%] [&_input]:p-[12px] [&_input]:border-0 [&_input]:rounded-[10px] [&_input]:bg-white [&_input]:shadow-[0_2px_6px_rgba(0,0,0,0.1)] [&_label]:block [&_label]:text-left [&_label]:font-bold [&_label]:text-[#111]">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="w-[95%] p-[12px] mt-[20px] border-0 text-[18px] rounded-[15px] text-white cursor-pointer transition duration-200 bg-gradient-to-b from-[#b43030] via-[#ff1e00] to-[#9c1717] hover:scale-105">Registar</button>
+    </form>
+
+    <a href="{% url 'login' %}" class="inline-block mt-[15px] text-[16px] font-bold text-[#9c1717] no-underline">Já tens conta? Entrar</a>
+  </div>
+</div>
+
+<script src="{% static 'js/menulateral.js' %}"></script>
+
+</body>
+</html>

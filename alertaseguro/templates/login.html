@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
+</head>
+
+<body class="m-0 p-0 bg-[#bfe3f0] font-sans caret-transparent">
+
+{% include "components/header.html" %}
+
+{% include "components/menulateral.html" %}
+
+<div class="mt-[150px] w-full flex justify-center">
+  <div class="bg-[#ffffffcc] w-[420px] p-[30px] rounded-[25px] shadow-[0_4px_10px_rgba(0,0,0,0.2)] text-center">
+    <h2 class="text-[32px] mb-[20px] text-[#9c1717]">Entrar</h2>
+
+    <form method="POST">
+      {% csrf_token %}
+      <input type="text" name="username" placeholder="Utilizador" class="w-[90%] p-[12px] mt-[10px] border-0 rounded-[10px] bg-white shadow-[0_2px_6px_rgba(0,0,0,0.1)]">
+      <input type="password" name="password" placeholder="Palavra-passe" class="w-[90%] p-[12px] mt-[10px] border-0 rounded-[10px] bg-white shadow-[0_2px_6px_rgba(0,0,0,0.1)]">
+      <button type="submit" class="w-[95%] p-[12px] mt-[20px] border-0 text-[18px] rounded-[15px] text-white cursor-pointer transition duration-200 bg-gradient-to-b from-[#b43030] via-[#ff1e00] to-[#9c1717] hover:scale-105">Entrar</button>
+    </form>
+
+    {% if erro %}
+      <p class="text-red-600 mt-[12px]">{{ erro }}</p>
+    {% endif %}
+
+    <a href="{% url 'registo' %}" class="inline-block mt-[15px] text-[16px] font-bold text-[#9c1717] no-underline">Criar conta</a>
+  </div>
+</div>
+
+<script src="{% static 'js/menulateral.js' %}"></script>
+
+</body>
+</html>

@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sobre Nós - AlertaSeguro</title>
+  <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
+</head>
+
+<body class="m-0 p-0 bg-[#bfe3f0] font-sans caret-transparent">
+
+{% include "components/header.html" %}
+
+{% include "components/menulateral.html" %}
+
+<main class="mt-[120px] mb-[90px] mx-auto w-[80%] text-center">
+  <div class="flex gap-[40px] justify-center max-[1000px]:flex-col max-[1000px]:items-center">
+    <div class="bg-[#ffffffcc] rounded-[20px] shadow-[0_4px_10px_rgba(0,0,0,0.1)] p-[30px] w-[580px] max-[1000px]:w-[90%]">
+      <h3 class="text-[30px] text-white px-[10px] py-[10px] rounded-[15px] text-center mt-[1px] mb-[35px] bg-gradient-to-r from-[#ff0000] to-[#b60000]">Sobre nós</h3>
+      <img src="{% static 'imagens/logoPreto.png' %}" alt="Logo" class="w-[350px] h-auto mx-auto">
+      <p class="text-[18px] text-black text-left mt-[16px]">Este site foi criado com o propósito de ajudar as pessoas com o acesso a informação delicada...</p>
+      <p class="text-[18px] text-black text-left mt-[16px]">Sobre os dados:</p>
+      <ul class="list-disc pl-[24px]">
+        <li class="text-[16px] text-black text-left">Os dados são retirados da ANEPC e IPMA</li>
+        <li class="text-[16px] text-black text-left">A localização é aproximada</li>
+      </ul>
+      <p class="text-[18px] text-black text-left mt-[16px]">Caso tenha sugestões ou bugs contacte:</p>
+      <ul class="list-disc pl-[24px]">
+        <li class="text-[16px] text-black text-left">Email: 5477@eclisboa.net</li>
+      </ul>
+    </div>
+  </div>
+</main>
+
+<script src="{% static 'js/menulateral.js' %}"></script>
+
+</body>
+</html>

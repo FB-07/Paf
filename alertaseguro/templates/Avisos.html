@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Avisos - AlertaSeguro</title>
+  <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
+</head>
+
+<body class="m-0 p-0 bg-[#bfe3f0] font-sans text-[#111] overflow-visible caret-transparent">
+
+{% include "components/header.html" %}
+
+{% include "components/menulateral.html" %}
+
+<main class="mt-[120px] mb-[110px] mx-auto w-[min(980px,92vw)] text-center">
+
+  <section class="fixed top-[100px] left-1/2 -translate-x-1/2 text-center">
+    <h2 class="inline-block bg-gradient-to-b from-[#b43030] via-[#ff1e00] to-[#9c1717] text-white px-[50px] py-[15px] rounded-[30px] text-[35px]">
+      Avisos
+    </h2>
+  </section>
+
+  <section>
+    <button id="menu-btn-filtros" class="fixed absolute z-[1001] bg-white text-gray-700 top-[100px] left-[10px] border-0 text-white text-[18px] font-bold rounded-[30px] px-[18px] py-[14px] cursor-pointer transition duration-300 bg-gradient-to-b from-[#b43030] via-[#ff1e00] to-[#9c1717] hover:scale-105">
+      Filtrar
+    </button>
+
+    <div id="menu-drop-filtros" class="hidden absolute top-[170px] left-[10px] rounded-[10px] min-w-[220px] shadow-[0_4px_10px_rgba(0,0,0,0.2)] bg-gradient-to-b from-[#b43030] via-[#ff1e00] to-[#9c1717]">
+      <div class="flex items-center gap-[10px] px-[20px] py-[12px] cursor-pointer transition hover:bg-[#ffdddd]">
+        <input type="checkbox" id="toggleZona" class="m-0 scale-110 cursor-pointer">
+        <label for="toggleZona" class="text-white font-bold cursor-pointer select-none">Zona</label>
+      </div>
+      
+      <p class="text-white">Nivel:</p>
+      <div class="flex items-center gap-[10px] px-[20px] py-[12px] cursor-pointer transition hover:bg-[#ffdddd]">
+        <input type="checkbox" id="toggleModerado" class="m-0 scale-110 cursor-pointer">
+        <label for="toggleModerado" class="text-white font-bold cursor-pointer select-none">Moderado</label>
+      </div>
+
+      <div class="flex items-center gap-[10px] px-[20px] py-[12px] cursor-pointer transition hover:bg-[#ffdddd]">
+        <input type="checkbox" id="toggleElevado" class="m-0 scale-110 cursor-pointer">
+        <label for="toggleElevado" class="text-white font-bold cursor-pointer select-none">Elevado</label>
+      </div>
+
+      <div class="flex items-center gap-[10px] px-[20px] py-[12px] cursor-pointer transition hover:bg-[#ffdddd]">
+        <input type="checkbox" id="toggleExtremo" class="m-0 scale-110 cursor-pointer">
+        <label for="toggleExtremo" class="text-white font-bold cursor-pointer select-none">Extremo</label>
+      </div>
+    </div>
+  </section>
+
+  <section class="flex flex-col gap-[22px] items-center mt-[200px]">
+
+    {% if avisos %}
+    {% for aviso in avisos %}
+    <article class="w-[min(760px,92vw)] rounded-[26px] px-[26px] py-[22px] text-gray-700 shadow-[0_8px_18px_rgba(0,0,0,0.18)] bg-white border-[5px] border
+    {% if aviso.gravidade == 'green' %}border-[#00ff00]{% elif aviso.gravidade == 'yellow' %}border-[#f1c40f]{% elif aviso.gravidade == 'orange' %}border-[#e67e22]{% elif aviso.gravidade == 'red' %}border-[#a50000]{% endif %}">
+
+      <h3 class="m-0 mb-[10px] text-[30px] font-bold {% if aviso.gravidade == 'green' %}text-[#00ff00]{% elif aviso.gravidade == 'yellow' %}text-[#f1c40f]{% elif aviso.gravidade == 'orange' %}text-[#e67e22]{% elif aviso.gravidade == 'red' %}text-[#820000]{% endif %}">{{ aviso.titulo }}</h3>
+
+      <div class="flex justify-center gap-[30px] font-bold text-[18px] mb-[12px]">
+        <span>
+          <strong>Nível:</strong>
+          {% if aviso.gravidade == "green" %}Leve
+          {% elif aviso.gravidade == "yellow" %}Moderado
+          {% elif aviso.gravidade == "orange" %}Elevado
+          {% elif aviso.gravidade == "red" %}Extremo
+          {% endif %}
+        </span>
+        <span><strong>Área:</strong>{{ aviso.idAreaAviso }}</span>
+      </div>
+
+      <div class="flex justify-center gap-[30px] font-bold text-[18px] mb-[12px]">
+        <span><strong>Início:</strong> {{ aviso.dataInicio|date:"d/m/Y H:i" }}</span>
+        <span><strong>Fim:</strong> {{ aviso.dataFim|date:"d/m/Y H:i" }}</span>
+      </div>
+
+      <div class="h-[4px] w-[72%] mx-auto my-[14px] rounded-[6px] bg-gray-900"></div>
+
+      <p class="m-0 text-center text-[20px] leading-[1.35] px-[10px]">
+        {{ aviso.descricao|default:"Sem descrição." }}
+      </p>
+
+    </article>
+    {% endfor %}
+    {% else %}
+    <article class="w-[min(760px,92vw)] rounded-[26px] px-[26px] py-[22px] text-white shadow-[0_8px_18px_rgba(0,0,0,0.18)] bg-gradient-to-b from-[#b43030] via-[#ff1e00] to-[#9c1717]">
+      <p class="text-[20px]">Não existem avisos ativos para mostrar.</p>
+    </article>
+    {% endif %}
+
+  </section>
+</main>
+
+<script src="{% static 'js/menulateral.js' %}"></script>
+<script src="{% static 'js/menufiltros.js' %}"></script>
+
+</body>
+</html>

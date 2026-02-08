@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtualenv
+venv/
+.env
+
+# Django
+staticfiles/
+media/
+
+# Tailwind / Node
+node_modules/
+theme/static_src/node_modules/
+
+# VS Code
+.vscode/
