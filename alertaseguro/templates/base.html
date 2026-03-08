@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+
+    <title>{% block title %}Meu Site{% endblock %}</title>
+
+    {% block meta %}
+    
+    {% endblock %}
+
+    {% block css %}
+    <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
+    {% endblock %}
+</head>
+
+<body>
+
+{% block content %}
+{% endblock %}
+
+{% block js %}
+{% endblock %}
+
+</body>
+</html>

@@ -27,4 +27,10 @@ document.addEventListener("DOMContentLoaded", () => {
   menuBtn.addEventListener("click", () => {
     isOpen ? closeMenu() : openMenu();
   });
+
+  document.addEventListener("click", (e) => {
+    if (!menuBtn.contains(e.target) && !sideMenu.contains(e.target)) {
+      closeMenu();
+    }
+  });
 });

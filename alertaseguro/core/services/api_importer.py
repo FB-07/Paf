@@ -17,6 +17,17 @@ def parse_datetime(value):
     return None
 
 def fetch_all_apis():
+    print("🧹 Limpando dados antigos...")
+
+    IncidenteAPI.objects.all().delete()
+    NearbyFireStation.objects.all().delete()
+    NearbyEmergency.objects.all().delete()
+    NearbyAirbase.objects.all().delete()
+    Hospital.objects.all().delete()
+    Bombero.objects.all().delete()
+    AirResource.objects.all().delete()
+
+    print("✅ Base limpa. Importando dados novos...")
     # -------------------
     # API INCIDENTES
     # -------------------

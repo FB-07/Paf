@@ -41,13 +41,17 @@ document.addEventListener("DOMContentLoaded", () => {
       const estado = inc.status || "";
       const updated = inc.updated_at_api || "";
 
-      marker.bindPopup(`
-        <b>${titulo}</b><br/>
-        ${estado ? estado + "<br/>" : ""}
-        ${local ? local + "<br/>" : ""}
-        ${updated ? "Atualizado: " + updated : ""}
-        <br/><small>ID: ${inc.api_id}</small>
-      `);
+      marker.on("click", () => {
+        const html = `
+          <b class="text-lg">${titulo}</b><br><br>
+          ${estado ? "<b>Estado:</b> " + estado + "<br>" : ""}
+          ${local ? "<b>Local:</b> " + local + "<br>" : ""}
+          ${updated ? "<b>Atualizado:</b> " + updated + "<br>" : ""}
+          <br>
+          <small>ID: ${inc.api_id}</small>
+        `;
+        window.openIncidentPanel(html);
+      });
 
       incidentesLayer.addLayer(marker);
     });

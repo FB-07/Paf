@@ -11,12 +11,29 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 </head>
 
-<body class="m-0 p-0 overflow-hidden font-sans bg-[#bfe3f0] caret-transparent">
+<body class="m-0 p-0 overflow-hidden font-sans bg-gray-100 caret-transparent">
 
 {% include "components/header.html" %}
 
 {% include "components/menulateral.html" %}
 <div id="main-content">
+  <div id="incident-overlay" class="fixed inset-0 bg-black/40 hidden z-[1500]"></div>
+
+  <div id="incident-panel"
+      class="fixed top-0 left-0 h-full w-1/3 max-w-[420px] bg-white shadow-xl z-[1600]
+              transform -translate-x-full transition-transform duration-300">
+
+    <div class="flex items-center justify-between p-4 border-b text-white bg-gradient-to-b from-[#b43030] via-[#ff1e00] to-[#9c1717]">
+        <h2 class="font-bold text-lg">Ocorrência</h2>
+      <button id="incident-close"
+        class="text-xl font-bold cursor-pointer hover:scale-110 transition">
+        ⛌
+      </button>
+    </div>
+
+    <div id="incident-content" class="p-4 text-sm"></div>
+  </div>
+
   <div id="menu-filtros" class="fixed top-[100px] left-[10px] z-[1000]">
     <button id="menu-btn-filtros" class="border-0 text-white text-[18px] font-bold rounded-[30px] px-[18px] py-[14px] cursor-pointer transition duration-300 bg-gradient-to-b from-[#b43030] via-[#ff1e00] to-[#9c1717] hover:scale-105">Filtros</button>
 
@@ -46,6 +63,7 @@
   window.MUNICIPIOS_URL = "{% static 'municipios.geojson' %}";
 </script>
 
+<script src="{% static 'js/incidentPanel.js' %}"></script>
 <script src="{% static 'js/menulateral.js' %}"></script>
 <script src="{% static 'js/menufiltros.js' %}"></script>
 <script src="{% static 'js/mapa.js' %}"></script>

@@ -13,6 +13,7 @@ urlpatterns = [
     path("registo/", views.registo_view, name="registo"),
     path("logout/", views.logout_view, name="logout"),
     path("perfil/", views.perfil_view, name="perfil"),
+    path("editar-perfil/", views.editar_perfil, name="editar_perfil"),
 
     #API
     path("avisos/", views.avisos, name="avisos"),
