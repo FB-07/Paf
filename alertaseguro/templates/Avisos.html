@@ -54,25 +54,34 @@
   <section class="flex flex-col gap-[22px] items-center mt-[200px]">
 
     {% if avisos %}
-    {% for aviso in avisos %}
-    <article class="w-[min(760px,92vw)] rounded-[26px] px-[26px] py-[22px] text-gray-700 shadow-[0_8px_18px_rgba(0,0,0,0.18)] bg-white border-[5px] border
+    {% for aviso in avisos %}                                                                                                 <!--Mudar border-[3px]-->
+    <article class="w-[min(760px,92vw)] rounded-[26px] px-[26px] py-[22px] text-gray-700 shadow-[0_8px_18px_rgba(0,0,0,0.18)] bg-white border-[3px] border
     {% if aviso.gravidade == 'green' %}border-[#00ff00]{% elif aviso.gravidade == 'yellow' %}border-[#f1c40f]{% elif aviso.gravidade == 'orange' %}border-[#e67e22]{% elif aviso.gravidade == 'red' %}border-[#a50000]{% endif %}">
 
-      <h3 class="m-0 mb-[10px] text-[30px] font-bold {% if aviso.gravidade == 'green' %}text-[#00ff00]{% elif aviso.gravidade == 'yellow' %}text-[#f1c40f]{% elif aviso.gravidade == 'orange' %}text-[#e67e22]{% elif aviso.gravidade == 'red' %}text-[#820000]{% endif %}">{{ aviso.titulo }}</h3>
+      <h3 class="m-0 mb-[10px] text-[30px] font-bold">{{ aviso.titulo }}</h3>
 
-      <div class="flex justify-center gap-[30px] font-bold text-[18px] mb-[12px]">
+      <div class="flex justify-center gap-[30px] text-[18px] mb-[12px]">
         <span>
           <strong>Nível:</strong>
+          <span class="font-bold
+          {% if aviso.gravidade == 'green' %}text-[#00ff00]
+          {% elif aviso.gravidade == 'yellow' %}text-[#f1c40f]
+          {% elif aviso.gravidade == 'orange' %}text-[#e67e22]
+          {% elif aviso.gravidade == 'red' %}text-[#a50000]
+          {% endif %}">
+          
           {% if aviso.gravidade == "green" %}Leve
           {% elif aviso.gravidade == "yellow" %}Moderado
           {% elif aviso.gravidade == "orange" %}Elevado
           {% elif aviso.gravidade == "red" %}Extremo
           {% endif %}
+          
+          </span>
         </span>
-        <span><strong>Área:</strong>{{ aviso.idAreaAviso }}</span>
+        <span><strong>Área:</strong> {{ aviso.idAreaAviso }}</span>
       </div>
 
-      <div class="flex justify-center gap-[30px] font-bold text-[18px] mb-[12px]">
+      <div class="flex justify-center gap-[30px] text-[18px] mb-[12px]">
         <span><strong>Início:</strong> {{ aviso.dataInicio|date:"d/m/Y H:i" }}</span>
         <span><strong>Fim:</strong> {{ aviso.dataFim|date:"d/m/Y H:i" }}</span>
       </div>

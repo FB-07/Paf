@@ -86,7 +86,6 @@ class IncidenteAPI(models.Model):
         loc = self.location_name or self.county or ""
         return f"{self.api_id} - {base}{(' - ' + loc) if loc else ''}"
 
-# Fazer
 # =====================================================
 # BOMBES / EMERGÊNCIAS / BASES AÉREAS
 # =====================================================

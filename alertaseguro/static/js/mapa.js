@@ -29,26 +29,50 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!Number.isFinite(lat) || !Number.isFinite(lon)) return;
 
       const marker = L.circleMarker([lat, lon], {
-        radius: 8.5,
+        radius: 9,
         weight: 1,
-        fillOpacity: 0.85,
+        fillOpacity: 0.9,
         color: inc.status_color || "#333",
         fillColor: inc.status_color || "#333",
       });
 
-      const titulo = inc.natureza || "Incidente";
-      const local = [inc.location_name, inc.parish, inc.county, inc.district].filter(Boolean).join(", ");
-      const estado = inc.status || "";
-      const updated = inc.updated_at_api || "";
+      const local = [inc.location_name, inc.parish, inc.county, inc.district]
+        .filter(Boolean)
+        .join(", ");
+      const updated = inc.updated_at_api
+        ? new Date(inc.updated_at_api).toLocaleString()
+        : "";
+
+      // Meios envolvidos
+      const meios = [];
+      if (inc.means_aerial) meios.push(`✈️ Aéreos: ${inc.means_aerial}`);
+      if (inc.means_terrain) meios.push(`🚒 Terrestres: ${inc.means_terrain}`);
+      if (inc.means_aquatic) meios.push(`🛶 Aquáticos: ${inc.means_aquatic}`);
+      if (inc.means_man) meios.push(`👷 Operacionais: ${inc.means_man}`);
+      const meiosHtml = meios.length
+        ? `<ul class="list-disc ml-6 space-y-1">${meios.map(m => `<li>${m}</li>`).join("")}</ul>`
+        : `<p class="italic text-gray-500">Sem meios envolvidos</p>`;
 
       marker.on("click", () => {
         const html = `
-          <b class="text-lg">${titulo}</b><br><br>
-          ${estado ? "<b>Estado:</b> " + estado + "<br>" : ""}
-          ${local ? "<b>Local:</b> " + local + "<br>" : ""}
-          ${updated ? "<b>Atualizado:</b> " + updated + "<br>" : ""}
-          <br>
-          <small>ID: ${inc.api_id}</small>
+          <div class="flex flex-col space-y-2">
+            <h3 class="text-2xl font-bold text-red-600">${inc.natureza || "Incidente"}</h3>
+
+            ${inc.status ? `<p><span class="font-semibold">Estado:</span> <span class="text-blue-700">${inc.status}</span></p>` : ""}
+            ${local ? `<p><span class="font-semibold">Local:</span> ${local}</p>` : ""}
+            ${updated ? `<p><span class="font-semibold">Atualizado:</span> ${updated}</p>` : ""}
+
+            <div class="mt-2">
+              <p class="font-semibold">Meios envolvidos:</p>
+              ${meiosHtml}
+            </div>
+
+            ${inc.kml ? `<p class="mt-2"><a href="${inc.kml}" target="_blank" class="text-blue-600 hover:underline">📍 Ver KML</a></p>` : ""}
+
+            <div class="mt-2 text-gray-400 text-xs">
+              ID: ${inc.api_id}
+            </div>
+          </div>
         `;
         window.openIncidentPanel(html);
       });
