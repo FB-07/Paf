@@ -2,8 +2,7 @@ from django.http import JsonResponse
 from core.models import IncidenteAPI
 
 def api_incidentes(request):
-    # Filtra incidentes com coordenadas válidas
-    incidentes = IncidenteAPI.objects.filter(latitude__isnull=False, longitude__isnull=False)
+    incidentes = IncidenteAPI.objects.filter(latitude__isnull=False, longitude__isnull=False).exclude(status="Encerrada")
 
     data = []
     for inc in incidentes:

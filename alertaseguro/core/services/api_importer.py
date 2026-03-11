@@ -13,10 +13,6 @@ from core.models import (
     AirResource
 )
 
-# =========================
-# CONFIG
-# =========================
-
 INCIDENTS_API = "https://ocorrenciasativas.pt/api/ocorrencias/incidents"
 DETAIL_API = "https://api-dev.brlab.pt/v1/incidents/{}"
 
@@ -25,10 +21,6 @@ BOMBEIROS_API = "https://ocorrenciasativas.pt/api/departments?page=1&limit=10000
 AIR_API = "https://ocorrenciasativas.pt/api/air-resources?limit=1000000000000"
 
 MAX_THREADS = 15
-
-# =========================
-# Utils
-# =========================
 
 def parse_datetime(value):
     if not value:
@@ -60,11 +52,6 @@ def fetch_json(url):
         print(f"Erro request {url}: {e}")
         return None
 
-
-# =========================
-# Buscar detalhe incidente
-# =========================
-
 def fetch_incident_detail(id_oc):
 
     url = DETAIL_API.format(id_oc)
@@ -80,11 +67,6 @@ def fetch_incident_detail(id_oc):
         return None
 
     return items[0]
-
-
-# =========================
-# Guardar incidente
-# =========================
 
 def save_incident(item):
 
@@ -168,11 +150,6 @@ def save_incident(item):
             distance=ab.get("distance"),
         )
 
-
-# =========================
-# INCIDENTES
-# =========================
-
 def import_incidents():
 
     print("Importando INCIDENTES...")
@@ -184,15 +161,41 @@ def import_incidents():
 
     incidents = data.get("data", [])
 
-    print(f"{len(incidents)} incidentes encontrados")
+    print(f"{len(incidents)} incidentes ativos na API")
+
+    existing = {
+        i.api_id: i
+        for i in IncidenteAPI.objects.all()
+    }
+
+    to_update = []
+    active_ids = set()
+
+    for item in incidents:
+
+        id_oc = item.get("id_oc")
+        active_ids.add(id_oc)
+
+        last_updated_api = parse_datetime(
+            item.get("dates", {}).get("last_updated")
+        )
+
+        db_incident = existing.get(id_oc)
+
+        if not db_incident:
+            to_update.append(id_oc)
+            continue
+
+        if last_updated_api and db_incident.updated_at_api != last_updated_api:
+            to_update.append(id_oc)
+
+    print(f"{len(to_update)} incidentes precisam de atualização")
 
     futures = []
 
     with ThreadPoolExecutor(max_workers=MAX_THREADS) as executor:
 
-        for item in incidents:
-
-            id_oc = item.get("id_oc")
+        for id_oc in to_update:
 
             futures.append(
                 executor.submit(fetch_incident_detail, id_oc)
@@ -207,12 +210,13 @@ def import_incidents():
 
             save_incident(detail)
 
-    print("Incidentes importados.")
+    closed = IncidenteAPI.objects.exclude(api_id__in=active_ids).update(
+        status="Encerrada"
+    )
 
+    print(f"{closed} incidentes marcados como encerrados")
 
-# =========================
-# HOSPITAIS
-# =========================
+    print("Incidentes atualizados.")
 
 def import_hospitals():
 
@@ -241,11 +245,6 @@ def import_hospitals():
 
     print(f"{len(hospitais)} hospitais importados")
 
-
-# =========================
-# BOMBEIROS
-# =========================
-
 def import_bombeiros():
 
     print("Importando BOMBEIROS...")
@@ -273,11 +272,6 @@ def import_bombeiros():
 
     print(f"{len(bombeiros)} bombeiros importados")
 
-
-# =========================
-# RECURSOS AÉREOS
-# =========================
-
 def import_air_resources():
 
     print("Importando RECURSOS AÉREOS...")
@@ -304,12 +298,18 @@ def import_air_resources():
 
     print(f"{len(recursos)} recursos importados")
 
-
-# =========================
-# IMPORT TOTAL
-# =========================
-
 def fetch_all_apis():
+
+    print("Importando dados ...")
+
+    import_incidents()
+    import_hospitals()
+    import_bombeiros()
+    import_air_resources()
+
+    print("IMPORT COMPLETO")
+
+def fetch_all_apis_clean():
 
     print("🧹 Limpando dados antigos...")
 

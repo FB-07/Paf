@@ -1,5 +1,3 @@
-# core/services/ipma_service.py
-
 import hashlib
 import requests
 from zoneinfo import ZoneInfo

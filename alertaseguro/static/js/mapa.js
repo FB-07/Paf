@@ -19,82 +19,88 @@ document.addEventListener("DOMContentLoaded", () => {
   // Camada de incidentes
   // ==========================
   const incidentesLayer = L.layerGroup().addTo(map);
+  const markersMap = new Map();
+  const updateNote = document.getElementById("update-note");
+
+  function createIncidentHtml(inc) {
+    const local = [inc.location_name, inc.parish, inc.county, inc.district].filter(Boolean).join(", ");
+    const updated = inc.updated_at_api ? new Date(inc.updated_at_api).toLocaleString() : "";
+    const meios = [];
+    if (inc.means_aerial) meios.push(`✈️ Aéreos: ${inc.means_aerial}`);
+    if (inc.means_terrain) meios.push(`🚒 Terrestres: ${inc.means_terrain}`);
+    if (inc.means_aquatic) meios.push(`🛶 Aquáticos: ${inc.means_aquatic}`);
+    if (inc.means_man) meios.push(`👷 Operacionais: ${inc.means_man}`);
+    const meiosHtml = meios.length ? `<ul class="list-disc ml-6 space-y-1">${meios.map(m => `<li>${m}</li>`).join("")}</ul>` : `<p class="italic text-gray-500">Sem meios envolvidos</p>`;
+    return `
+      <div class="flex flex-col space-y-2">
+        <h3 class="text-2xl font-bold text-red-600">${inc.natureza || "Incidente"}</h3>
+        ${inc.status ? `<p><span class="font-semibold">Estado:</span> <span class="">${inc.status}</span></p>` : ""}
+        ${local ? `<p><span class="font-semibold">Local:</span> ${local}</p>` : ""}
+        ${updated ? `<p><span class="font-semibold">Atualizado:</span> ${updated}</p>` : ""}
+        <div class="mt-2">
+          <p class="font-semibold">Meios envolvidos:</p>
+          ${meiosHtml}
+        </div>
+        ${inc.kml ? `<p class="mt-2"><a href="${inc.kml}" target="_blank" class="text-blue-600 hover:underline">Ver KML</a></p>` : ""}
+        <div class="mt-2 text-gray-500 text-xs">
+          ID: ${inc.api_id}
+        </div>
+      </div>
+    `;
+  }
+
+  function showUpdateNote(message) {
+    updateNote.innerHTML = message; 
+    updateNote.classList.remove("opacity-0");
+    updateNote.classList.add("opacity-100");
+    setTimeout(() => {
+      updateNote.classList.remove("opacity-100");
+      updateNote.classList.add("opacity-0");
+    }, 5000);
+  }
 
   function renderIncidentes(data) {
-    incidentesLayer.clearLayers();
-
+    const activeIds = new Set();
     data.forEach((inc) => {
+      activeIds.add(inc.api_id);
       const lat = Number(inc.latitude);
       const lon = Number(inc.longitude);
       if (!Number.isFinite(lat) || !Number.isFinite(lon)) return;
-
-      const marker = L.circleMarker([lat, lon], {
-        radius: 9,
-        weight: 1,
-        fillOpacity: 0.9,
-        color: inc.status_color || "#333",
-        fillColor: inc.status_color || "#333",
-      });
-
-      const local = [inc.location_name, inc.parish, inc.county, inc.district]
-        .filter(Boolean)
-        .join(", ");
-      const updated = inc.updated_at_api
-        ? new Date(inc.updated_at_api).toLocaleString()
-        : "";
-
-      // Meios envolvidos
-      const meios = [];
-      if (inc.means_aerial) meios.push(`✈️ Aéreos: ${inc.means_aerial}`);
-      if (inc.means_terrain) meios.push(`🚒 Terrestres: ${inc.means_terrain}`);
-      if (inc.means_aquatic) meios.push(`🛶 Aquáticos: ${inc.means_aquatic}`);
-      if (inc.means_man) meios.push(`👷 Operacionais: ${inc.means_man}`);
-      const meiosHtml = meios.length
-        ? `<ul class="list-disc ml-6 space-y-1">${meios.map(m => `<li>${m}</li>`).join("")}</ul>`
-        : `<p class="italic text-gray-500">Sem meios envolvidos</p>`;
-
-      marker.on("click", () => {
-        const html = `
-          <div class="flex flex-col space-y-2">
-            <h3 class="text-2xl font-bold text-red-600">${inc.natureza || "Incidente"}</h3>
-
-            ${inc.status ? `<p><span class="font-semibold">Estado:</span> <span class="text-blue-700">${inc.status}</span></p>` : ""}
-            ${local ? `<p><span class="font-semibold">Local:</span> ${local}</p>` : ""}
-            ${updated ? `<p><span class="font-semibold">Atualizado:</span> ${updated}</p>` : ""}
-
-            <div class="mt-2">
-              <p class="font-semibold">Meios envolvidos:</p>
-              ${meiosHtml}
-            </div>
-
-            ${inc.kml ? `<p class="mt-2"><a href="${inc.kml}" target="_blank" class="text-blue-600 hover:underline">📍 Ver KML</a></p>` : ""}
-
-            <div class="mt-2 text-gray-400 text-xs">
-              ID: ${inc.api_id}
-            </div>
-          </div>
-        `;
-        window.openIncidentPanel(html);
-      });
-
-      incidentesLayer.addLayer(marker);
+      if (markersMap.has(inc.api_id)) {
+        const marker = markersMap.get(inc.api_id);
+        marker.setStyle({ color: inc.status_color || "#333", fillColor: inc.status_color || "#333" });
+        marker.options.data = inc;
+      } else {
+        const marker = L.circleMarker([lat, lon], { radius: 9, weight: 1, fillOpacity: 0.9, color: inc.status_color || "#333", fillColor: inc.status_color || "#333" });
+        marker.options.data = inc;
+        marker.on("click", () => { window.openIncidentPanel(createIncidentHtml(marker.options.data)); });
+        markersMap.set(inc.api_id, marker);
+        incidentesLayer.addLayer(marker);
+      }
     });
+    for (const [id, marker] of markersMap) {
+      if (!activeIds.has(id)) {
+        incidentesLayer.removeLayer(marker);
+        markersMap.delete(id);
+      }
+    }
   }
 
   async function loadIncidentes() {
     try {
+      showUpdateNote("Atualizando incidentes... <br> Próxima atualização em 5:00 minutos.");
       const res = await fetch("/api/incidentes/");
       if (!res.ok) throw new Error("HTTP " + res.status);
       const data = await res.json();
-      console.log("Incidentes recebidos:", data.length);
       renderIncidentes(data);
     } catch (err) {
       console.error("Erro a carregar incidentes:", err);
+      showUpdateNote("Erro ao atualizar incidentes");
     }
   }
 
   loadIncidentes();
-  setInterval(loadIncidentes, 60000);
+  setInterval(loadIncidentes, 5 * 60 * 1000);
 
   // ==========================
   // Camada municípios
