@@ -1,3 +1,5 @@
+import { INCIDENT_ICONS } from "./icons.js";
+
 document.addEventListener("DOMContentLoaded", () => {
 
   const mapEl = document.getElementById("map");
@@ -20,29 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================
   // ICONES INCIDENTES
   // ==========================
-
-  const INCIDENT_ICONS = {
-
-    natureza: {
-      "Queda de Árvore": "/static/icons/tree.svg",
-      "Busca e Resgate Terrestre, de Animais": "/static/icons/pet.svg",
-      "Limpeza de Via e Sinalização de Perigo": "/static/icons/cone.svg",
-      "Cheia": "/static/icons/flood.svg",
-      "Ventos fortes": "/static/icons/wind.svg",
-      "Queda de elementos de construção em estruturas edificadas": "/static/icons/building.svg",
-      "Desabamento de estruturas edificadas": "/static/icons/building.svg",
-      "Movimento de massa": "/static/icons/broom.svg"
-    },
-
-    tipo: {
-      "fire": "/static/icons/fire.svg",
-      "accident": "/static/icons/accident.svg",
-      "meteo": "/static/icons/meteo.svg"
-    },
-
-    default: "/static/icons/default.svg"
-
-  };
 
   function getIncidentIconPath(inc) {
 
@@ -111,9 +90,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const meios = [];
 
-    if (inc.means_aerial) meios.push(`✈️ Aéreos: ${inc.means_aerial}`);
+    if (inc.means_aerial) meios.push(`🚁 Aéreos: ${inc.means_aerial}`);
     if (inc.means_terrain) meios.push(`🚒 Terrestres: ${inc.means_terrain}`);
-    if (inc.means_aquatic) meios.push(`🛶 Aquáticos: ${inc.means_aquatic}`);
+    if (inc.means_aquatic) meios.push(`🛳️ Aquáticos: ${inc.means_aquatic}`);
     if (inc.means_man) meios.push(`👷 Operacionais: ${inc.means_man}`);
 
     const meiosHtml = meios.length
