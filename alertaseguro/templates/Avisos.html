@@ -1,14 +1,11 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Avisos - AlertaSeguro</title>
-  <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
-</head>
 
-<body class="m-0 p-0 bg-gray-100 font-sans text-[#111] overflow-visible caret-transparent">
+{% block title %}Avisos - AlertaSeguro{% endblock %}
+
+{% block body_class %}m-0 p-0 bg-gray-100 font-sans text-[#111] overflow-visible caret-transparent{% endblock %}
+
+{% block content %}
 
 {% include "components/header.html" %}
 
@@ -54,7 +51,7 @@
   <section class="flex flex-col gap-[22px] items-center mt-[200px]">
 
     {% if avisos %}
-    {% for aviso in avisos %}                                                                                                 <!--Mudar border-[3px]-->
+    {% for aviso in avisos %}
     <article class="w-[min(760px,92vw)] rounded-[26px] px-[26px] py-[22px] text-gray-700 shadow-[0_8px_18px_rgba(0,0,0,0.18)] bg-white border-[3px] border
     {% if aviso.gravidade == 'green' %}border-[#00ff00]{% elif aviso.gravidade == 'yellow' %}border-[#f1c40f]{% elif aviso.gravidade == 'orange' %}border-[#e67e22]{% elif aviso.gravidade == 'red' %}border-[#a50000]{% endif %}">
 
@@ -103,8 +100,9 @@
   </section>
 </main>
 
+{% endblock %}
+
+{% block js %}
 <script src="{% static 'js/menulateral.js' %}"></script>
 <script src="{% static 'js/menufiltros.js' %}"></script>
-
-</body>
-</html>
+{% endblock %}

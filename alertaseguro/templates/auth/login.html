@@ -1,13 +1,11 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-  <meta charset="UTF-8">
-  <title>Login</title>
-  <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
-</head>
 
-<body class="m-0 p-0 bg-gray-100 font-sans caret-transparent">
+{% block title %}Login{% endblock %}
+
+{% block body_class %}m-0 p-0 bg-gray-100 font-sans caret-transparent{% endblock %}
+
+{% block content %}
 
 {% include "components/header.html" %}
 
@@ -32,7 +30,8 @@
   </div>
 </div>
 
-<script src="{% static 'js/menulateral.js' %}"></script>
+{% endblock %}
 
-</body>
-</html>
+{% block js %}
+<script src="{% static 'js/menulateral.js' %}"></script>
+{% endblock %}

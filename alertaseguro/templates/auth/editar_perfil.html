@@ -1,58 +1,58 @@
+{% extends "base.html" %}
 {% load static %}
-<!doctype html>
-<html lang="pt">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Editar Perfil</title>
 
-    <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}" />
-  </head>
+{% block title %}Editar Perfil{% endblock %}
 
-  <body class="m-0 p-0 bg-gray-100 font-sans">
-    {% include "components/header.html" %} 
-    {% include "components/menulateral.html" %}
+{% block body_class %}m-0 p-0 bg-gray-100 font-sans{% endblock %}
 
-    <div class="mt-[150px] w-full flex justify-center">
-      <div class="bg-[#ffffffcc] w-[500px] p-[30px] rounded-[25px] shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
-        <h2 class="text-[#9c1717] text-[28px] font-bold mb-[20px] text-center">Editar Perfil</h2>
+{% block content %}
 
-        <form method="POST">
-          {% csrf_token %}
+{% include "components/header.html" %} 
+{% include "components/menulateral.html" %}
 
-          <label class="block text-[16px] mb-[5px] font-bold"> Email </label>
+<div class="mt-[150px] w-full flex justify-center">
+  <div class="bg-[#ffffffcc] w-[500px] p-[30px] rounded-[25px] shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
+    <h2 class="text-[#9c1717] text-[28px] font-bold mb-[20px] text-center">Editar Perfil</h2>
 
-          <input
-            type="email"
-            name="email"
-            value="{{ user.email }}"
-            class="w-full p-[10px] mb-[20px] border rounded-[10px]"
-          />
+    <form method="POST">
+      {% csrf_token %}
 
-          <label class="block text-[16px] mb-[5px] font-bold"> Nova Password </label>
+      <label class="block text-[16px] mb-[5px] font-bold"> Email </label>
 
-          <input
-            type="password"
-            name="password"
-            class="w-full p-[10px] mb-[20px] border rounded-[10px]"
-            placeholder="Nova password"
-          />
+      <input
+        type="email"
+        name="email"
+        value="{{ user.email }}"
+        class="w-full p-[10px] mb-[20px] border rounded-[10px]"
+      />
 
-          <div class="text-center gap-[20px]">
-            <button
-              type="submit"
-              class="px-[25px] py-[12px] mt-[25px] bg-[#c62828] text-white rounded-[12px] no-underline text-[18px] transition duration-200 hover:bg-[#ff4444] hover:scale-105"
-            >
-              Guardar Alterações
-            </button>
+      <label class="block text-[16px] mb-[5px] font-bold"> Nova Password </label>
 
-            <a href="{% url 'perfil' %}" class="px-[25px] py-[12px] mt-[25px] bg-[#c62828] text-white rounded-[12px] no-underline text-[18px] transition duration-200 hover:bg-[#ff4444] hover:scale-105">
-              Voltar
-            </a>
-          </div>
-        </form>
+      <input
+        type="password"
+        name="password"
+        class="w-full p-[10px] mb-[20px] border rounded-[10px]"
+        placeholder="Nova password"
+      />
+
+      <div class="text-center gap-[20px]">
+        <button
+          type="submit"
+          class="px-[25px] py-[12px] mt-[25px] bg-[#c62828] text-white rounded-[12px] no-underline text-[18px] transition duration-200 hover:bg-[#ff4444] hover:scale-105"
+        >
+          Guardar Alterações
+        </button>
+
+        <a href="{% url 'perfil' %}" class="px-[25px] py-[12px] mt-[25px] bg-[#c62828] text-white rounded-[12px] no-underline text-[18px] transition duration-200 hover:bg-[#ff4444] hover:scale-105">
+          Voltar
+        </a>
       </div>
-    </div>
+    </form>
+  </div>
+</div>
 
-    <script src="{% static 'js/menulateral.js' %}"></script>
-  </body>
-</html>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/menulateral.js' %}"></script>
+{% endblock %}

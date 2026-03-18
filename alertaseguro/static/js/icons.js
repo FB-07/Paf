@@ -16,6 +16,7 @@ export const INCIDENT_ICONS = {
     "Inundação de estruturas por água canalizada": "/static/icons/flood.svg",
     "Químicos, dentro de uma instalação": "/static/icons/medicines.svg",
     "Atropelamento rodoviário": "/static/icons/car-default.svg",
+    "Inundação de estruturas ou superfícies por precipitação intensa": "/static/icons/flood.svg",
   },
 
   tipo: {

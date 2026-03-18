@@ -1,21 +1,25 @@
+{% extends "base.html" %}
 {% load static %}
-<!doctype html>
-<html lang="pt">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AlertaSeguro</title>
+{% block title %}AlertaSeguro{% endblock %}
 
-  <link rel="stylesheet" href="{% static 'css/dist/styles.css' %}">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-</head>
+{% block meta %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+{% endblock %}
 
-<body class="m-0 p-0 overflow-hidden font-sans bg-gray-100 caret-transparent">
+{% block css %}
+{{ block.super }}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+{% endblock %}
+
+{% block body_class %}
+m-0 p-0 overflow-hidden font-sans bg-gray-100 caret-transparent
+{% endblock %}
+
+{% block content %}
 
 {% include "components/header.html" %}
-
 {% include "components/menulateral.html" %}
+
 <div id="main-content">
   <div id="incident-overlay" class="fixed inset-0 bg-black/40 hidden z-[1500]"></div>
 
@@ -40,9 +44,12 @@
   </div>
 
   <div id="menu-filtros" class="fixed top-[100px] left-[10px] z-[1000]">
-    <button id="menu-btn-filtros" class="border-0 text-white text-[18px] font-bold rounded-[30px] px-[18px] py-[14px] cursor-pointer transition duration-300 bg-gradient-to-b from-[#b43030] via-[#ff1e00] to-[#9c1717] hover:scale-105">Filtros</button>
+    <button id="menu-btn-filtros" class="border-0 text-white text-[18px] font-bold rounded-[30px] px-[18px] py-[14px] cursor-pointer transition duration-300 bg-gradient-to-b from-[#b43030] via-[#ff1e00] to-[#9c1717] hover:scale-105">
+      Filtros
+    </button>
 
     <div id="menu-drop-filtros" class="hidden absolute left-0 top-[70px] rounded-[10px] min-w-[220px] shadow-[0_4px_10px_rgba(0,0,0,0.2)] bg-gradient-to-b from-[#b43030] via-[#ff1e00] to-[#9c1717]">
+
       <div class="flex items-center gap-[10px] px-[20px] py-[12px] cursor-pointer transition hover:bg-[#ffdddd]">
         <input type="checkbox" id="toggleMunicipios" class="m-0 scale-110 cursor-pointer">
         <label for="toggleMunicipios" class="text-white font-bold cursor-pointer select-none">Municípios</label>
@@ -57,6 +64,7 @@
         <input type="checkbox" id="toggleRisco1" class="m-0 scale-110 cursor-pointer">
         <label for="toggleRisco1" class="text-white font-bold cursor-pointer select-none">Risco de incêndio amanhã</label>
       </div>
+
     </div>
   </div>
 
@@ -64,14 +72,18 @@
     <div id="map" class="w-screen h-screen"></div>
   </main>
 </div>
+
 <script>
   window.MUNICIPIOS_URL = "{% static 'municipios.geojson' %}";
 </script>
+
+{% endblock %}
+
+{% block js %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 
 <script src="{% static 'js/incidentPanel.js' %}"></script>
 <script src="{% static 'js/menulateral.js' %}"></script>
 <script src="{% static 'js/menufiltros.js' %}"></script>
 <script type="module" src="{% static 'js/mapa.js' %}"></script>
-
-</body>
-</html>
+{% endblock %}
