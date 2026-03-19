@@ -17,6 +17,7 @@ export const INCIDENT_ICONS = {
     "Químicos, dentro de uma instalação": "/static/icons/medicines.svg",
     "Atropelamento rodoviário": "/static/icons/car-default.svg",
     "Inundação de estruturas ou superfícies por precipitação intensa": "/static/icons/flood.svg",
+    "Fuga de Gás em conduta": "/static/icons/meteo.svg",
   },
 
   tipo: {
