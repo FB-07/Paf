@@ -11,14 +11,35 @@
 
 {% include "components/menulateral.html" %}
 
-<div class="mt-[150px] w-full flex justify-center">
+<div class="mt-[120px] w-full flex justify-center">
   <div class="bg-[#ffffffcc] w-[420px] p-[30px] rounded-[25px] shadow-[0_4px_10px_rgba(0,0,0,0.2)] text-center">
     <h2 class="text-[32px] mb-[20px] text-[#9c1717]">Criar Conta</h2>
 
-    <form method="POST" class="[&>p]:my-[10px] [&_input]:w-[90%] [&_input]:p-[12px] [&_input]:border-0 [&_input]:rounded-[10px] [&_input]:bg-white [&_input]:shadow-[0_2px_6px_rgba(0,0,0,0.1)] [&_label]:block [&_label]:text-left [&_label]:font-bold [&_label]:text-[#111]">
+    <form method="POST" class="flex flex-col items-center gap-[15px] w-full">
       {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit" class="w-[95%] p-[12px] mt-[20px] border-0 text-[18px] rounded-[15px] text-white cursor-pointer transition duration-200 bg-gradient-to-b from-[#b43030] via-[#ff1e00] to-[#9c1717] hover:scale-105">Registar</button>
+
+      {% for field in form %}
+        <div class="w-full text-left">
+          
+          <label class="block mb-[5px] text-[14px] font-semibold text-gray-700">
+            {{ field.label }}
+          </label>
+
+          {{ field }}
+
+          {% if field.errors %}
+            <p class="text-red-500 text-sm mt-[3px]">
+              {{ field.errors|striptags }}
+            </p>
+          {% endif %}
+
+        </div>
+      {% endfor %}
+
+      <button type="submit"
+        class="w-full p-[12px] mt-[15px] text-[18px] rounded-[15px] text-white transition duration-200 bg-[#c62828] hover:scale-105 active:scale-95">
+        Registar
+      </button>
     </form>
 
     <a href="{% url 'login' %}" class="inline-block mt-[15px] text-[16px] font-bold text-[#9c1717] no-underline">Já tens conta? Entrar</a>

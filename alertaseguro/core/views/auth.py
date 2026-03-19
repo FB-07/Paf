@@ -1,31 +1,21 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from ..forms import RegistoForm
 from ..models import UsersProfile
 from django.contrib.auth.models import User
 
+from ..forms import RegistoForm
+from ..forms import LoginForm
+from ..forms import EditarPerfilForm
+
 def login_view(request):
-    if request.method == "POST":
-        identifier = request.POST.get("username") 
-        password = request.POST.get("password")
+    form = LoginForm(request.POST or None)
 
-        user = authenticate(request, username=identifier, password=password)
+    if request.method == "POST" and form.is_valid():
+        login(request, form.user)
+        return redirect("mainpage")
 
-        if not user:
-            try:
-                user_obj = User.objects.get(email=identifier)
-                user = authenticate(request, username=user_obj.username, password=password)
-            except User.DoesNotExist:
-                user = None
-
-        if user:
-            login(request, user)
-            return redirect("mainpage")
-        else:
-            return render(request, "auth/login.html", {"erro": "Credenciais inválidas"})
-
-    return render(request, "auth/login.html")
+    return render(request, "auth/login.html", {"form": form})
 
 def registo_view(request):
     if request.method == "POST":
@@ -49,19 +39,14 @@ def perfil_view(request):
 
 @login_required
 def editar_perfil(request):
+    form = EditarPerfilForm(request.POST or None, instance=request.user)
 
-    if request.method == "POST":
-        email = request.POST.get("email")
-        password = request.POST.get("password")
-        user = request.user
+    if request.method == "POST" and form.is_valid():
+        user = form.save()
 
-        if email:
-            user.email = email
-        if password:
-            user.set_password(password)
-
-        user.save()
+        from django.contrib.auth import update_session_auth_hash
+        update_session_auth_hash(request, user)
 
         return redirect("perfil")
 
-    return render(request, "auth/editar_perfil.html")
+    return render(request, "auth/editar_perfil.html", {"form": form})

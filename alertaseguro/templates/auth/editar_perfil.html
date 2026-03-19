@@ -10,42 +10,47 @@
 {% include "components/header.html" %} 
 {% include "components/menulateral.html" %}
 
-<div class="mt-[150px] w-full flex justify-center">
+<div class="mt-[120px] w-full flex justify-center">
   <div class="bg-[#ffffffcc] w-[500px] p-[30px] rounded-[25px] shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
     <h2 class="text-[#9c1717] text-[28px] font-bold mb-[20px] text-center">Editar Perfil</h2>
 
     <form method="POST">
-      {% csrf_token %}
+      {% for field in form %}
+        <div class="w-full text-left">
+          
+          <label class="block mb-[5px] text-[14px] font-semibold text-gray-700">
+            {{ field.label }}
+          </label>
 
-      <label class="block text-[16px] mb-[5px] font-bold"> Email </label>
+          {{ field }}
 
-      <input
-        type="email"
-        name="email"
-        value="{{ user.email }}"
-        class="w-full p-[10px] mb-[20px] border rounded-[10px]"
-      />
+          {% if field.errors %}
+            <p class="text-red-500 text-sm mt-[3px]">
+              {{ field.errors|striptags }}
+            </p>
+          {% endif %}
 
-      <label class="block text-[16px] mb-[5px] font-bold"> Nova Password </label>
+        </div>
+      {% endfor %}
 
-      <input
-        type="password"
-        name="password"
-        class="w-full p-[10px] mb-[20px] border rounded-[10px]"
-        placeholder="Nova password"
-      />
+      {% if form.non_field_errors %}
+        <p class="text-red-500 text-sm">
+          {{ form.non_field_errors }}
+        </p>
+      {% endif %}
 
-      <div class="text-center gap-[20px]">
-        <button
-          type="submit"
-          class="px-[25px] py-[12px] mt-[25px] bg-[#c62828] text-white rounded-[12px] no-underline text-[18px] transition duration-200 hover:bg-[#ff4444] hover:scale-105"
-        >
+      <div class="flex flex-col gap-[12px] mt-[10px]">
+
+        <button type="submit"
+          class="w-full p-[12px] text-[16px] rounded-[15px] text-white transition duration-200 bg-[#c62828] hover:scale-105 active:scale-95">
           Guardar Alterações
         </button>
 
-        <a href="{% url 'perfil' %}" class="px-[25px] py-[12px] mt-[25px] bg-[#c62828] text-white rounded-[12px] no-underline text-[18px] transition duration-200 hover:bg-[#ff4444] hover:scale-105">
+        <a href="{% url 'perfil' %}"
+          class="w-full text-center p-[12px] rounded-[15px] text-[#9c1717] border border-[#9c1717] transition duration-200 hover:bg-[#9c1717] hover:text-white hover:scale-105">
           Voltar
         </a>
+
       </div>
     </form>
   </div>
