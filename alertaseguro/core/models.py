@@ -2,9 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-# =====================================================
-# PERFIL DE UTILIZADOR
-# =====================================================
 class UsersProfile(models.Model):
     TIPOS = [
         ("admin", "Administrador"),
@@ -21,9 +18,6 @@ class UsersProfile(models.Model):
         return f"{self.user.username} ({self.tipo_utilizador})"
 
 
-# =====================================================
-# INCIDENTES
-# =====================================================
 class IncidenteAPI(models.Model):
     api_id = models.CharField(max_length=32, unique=True, db_index=True)
     dico = models.CharField(max_length=10, blank=True, null=True, db_index=True)
@@ -86,9 +80,37 @@ class IncidenteAPI(models.Model):
         loc = self.location_name or self.county or ""
         return f"{self.api_id} - {base}{(' - ' + loc) if loc else ''}"
 
-# =====================================================
-# BOMBES / EMERGÊNCIAS / BASES AÉREAS
-# =====================================================
+
+class Weather(models.Model):
+    incidente = models.OneToOneField(IncidenteAPI, on_delete=models.CASCADE, related_name="weather")
+
+    station = models.CharField(max_length=100, blank=True, null=True)
+    distance_km = models.FloatField(blank=True, null=True)
+
+    temperature_c = models.FloatField(blank=True, null=True)
+    temperature_min_c = models.FloatField(blank=True, null=True)
+    temperature_max_c = models.FloatField(blank=True, null=True)
+
+    humidity_percent = models.IntegerField(blank=True, null=True)
+    wind_kmh = models.FloatField(blank=True, null=True)
+    precipitation_mmh = models.FloatField(blank=True, null=True)
+    pressure_hpa = models.IntegerField(blank=True, null=True)
+
+    description = models.CharField(max_length=100, blank=True, null=True)
+
+    wind_degree = models.IntegerField(blank=True, null=True)
+    wind_cardinal = models.CharField(max_length=5, blank=True, null=True)
+
+    created_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Tempo"
+        verbose_name_plural = "Tempo"
+
+    def __str__(self):
+        return f"Weather for {self.incidente.api_id}"
+
+
 class NearbyFireStation(models.Model):
     incidente = models.ForeignKey(IncidenteAPI, on_delete=models.CASCADE, related_name="nearby_fire_stations")
     name = models.CharField(max_length=200)
@@ -135,9 +157,6 @@ class NearbyAirbase(models.Model):
         return f"{self.name} ({self.distance or '-'})"
 
 
-# =====================================================
-# HOSPITAIS
-# =====================================================
 class Hospital(models.Model):
     api_id = models.IntegerField(unique=True)
     name = models.CharField(max_length=255)
@@ -165,9 +184,6 @@ class Hospital(models.Model):
         return self.name
 
 
-# =====================================================
-# BOMBEIROS / DEPARTMENTS
-# =====================================================
 class Bombero(models.Model):
     api_id = models.IntegerField(unique=True)
     name = models.CharField(max_length=255)
@@ -194,9 +210,6 @@ class Bombero(models.Model):
         return self.name
 
 
-# =====================================================
-# RECURSOS AÉREOS
-# =====================================================
 class AirResource(models.Model):
     api_id = models.IntegerField(unique=True)
     name = models.CharField(max_length=255)
@@ -213,10 +226,8 @@ class AirResource(models.Model):
 
     def __str__(self):
         return self.name
-    
-# ============================================
-# Aviso
-# ============================================
+
+
 class Aviso(models.Model):
     GRAVIDADE_CHOICES = [
         ("green", "Verde"),
@@ -242,9 +253,6 @@ class Aviso(models.Model):
         return f"{self.titulo} ({self.gravidade}) {self.dataInicio:%Y-%m-%d %H:%M}"
 
 
-# ============================================
-# Notificacao
-# ============================================
 class Notificacao(models.Model):
     TIPOS = [
         ("IncidenteAPI", "Incidente (API)"),

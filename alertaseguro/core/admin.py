@@ -7,6 +7,7 @@ from .models import (
     NearbyAirbase,
     Aviso,
     Notificacao,
+    Weather,
 )
 
 admin.site.register(UsersProfile)
@@ -16,3 +17,4 @@ admin.site.register(NearbyEmergency)
 admin.site.register(NearbyAirbase)
 admin.site.register(Aviso)
 admin.site.register(Notificacao)
+admin.site.register(Weather)

@@ -10,7 +10,8 @@ from core.models import (
     NearbyAirbase,
     Hospital,
     Bombero,
-    AirResource
+    AirResource,
+    Weather,
 )
 
 INCIDENTS_API = "https://ocorrenciasativas.pt/api/ocorrencias/incidents"
@@ -21,6 +22,14 @@ BOMBEIROS_API = "https://ocorrenciasativas.pt/api/departments?page=1&limit=10000
 AIR_API = "https://ocorrenciasativas.pt/api/air-resources?limit=1000000000000"
 
 MAX_THREADS = 15
+
+
+def safe_float(value):
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return 0
+
 
 def parse_datetime(value):
     if not value:
@@ -33,15 +42,14 @@ def parse_datetime(value):
     ):
         try:
             dt = datetime.strptime(value, fmt)
-
             if timezone.is_naive(dt):
                 dt = timezone.make_aware(dt)
-
             return dt
         except:
             continue
 
     return None
+
 
 def fetch_json(url):
     try:
@@ -52,77 +60,111 @@ def fetch_json(url):
         print(f"Erro request {url}: {e}")
         return None
 
+
 def fetch_incident_detail(id_oc):
-
     url = DETAIL_API.format(id_oc)
-
     data = fetch_json(url)
 
     if not data:
         return None
 
     items = data.get("data", [])
-
     if not items:
         return None
 
     return items[0]
 
+
 def save_incident(item):
 
+    if not item:
+        return
+
     id_oc = item.get("id_oc")
+
+    if not id_oc:
+        return
+
+    location = item.get("location") or {}
+    means = item.get("means_involved") or {}
+    coords = item.get("coordinates") or {}
+    occ = item.get("occurrence") or {}
 
     incidente, _ = IncidenteAPI.objects.update_or_create(
         api_id=id_oc,
         defaults={
-
             "dico": item.get("dico"),
 
             "created_at_api": parse_datetime(
                 item.get("dates", {}).get("started")
             ),
-
             "updated_at_api": parse_datetime(
                 item.get("dates", {}).get("last_updated")
             ),
 
-            "means_aerial": item.get("means_involved", {}).get("aerial", 0),
-            "means_aquatic": item.get("means_involved", {}).get("aquatic", 0),
-            "means_man": item.get("means_involved", {}).get("man", 0),
-            "means_terrain": item.get("means_involved", {}).get("terrain", 0),
+            "means_aerial": means.get("aerial", 0),
+            "means_aquatic": means.get("aquatic", 0),
+            "means_man": means.get("man", 0),
+            "means_terrain": means.get("terrain", 0),
 
-            "district": item.get("location", {}).get("district"),
-            "county": item.get("location", {}).get("county"),
-            "parish": item.get("location", {}).get("parish"),
+            "district": location.get("district"),
+            "county": location.get("county"),
+            "parish": location.get("parish"),
+            "location_name": location.get("locality"),
+            "region": location.get("region"),
+            "subregion": location.get("subregion"),
 
-            "location_name": item.get("location", {}).get("locality"),
+            "latitude": coords.get("latitude"),
+            "longitude": coords.get("longitude"),
 
-            "region": item.get("location", {}).get("region"),
-            "subregion": item.get("location", {}).get("subregion"),
-
-            "latitude": item.get("coordinates", {}).get("latitude"),
-            "longitude": item.get("coordinates", {}).get("longitude"),
-
-            "status": item.get("occurrence", {}).get("status"),
-            "status_color": item.get("occurrence", {}).get("statuscolor"),
-
-            "natureza_code": item.get("occurrence", {}).get("naturezaCode"),
-            "natureza": item.get("occurrence", {}).get("natureza"),
-            "category": item.get("occurrence", {}).get("category"),
-
-            "kml": item.get("occurrence", {}).get("kml"),
-
-            "significant": item.get("occurrence", {}).get("significant", False),
+            "status": occ.get("status"),
+            "status_color": occ.get("statuscolor"),
+            "natureza_code": occ.get("naturezaCode"),
+            "natureza": occ.get("natureza"),
+            "category": occ.get("category"),
+            "kml": occ.get("kml"),
+            "significant": occ.get("significant", False),
 
             "raw": item,
         },
     )
 
+    weather = item.get("weather") or {}
+
+    if isinstance(weather, dict):
+
+        wind_direction = weather.get("wind_direction") or {}
+
+        if not isinstance(wind_direction, dict):
+            wind_direction = {}
+
+        Weather.objects.update_or_create(
+            incidente=incidente,
+            defaults={
+                "station": weather.get("station"),
+                "distance_km": safe_float(weather.get("distance_km")),
+
+                "temperature_c": safe_float(weather.get("temperature_c")),
+                "temperature_min_c": safe_float(weather.get("temperature_min_c")),
+                "temperature_max_c": safe_float(weather.get("temperature_max_c")),
+
+                "humidity_percent": weather.get("humidity_percent"),
+                "wind_kmh": safe_float(weather.get("wind_kmh")),
+                "precipitation_mmh": safe_float(weather.get("precipitation_mmh")),
+                "pressure_hpa": weather.get("pressure_hpa"),
+
+                "description": weather.get("description"),
+
+                "wind_degree": wind_direction.get("degree"),
+                "wind_cardinal": wind_direction.get("cardinal"),
+            },
+        )
+
     NearbyFireStation.objects.filter(incidente=incidente).delete()
     NearbyEmergency.objects.filter(incidente=incidente).delete()
     NearbyAirbase.objects.filter(incidente=incidente).delete()
 
-    for fs in item.get("nearby_fire_station", []):
+    for fs in item.get("nearby_fire_station", []) or []:
         NearbyFireStation.objects.create(
             incidente=incidente,
             name=fs.get("name"),
@@ -132,7 +174,7 @@ def save_incident(item):
             logo=fs.get("logo"),
         )
 
-    for em in item.get("nearby_emergencies", []):
+    for em in item.get("nearby_emergencies", []) or []:
         NearbyEmergency.objects.create(
             incidente=incidente,
             name=em.get("name"),
@@ -141,7 +183,7 @@ def save_incident(item):
             distance=em.get("distance"),
         )
 
-    for ab in item.get("nearby_airbases", []):
+    for ab in item.get("nearby_airbases", []) or []:
         NearbyAirbase.objects.create(
             incidente=incidente,
             name=ab.get("name"),
@@ -149,6 +191,7 @@ def save_incident(item):
             longitude=ab.get("longitude"),
             distance=ab.get("distance"),
         )
+
 
 def import_incidents():
 
@@ -163,10 +206,7 @@ def import_incidents():
 
     print(f"{len(incidents)} incidentes ativos na API")
 
-    existing = {
-        i.api_id: i
-        for i in IncidenteAPI.objects.all()
-    }
+    existing = {i.api_id: i for i in IncidenteAPI.objects.all()}
 
     to_update = []
     active_ids = set()
@@ -174,6 +214,9 @@ def import_incidents():
     for item in incidents:
 
         id_oc = item.get("id_oc")
+        if not id_oc:
+            continue
+
         active_ids.add(id_oc)
 
         last_updated_api = parse_datetime(
@@ -191,15 +234,9 @@ def import_incidents():
 
     print(f"{len(to_update)} incidentes precisam de atualização")
 
-    futures = []
-
     with ThreadPoolExecutor(max_workers=MAX_THREADS) as executor:
 
-        for id_oc in to_update:
-
-            futures.append(
-                executor.submit(fetch_incident_detail, id_oc)
-            )
+        futures = [executor.submit(fetch_incident_detail, id_oc) for id_oc in to_update]
 
         for future in as_completed(futures):
 
@@ -217,6 +254,7 @@ def import_incidents():
     print(f"{closed} incidentes marcados como encerrados")
 
     print("Incidentes atualizados.")
+
 
 def import_hospitals():
 
@@ -245,6 +283,7 @@ def import_hospitals():
 
     print(f"{len(hospitais)} hospitais importados")
 
+
 def import_bombeiros():
 
     print("Importando BOMBEIROS...")
@@ -272,6 +311,7 @@ def import_bombeiros():
 
     print(f"{len(bombeiros)} bombeiros importados")
 
+
 def import_air_resources():
 
     print("Importando RECURSOS AÉREOS...")
@@ -298,6 +338,7 @@ def import_air_resources():
 
     print(f"{len(recursos)} recursos importados")
 
+
 def fetch_all_apis():
 
     print("Importando dados ...")
@@ -308,6 +349,7 @@ def fetch_all_apis():
     import_air_resources()
 
     print("IMPORT COMPLETO")
+
 
 def fetch_all_apis_clean():
 

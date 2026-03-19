@@ -1,4 +1,5 @@
 import { INCIDENT_ICONS } from "./icons.js";
+import { ICONS } from "./icons.js";
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -61,8 +62,8 @@ document.addEventListener("DOMContentLoaded", () => {
         ">
       </div>
     `,
-    iconSize: [36, 36],        // tamanho do icon
-    iconAnchor: [18, 18]       // centralizar
+    iconSize: [36, 36],       
+    iconAnchor: [18, 18]       
   });
 
   return L.marker([lat, lon], { icon });
@@ -88,33 +89,118 @@ document.addEventListener("DOMContentLoaded", () => {
       ? new Date(inc.updated_at_api).toLocaleString()
       : "";
 
-    const meios = [];
+    const m = inc.means || {};
+    const weather = inc.weather || {};
 
-    if (inc.means_aerial) meios.push(`🚁 Aéreos: ${inc.means_aerial}`);
-    if (inc.means_terrain) meios.push(`🚒 Terrestres: ${inc.means_terrain}`);
-    if (inc.means_aquatic) meios.push(`🛳️ Aquáticos: ${inc.means_aquatic}`);
-    if (inc.means_man) meios.push(`👷 Operacionais: ${inc.means_man}`);
+    const nearbySection = (title, icon, arr) => `
+      <div class="bg-white border rounded-xl shadow-sm overflow-hidden">
 
-    const meiosHtml = meios.length
-      ? `<ul class="list-disc ml-6 space-y-1">${meios.map(m => `<li>${m}</li>`).join("")}</ul>`
-      : `<p class="italic text-gray-500">Sem meios envolvidos</p>`;
-
-    return `
-      <div class="flex flex-col space-y-2">
-        <h3 class="text-2xl font-bold text-red-600">${inc.natureza || "Incidente"}</h3>
-
-        ${inc.status ? `<p><span class="font-semibold">Estado:</span> ${inc.status}</p>` : ""}
-        ${local ? `<p><span class="font-semibold">Local:</span> ${local}</p>` : ""}
-        ${updated ? `<p><span class="font-semibold">Atualizado:</span> ${updated}</p>` : ""}
-
-        <div class="mt-2">
-          <p class="font-semibold">Meios envolvidos:</p>
-          ${meiosHtml}
+        <div class="flex items-center gap-2 px-3 py-2 bg-gray-50 border-b">
+          <span class="text-lg">${icon}</span>
+          <h4 class="font-bold text-gray-700">${title}</h4>
         </div>
 
-        ${inc.kml ? `<p class="mt-2"><a href="${inc.kml}" target="_blank" class="text-blue-600 hover:underline">Ver KML</a></p>` : ""}
+        <div class="divide-y">
 
-        <div class="mt-2 text-gray-500 text-xs">
+          ${
+            arr && arr.length
+              ? arr.map((i) => `
+                  <div class="flex justify-between items-center px-3 py-2 text-sm hover:bg-gray-50 transition">
+
+                    <span class="text-gray-800 font-medium truncate max-w-[180px]">
+                      ${i.name}
+                    </span>
+
+                    <span class="text-gray-500 text-xs whitespace-nowrap">
+                      ${i.distance ? i.distance + " km" : "-"}
+                    </span>
+
+                  </div>
+                `).join("")
+              : `
+                <div class="px-3 py-2 text-sm text-gray-400 italic">
+                  Sem dados disponíveis
+                </div>
+              `
+          }
+
+        </div>
+
+      </div>
+    `;
+
+    const meanBox = (icon, label, value, color) => `
+      <div class="flex flex-col items-center justify-center p-3 rounded-xl shadow bg-white border">
+        <div class="text-2xl">${icon}</div>
+        <div class="text-xs text-gray-500 mt-1">${label}</div>
+        <div class="text-lg font-bold ${color}">${value}</div>
+      </div>
+    `;
+
+    return `
+      <div class="flex flex-col gap-4 text-gray-800">
+
+        <div class="flex justify-between items-center">
+          <h3 class="text-xl font-bold text-red-600">
+            ${inc.natureza || "Incidente"}
+          </h3>
+
+          <span class="text-xs px-2 py-1 rounded bg-red-100 text-red-600 font-semibold">
+            ${inc.status || ""}
+          </span>
+        </div>
+
+        ${local ? `
+          <div class="bg-gray-50 p-2 rounded-lg text-sm">
+            ${ICONS.location} ${local}
+          </div>
+        ` : ""}
+
+        ${updated ? `
+          <div class="text-xs text-gray-500">
+            ${ICONS.time} Ultima atualização: ${updated}
+          </div>
+        ` : ""}
+
+        <div>
+          <p class="font-semibold mb-2">Meios envolvidos</p>
+
+          <div class="grid grid-cols-2 gap-2">
+            ${meanBox(ICONS.means.aerial, "Aéreos", m.aerial || 0, "text-green-600")}
+            ${meanBox(ICONS.means.terrain, "Terrestres", m.terrain || 0, "text-red-600")}
+            ${meanBox(ICONS.means.aquatic, "Aquáticos", m.aquatic || 0, "text-blue-600")}
+            ${meanBox(ICONS.means.man, "Operacionais", m.man || 0, "text-yellow-600")}
+          </div>
+        </div>
+
+        ${weather && Object.keys(weather).length ? `
+          <div class="bg-gradient-to-r from-blue-50 to-blue-100 p-3 rounded-xl shadow-sm">
+            <p class="font-semibold mb-2">🌦️ Meteorologia</p>
+
+            <div class="grid grid-cols-2 gap-2 text-sm">
+
+              <div>${ICONS.weather.temp} Temp: ${weather.temperature_c ?? "-"} ºC</div>
+              <div>${ICONS.weather.humidity} Humidade: ${weather.humidity_percent ?? "-"}%</div>
+
+              <div>${ICONS.weather.wind} Vento: ${weather.wind_kmh ?? "-"} km/h</div>
+              <div>${ICONS.weather.wind_dir} Direção: ${weather.wind_cardinal ?? "-"} (${weather.wind_degree ?? "-"}º)</div>
+
+              <div>${ICONS.weather.pressure} Pressão: ${weather.pressure_hpa ?? "-"} hPa</div>
+              <div>${ICONS.weather.precip} Precipitação: ${weather.precipitation_mmh ?? "-"} mm</div>
+
+              <div>${ICONS.weather.desc} ${weather.description ?? "-"}</div>
+
+            </div>
+          </div>
+        ` : ""}
+
+        ${nearbySection("Bombeiros mais próximos", ICONS.fire, inc.nearby_fire_stations)}
+
+        ${nearbySection("Hospitais mais próximos", ICONS.hospital, inc.nearby_emergencies)}
+
+        ${nearbySection("Bases aéreas mais próximas", ICONS.air, inc.nearby_airbases)}
+
+        <div class="text-xs text-gray-400">
           ID: ${inc.api_id}
         </div>
 
