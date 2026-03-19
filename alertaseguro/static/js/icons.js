@@ -18,6 +18,7 @@ export const INCIDENT_ICONS = {
     "Atropelamento rodoviário": "/static/icons/car-default.svg",
     "Inundação de estruturas ou superfícies por precipitação intensa": "/static/icons/flood.svg",
     "Fuga de Gás em conduta": "/static/icons/meteo.svg",
+    "Fuga de Gás em garrafa": "/static/icons/meteo.svg",
   },
 
   tipo: {
