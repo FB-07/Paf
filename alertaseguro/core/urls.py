@@ -7,6 +7,7 @@ urlpatterns = [
     path("sobre/", views.sobre, name="sobre"),
     path("doacoes/", views.doacoes, name="doacoes"),
     path("precaucoes/", views.precaucoes, name="precaucoes"),
+    path("tabela/", views.tabela, name="tabela"),
     
     #Login/Logout/Registo/Perfil
     path("login/", views.login_view, name="login"),

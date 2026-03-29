@@ -11,3 +11,6 @@ def doacoes(request):
 
 def precaucoes(request):
     return render(request, "Preca.html")
+
+def tabela(request):
+    return render(request, "tabela.html")

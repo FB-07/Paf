@@ -1,4 +1,4 @@
-from .pages import mainpage, sobre, doacoes, precaucoes
+from .pages import mainpage, sobre, tabela, doacoes, precaucoes
 from .avisos import avisos
 from .incidentes import api_incidentes
 from .ipma import rcm_hoje, rcm_amanha

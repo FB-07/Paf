@@ -33,7 +33,7 @@ export const INCIDENT_ICONS = {
 
 export const ICONS = {
     means: {
-      aerial: "🚁",        // aerial: "<img src='/static/icons/heli.svg' class="w-5 h-5 inline-block" />"
+      aerial: "🚁",       // "<img src='/static/icons/heli.svg' class='w-5 h-5 inline-block' />",
       terrain: "🚒",     
       aquatic: "🛳️",    
       man: "👷"         

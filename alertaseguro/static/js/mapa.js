@@ -74,7 +74,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================
   const incidentesLayer = L.layerGroup().addTo(map);
   const markersMap = new Map();
-  const updateNote = document.getElementById("update-note");
 
   function createIncidentHtml(inc) {
 
@@ -179,16 +178,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
             <div class="grid grid-cols-2 gap-2 text-sm">
 
-              <div>${ICONS.weather.temp} Temp: ${weather.temperature_c ?? "-"} ºC</div>
-              <div>${ICONS.weather.humidity} Humidade: ${weather.humidity_percent ?? "-"}%</div>
+              <div>Temp: ${weather.temperature_c ?? "-"} ºC</div>
+              <div>Humidade: ${weather.humidity_percent ?? "-"}%</div>
 
-              <div>${ICONS.weather.wind} Vento: ${weather.wind_kmh ?? "-"} km/h</div>
-              <div>${ICONS.weather.wind_dir} Direção: ${weather.wind_cardinal ?? "-"} (${weather.wind_degree ?? "-"}º)</div>
+              <div>Vento: ${weather.wind_kmh ?? "-"} km/h</div>
+              <div>Direção: ${weather.wind_cardinal ?? "-"} (${weather.wind_degree ?? "-"}º)</div>
 
-              <div>${ICONS.weather.pressure} Pressão: ${weather.pressure_hpa ?? "-"} hPa</div>
-              <div>${ICONS.weather.precip} Precipitação: ${weather.precipitation_mmh ?? "-"} mm</div>
+              <div>Pressão: ${weather.pressure_hpa ?? "-"} hPa</div>
+              <div>Precipitação: ${weather.precipitation_mmh ?? "-"} mm</div>
 
-              <div>${ICONS.weather.desc} ${weather.description ?? "-"}</div>
+              <div>${weather.description ?? "-"}</div>
 
             </div>
           </div>
@@ -208,24 +207,25 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
-  function showUpdateNote(message) {
-
-    updateNote.innerHTML = message;
-
-    updateNote.classList.remove("opacity-0");
-    updateNote.classList.add("opacity-100");
-
-    setTimeout(() => {
-      updateNote.classList.remove("opacity-100");
-      updateNote.classList.add("opacity-0");
-    }, 5000);
+  function getSelectedStatuses() {
+    return {
+      "Em Curso": document.getElementById("statusCurso")?.checked,
+      "Em Resolução": document.getElementById("statusResolucao")?.checked,
+      "Despacho de 1º Alerta": document.getElementById("statusAlerta")?.checked,
+      "Chegada ao TO": document.getElementById("statusChegada")?.checked,
+      "Em Conclusão": document.getElementById("statusConclusao")?.checked,
+    };
   }
 
   function renderIncidentes(data) {
 
     const activeIds = new Set();
 
+    const selectedStatuses = getSelectedStatuses();
+
     data.forEach((inc) => {
+
+      if (!selectedStatuses[inc.status]) return;
 
       activeIds.add(inc.api_id);
 
@@ -275,8 +275,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
 
-      showUpdateNote("Atualizando incidentes... <br> Próxima atualização em 5:00 minutos.");
-
       const res = await fetch("/api/incidentes/");
 
       if (!res.ok) throw new Error("HTTP " + res.status);
@@ -289,13 +287,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
       console.error("Erro a carregar incidentes:", err);
 
-      showUpdateNote("Erro ao atualizar incidentes");
     }
   }
 
   loadIncidentes();
 
   setInterval(loadIncidentes, 5 * 60 * 1000);
+
+  const statusCheckboxes = [
+    "statusCurso",
+    "statusResolucao",
+    "statusAlerta",
+    "statusChegada",
+    "statusConclusao"
+  ];
+
+  statusCheckboxes.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener("change", loadIncidentes);
+    }
+  });
 
   // ==========================
   // Camada municípios
