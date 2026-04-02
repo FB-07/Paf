@@ -252,6 +252,50 @@ class Aviso(models.Model):
     def __str__(self):
         return f"{self.titulo} ({self.gravidade}) {self.dataInicio:%Y-%m-%d %H:%M}"
 
+class Feadback(models.Model):
+    TIPOS = [
+        ("default", "---------"),
+        ("sugestao", "Sugestão"),
+        ("bug", "Bug"),
+        ("outro", "Outro"),
+    ]
+
+    PAGINAS = [
+        ("home", "Página Inicial"),
+        ("doacoes", "Doações"),
+        ("perfil", "Perfil"),
+        ("informacao", "Informação"),
+        ("avisos", "Avisos"),
+        ("precaucoes", "Precauções"),
+        ("tabela", "Tabela de Incidentes"),
+        ("login", "Login"),
+        ("registo", "Registo"),
+        ("sobre", "Sobre"),
+        ("editar_perfil", "Editar Perfil"),
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    tipo = models.CharField(max_length=20, choices=TIPOS, default="default")
+
+    titulo = models.CharField(max_length=200)
+    descricao = models.TextField()
+
+    pagina = models.CharField(
+        max_length=50,
+        choices=PAGINAS,
+        null=True,
+        blank=True
+    )
+
+    #imagem = models.ImageField(upload_to="FeadbackFrom_images/", null=True, blank=True)
+
+    criado_em = models.DateTimeField(auto_now_add=True)
+    atualizado_em = models.DateTimeField(auto_now=True)
+
+    resolvido = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.titulo} ({self.tipo})"
 
 class Notificacao(models.Model):
     TIPOS = [

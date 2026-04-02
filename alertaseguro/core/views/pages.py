@@ -1,5 +1,7 @@
 from django.shortcuts import render
 
+from .. forms import FeadbackFrom
+
 def mainpage(request):
     return render(request, "Mainpage.html")
 
@@ -14,3 +16,8 @@ def precaucoes(request):
 
 def tabela(request):
     return render(request, "tabela.html")
+
+def info(request):
+    form = FeadbackFrom(request.POST or None)
+
+    return render(request, "informacao.html", {"form": form})

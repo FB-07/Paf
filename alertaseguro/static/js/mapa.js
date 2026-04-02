@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     </span>
 
                     <span class="text-gray-500 text-xs whitespace-nowrap">
-                      ${i.distance ? i.distance + " km" : "-"}
+                      ${i.distance ? i.distance : "-"}
                     </span>
 
                   </div>

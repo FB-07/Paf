@@ -1,8 +1,8 @@
 from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+from .models import Feadback
 
-#form
 class RegistoForm(forms.ModelForm):
     password = forms.CharField(
         label="Palavra-passe",
@@ -58,7 +58,6 @@ class RegistoForm(forms.ModelForm):
 
         return user
 
-#form
 class LoginForm(forms.Form):
     username = forms.CharField(
         label="Email ou utilizador",
@@ -96,8 +95,6 @@ class LoginForm(forms.Form):
         self.user = user
         return cleaned
 
-
-#Form
 class EditarPerfilForm(forms.ModelForm):
     password = forms.CharField(
         label="Nova palavra-passe",
@@ -130,3 +127,35 @@ class EditarPerfilForm(forms.ModelForm):
             user.save()
 
         return user
+
+class FeadbackFrom(forms.ModelForm):
+    class Meta:
+        model = Feadback
+        fields = ['tipo', 'pagina', 'titulo', 'descricao']
+
+        widgets = {
+            'tipo': forms.Select(attrs={
+                'class': 'w-full p-[12px] rounded-[12px] bg-gray-100 focus:bg-white focus:outline-none focus:ring-2 focus:ring-red-400 transition'
+            }),
+            'pagina': forms.Select(attrs={
+                'class': 'w-full p-[12px] rounded-[12px] bg-gray-100 focus:bg-white focus:outline-none focus:ring-2 focus:ring-red-400 transition'
+            }),
+            'titulo': forms.TextInput(attrs={
+                'class': 'w-full p-[12px] rounded-[12px] bg-gray-100 focus:bg-white focus:outline-none focus:ring-2 focus:ring-red-400 transition',
+                'placeholder': 'Título'
+            }),
+            'descricao': forms.Textarea(attrs={
+                'class': 'w-full p-[12px] rounded-[12px] bg-gray-100 focus:bg-white focus:outline-none focus:ring-2 focus:ring-red-400 transition',
+                'placeholder': 'Descrição'
+            }),
+        }
+
+        labels = {
+            'tipo': 'Tipo',
+            'pagina': 'Página',
+            'titulo': 'Título',
+            'descricao': 'Descrição',
+        }
+    
+
+

@@ -8,7 +8,11 @@ urlpatterns = [
     path("doacoes/", views.doacoes, name="doacoes"),
     path("precaucoes/", views.precaucoes, name="precaucoes"),
     path("tabela/", views.tabela, name="tabela"),
+    path("informacao/", views.info, name="informacao"),
     
+    #Paginas de admin
+    path("reports/", views.admin_reports, name="admin_reports"),
+
     #Login/Logout/Registo/Perfil
     path("login/", views.login_view, name="login"),
     path("registo/", views.registo_view, name="registo"),
