@@ -61,8 +61,8 @@ def fetch_json(url):
         return None
 
 
-def fetch_incident_detail(id_oc):
-    url = DETAIL_API.format(id_oc)
+def fetch_incident_detail(id):
+    url = DETAIL_API.format(id)
     data = fetch_json(url)
 
     if not data:
@@ -80,9 +80,9 @@ def save_incident(item):
     if not item:
         return
 
-    id_oc = item.get("id_oc")
+    id = item.get("id")
 
-    if not id_oc:
+    if not id:
         return
 
     location = item.get("location") or {}
@@ -91,7 +91,7 @@ def save_incident(item):
     occ = item.get("occurrence") or {}
 
     incidente, _ = IncidenteAPI.objects.update_or_create(
-        api_id=id_oc,
+        api_id=id,
         defaults={
             "dico": item.get("dico"),
 
@@ -213,30 +213,30 @@ def import_incidents():
 
     for item in incidents:
 
-        id_oc = item.get("id_oc")
-        if not id_oc:
+        id = item.get("id")
+        if not id:
             continue
 
-        active_ids.add(id_oc)
+        active_ids.add(id)
 
         last_updated_api = parse_datetime(
             item.get("dates", {}).get("last_updated")
         )
 
-        db_incident = existing.get(id_oc)
+        db_incident = existing.get(id)
 
         if not db_incident:
-            to_update.append(id_oc)
+            to_update.append(id)
             continue
 
         if last_updated_api and db_incident.updated_at_api != last_updated_api:
-            to_update.append(id_oc)
+            to_update.append(id)
 
     print(f"{len(to_update)} incidentes precisam de atualização")
 
     with ThreadPoolExecutor(max_workers=MAX_THREADS) as executor:
 
-        futures = [executor.submit(fetch_incident_detail, id_oc) for id_oc in to_update]
+        futures = [executor.submit(fetch_incident_detail, id) for id in to_update]
 
         for future in as_completed(futures):
 

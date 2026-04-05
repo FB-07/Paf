@@ -1,6 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
-
+from django.contrib.auth.models import AbstractUser, User
 
 class UsersProfile(models.Model):
     TIPOS = [
@@ -17,9 +16,8 @@ class UsersProfile(models.Model):
     def __str__(self):
         return f"{self.user.username} ({self.tipo_utilizador})"
 
-
 class IncidenteAPI(models.Model):
-    api_id = models.CharField(max_length=32, unique=True, db_index=True)
+    api_id = models.CharField(max_length=200, unique=True, db_index=True)
     dico = models.CharField(max_length=10, blank=True, null=True, db_index=True)
     created_at_api = models.DateTimeField(blank=True, null=True)
     updated_at_api = models.DateTimeField(blank=True, null=True)
