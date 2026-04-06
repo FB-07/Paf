@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
-from .models import Feadback
+from .models import Feedback
 
 class RegistoForm(forms.ModelForm):
     password = forms.CharField(
@@ -128,9 +128,9 @@ class EditarPerfilForm(forms.ModelForm):
 
         return user
 
-class FeadbackFrom(forms.ModelForm):
+class FeedbackForm(forms.ModelForm):
     class Meta:
-        model = Feadback
+        model = Feedback
         fields = ['tipo', 'pagina', 'titulo', 'descricao']
 
         widgets = {

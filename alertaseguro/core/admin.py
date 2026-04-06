@@ -8,6 +8,7 @@ from .models import (
     Aviso,
     Notificacao,
     Weather,
+    Feedback,
 )
 
 admin.site.register(UsersProfile)
@@ -18,3 +19,4 @@ admin.site.register(NearbyAirbase)
 admin.site.register(Aviso)
 admin.site.register(Notificacao)
 admin.site.register(Weather)
+admin.site.register(Feedback)

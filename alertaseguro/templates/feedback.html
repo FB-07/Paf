@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Feedback - AlertaSeguro{% endblock %}
+
+{% block body_class %}m-0 p-0 bg-gray-100 font-sans caret-transparent{% endblock %}
+
+{% block content %}
+
+{% include "components/header.html" %}
+{% include "components/menulateral.html" %}
+<div class="mt-[120px] w-full flex flex-col items-center gap-[30px]">
+
+    <div class="bg-[#ffffffcc] w-[420px] p-[30px] rounded-[25px] shadow-[0_4px_10px_rgba(0,0,0,0.2)] text-center">
+
+        <h2 class="text-[30px] text-white px-[10px] py-[10px] rounded-[15px] text-center mt-[1px] mb-[35px] bg-gradient-to-r from-[#ff0000] to-[#b60000]">Bugs/Sugestões</h2>
+
+        <form method="POST" class="flex flex-col items-center gap-[15px] w-full">
+        {% csrf_token %}
+
+        {% for field in form %}
+            <div class="w-full text-left">
+            
+            <label class="block mb-[5px] text-[14px] font-semibold text-gray-700">
+                {{ field.label }}
+            </label>
+
+            {{ field }}
+
+            {% if field.errors %}
+                <p class="text-red-500 text-sm mt-[3px]">
+                {{ field.errors|striptags }}
+                </p>
+            {% endif %}
+
+            </div>
+        {% endfor %}
+        {% if user.is_authenticated %}
+        <button type="submit"
+            class="w-full p-[12px] mt-[15px] text-[18px] rounded-[15px] text-white transition duration-200 bg-[#c62828] hover:scale-105 active:scale-95">
+            Enviar
+        </button>
+        {% else %}
+        <p class="text-gray-600">
+            Precisas de estar autenticado para enviar feedback.
+                <a href="{% url 'login' %}" class="text-red-500 font-semibold hover:underline">Entrar</a>
+                ou
+                <a href="{% url 'registo' %}" class="text-red-500 font-semibold hover:underline">Registar</a>
+                para enviar o teu feedback.
+        </p>
+        {% endif %}
+
+        </form>
+
+        {% if form.non_field_errors %}
+        <p class="text-red-600 mt-[12px]">
+            {{ form.non_field_errors }}
+        </p>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/menulateral.js' %}"></script>
+{% endblock %}

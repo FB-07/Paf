@@ -9,6 +9,7 @@ urlpatterns = [
     path("precaucoes/", views.precaucoes, name="precaucoes"),
     path("tabela/", views.tabela, name="tabela"),
     path("informacao/", views.info, name="informacao"),
+    path("feedback/", views.feedback, name="feedback"),
     
     #Paginas de admin
     path("reports/", views.admin_reports, name="admin_reports"),
@@ -28,6 +29,6 @@ urlpatterns = [
     path("api/rcm/amanha/", views.rcm_amanha, name="rcm_amanha"),
 
     #Cron
-    path("cron/import/", views.cron_import, name="cron_import"),
+    path("cron-import/<str:token>/", views.cron_import, name="cron_import"),
 ]
 

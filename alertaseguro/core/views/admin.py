@@ -1,10 +1,8 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
-from ..models import UsersProfile
-from django.contrib.auth.models import User
-from ..decorators import admin_required
+from django.shortcuts import render
+from ..models import Feedback
 
-@admin_required
 def admin_reports(request):
-    return render(request, "admin/reports.html")
+
+    feedbacks = Feedback.objects.all().order_by('-criado_em')
+
+    return render(request, "admin/reports.html", {"feedbacks": feedbacks})

@@ -1,6 +1,6 @@
 <button id="menu-btn"
   class="fixed top-4 right-8 z-[100000]
-         text-white text-[35px]
+         text-white text-[32px]
          cursor-pointer
          transition-transform duration-200">
   ☰
@@ -14,10 +14,13 @@
 
   <div class="pt-24 flex flex-col text-xl">
     <a href="{% url 'mainpage' %}" class="block px-[20px] py-[12px] text-white font-bold transition hover:text-black hover:bg-[#ffdddd] no-underline">Home</a>
+    <a href="{% url 'tabela' %}" class="block px-[20px] py-[12px] text-white font-bold transition hover:text-black hover:bg-[#ffdddd] no-underline">Tabela</a>
     <a href="{% url 'precaucoes' %}" class="block px-[20px] py-[12px] text-white font-bold transition hover:text-black hover:bg-[#ffdddd] no-underline">Precauções</a>
     <a href="{% url 'doacoes' %}" class="block px-[20px] py-[12px] text-white font-bold transition hover:text-black hover:bg-[#ffdddd] no-underline">Doações</a>
     <a href="{% url 'sobre' %}" class="block px-[20px] py-[12px] text-white font-bold transition hover:text-black hover:bg-[#ffdddd] no-underline">Sobre nós</a>
     <a href="{% url 'avisos' %}" class="block px-[20px] py-[12px] text-white font-bold transition hover:text-black hover:bg-[#ffdddd] no-underline">Avisos</a>
+    <a href="{% url 'informacao' %}" class="block px-[20px] py-[12px] text-white font-bold transition hover:text-black hover:bg-[#ffdddd] no-underline">Informação</a>
+    <a href="{% url 'feedback' %}" class="block px-[20px] py-[12px] text-white font-bold transition hover:text-black hover:bg-[#ffdddd] no-underline">Feedback</a>
 
     {% if user.is_authenticated %}
       <p class="text-white pl-[15px] py-[12px]">Olá, <b>{{ user.username }}</b></p>
@@ -25,6 +28,10 @@
     {% else %}
       <a href="{% url 'login' %}" class="block px-[20px] py-[12px] text-white font-bold transition hover:text-black hover:bg-[#ffdddd] no-underline">Entrar</a>
       <a href="{% url 'registo' %}" class="block px-[20px] py-[12px] text-white font-bold transition hover:text-black hover:bg-[#ffdddd] no-underline">Registar</a>
+    {% endif %}
+    
+    {% if user.is_authenticated and user.is_staff %}
+      <a href="{% url 'admin_reports' %}" class="block px-[20px] py-[12px] text-white font-bold transition hover:text-black hover:bg-[#ffdddd] no-underline">Reports</a>
     {% endif %}
   </div>
 </nav>

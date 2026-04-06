@@ -250,7 +250,7 @@ class Aviso(models.Model):
     def __str__(self):
         return f"{self.titulo} ({self.gravidade}) {self.dataInicio:%Y-%m-%d %H:%M}"
 
-class Feadback(models.Model):
+class Feedback(models.Model):
     TIPOS = [
         ("default", "---------"),
         ("sugestao", "Sugestão"),
@@ -285,7 +285,7 @@ class Feadback(models.Model):
         blank=True
     )
 
-    #imagem = models.ImageField(upload_to="FeadbackFrom_images/", null=True, blank=True)
+    #imagem = models.ImageField(upload_to="FeedbackForm_images/", null=True, blank=True)
 
     criado_em = models.DateTimeField(auto_now_add=True)
     atualizado_em = models.DateTimeField(auto_now=True)
@@ -293,7 +293,7 @@ class Feadback(models.Model):
     resolvido = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.titulo} ({self.tipo})"
+        return f"{self.tipo} | ({self.pagina}) - {self.titulo}"
 
 class Notificacao(models.Model):
     TIPOS = [

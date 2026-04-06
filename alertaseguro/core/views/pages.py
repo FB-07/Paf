@@ -1,6 +1,6 @@
-from django.shortcuts import render
-
-from .. forms import FeadbackFrom
+from django.shortcuts import render, redirect
+from .. forms import FeedbackForm
+from django.contrib.auth.decorators import login_required
 
 def mainpage(request):
     return render(request, "Mainpage.html")
@@ -18,6 +18,19 @@ def tabela(request):
     return render(request, "tabela.html")
 
 def info(request):
-    form = FeadbackFrom(request.POST or None)
+    return render(request, "informacao.html")
 
-    return render(request, "informacao.html", {"form": form})
+def feedback(request):
+    form = FeedbackForm()
+    if request.method == "POST":
+        if not request.user.is_authenticated:
+            return redirect(f'/login/?next={request.path}')
+
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            feedback = form.save(commit=False)
+            feedback.user = request.user
+            feedback.save()
+            return redirect('feedback')
+                
+    return render(request, "feedback.html", {"form": form})
