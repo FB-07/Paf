@@ -240,6 +240,7 @@ class Aviso(models.Model):
     dataInicio = models.DateTimeField()
     dataFim = models.DateTimeField()
     idAreaAviso = models.CharField(max_length=10, blank=True)
+    AreaNome = models.CharField(max_length=100, blank=True)
     criado_em = models.DateTimeField(auto_now_add=True)
     atualizado_em = models.DateTimeField(auto_now=True)
 

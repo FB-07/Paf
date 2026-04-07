@@ -8,7 +8,6 @@
 {% block content %}
 
 {% include "components/header.html" %}
-
 {% include "components/menulateral.html" %}
 
 <main class="mt-[120px] mb-[110px] mx-auto w-[min(980px,92vw)] text-center">
@@ -21,28 +20,29 @@
 
   <section>
     <button id="menu-btn-filtros" class="fixed absolute z-[1001] bg-white text-gray-700 top-[100px] left-[10px] border-0 text-white text-[18px] font-bold rounded-[30px] px-[18px] py-[14px] cursor-pointer transition duration-300 bg-gradient-to-b from-[#b43030] via-[#ff1e00] to-[#9c1717] hover:scale-105">
-      Filtrar
+      Filtros
     </button>
 
     <div id="menu-drop-filtros" class="hidden fixed top-[170px] left-[10px] rounded-[10px] min-w-[220px] shadow-[0_4px_10px_rgba(0,0,0,0.2)] bg-gradient-to-b from-[#b43030] via-[#ff1e00] to-[#9c1717]">
-      <div class="flex items-center gap-[10px] px-[20px] py-[12px] cursor-pointer transition hover:bg-[#ffdddd]">
+      <!-- <div class="flex items-center gap-[10px] px-[20px] py-[12px] cursor-pointer transition hover:bg-[#ffdddd]">
         <input type="checkbox" id="toggleZona" class="m-0 scale-110 cursor-pointer">
         <label for="toggleZona" class="text-white font-bold cursor-pointer select-none">Zona</label>
-      </div>
+      </div> -->
       
-      <p class="text-white">Nivel:</p>
-      <div class="flex items-center gap-[10px] px-[20px] py-[12px] cursor-pointer transition hover:bg-[#ffdddd]">
-        <input type="checkbox" id="toggleModerado" class="m-0 scale-110 cursor-pointer">
+      <p class="text-white px-[20px] py-[10px] text-lg font-bold">Nível:</p>
+
+      <div class="flex items-center gap-[10px] px-[20px] py-[10px] cursor-pointer transition hover:bg-[#ffdddd]">
+        <input type="checkbox" name="filtros" value="yellow" id="toggleModerado" checked>
         <label for="toggleModerado" class="text-white font-bold cursor-pointer select-none">Moderado</label>
       </div>
 
-      <div class="flex items-center gap-[10px] px-[20px] py-[12px] cursor-pointer transition hover:bg-[#ffdddd]">
-        <input type="checkbox" id="toggleElevado" class="m-0 scale-110 cursor-pointer">
+      <div class="flex items-center gap-[10px] px-[20px] py-[10px] cursor-pointer transition hover:bg-[#ffdddd]">
+        <input type="checkbox" name="filtros" value="orange" id="toggleElevado" checked class="m-0 scale-110 cursor-pointer">
         <label for="toggleElevado" class="text-white font-bold cursor-pointer select-none">Elevado</label>
       </div>
 
-      <div class="flex items-center gap-[10px] px-[20px] py-[12px] cursor-pointer transition hover:bg-[#ffdddd]">
-        <input type="checkbox" id="toggleExtremo" class="m-0 scale-110 cursor-pointer">
+      <div class="flex items-center gap-[10px] px-[20px] py-[10px] cursor-pointer transition hover:bg-[#ffdddd]">
+        <input type="checkbox" name="filtros" value="red" id="toggleExtremo" checked class="m-0 scale-110 cursor-pointer">
         <label for="toggleExtremo" class="text-white font-bold cursor-pointer select-none">Extremo</label>
       </div>
     </div>
@@ -52,9 +52,10 @@
 
     {% if avisos %}
     {% for aviso in avisos %}
-    <article class="w-[min(760px,92vw)] rounded-[26px] px-[26px] py-[22px] text-gray-700 shadow-[0_8px_18px_rgba(0,0,0,0.18)] bg-white border-[3px] border
-    {% if aviso.gravidade == 'green' %}border-[#00ff00]{% elif aviso.gravidade == 'yellow' %}border-[#f1c40f]{% elif aviso.gravidade == 'orange' %}border-[#e67e22]{% elif aviso.gravidade == 'red' %}border-[#a50000]{% endif %}">
-
+    <article class="aviso w-[min(760px,92vw)] rounded-[26px] px-[26px] py-[22px] text-gray-700 shadow-[0_8px_18px_rgba(0,0,0,0.18)] bg-white border-[3px] border
+    {% if aviso.gravidade == 'green' %}border-[#00ff00]{% elif aviso.gravidade == 'yellow' %}border-[#f1c40f]{% elif aviso.gravidade == 'orange' %}border-[#e67e22]{% elif aviso.gravidade == 'red' %}border-[#a50000]{% endif %}"
+    data-gravidade="{{ aviso.gravidade }}">
+    
       <h3 class="m-0 mb-[10px] text-[30px] font-bold">{{ aviso.titulo }}</h3>
 
       <div class="flex justify-center gap-[30px] text-[18px] mb-[12px]">

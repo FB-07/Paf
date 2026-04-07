@@ -8,12 +8,12 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         document.querySelectorAll('.aviso').forEach(function (aviso) {
-            const gravidadeAviso = aviso.dataset.gravidade; 
+            const gravidadeAviso = aviso.dataset.gravidade;
 
             if (filtrosSelecionados.length === 0 || filtrosSelecionados.includes(gravidadeAviso)) {
-                aviso.style.display = 'block'; 
+                aviso.style.display = 'block';
             } else {
-                aviso.style.display = 'none'; 
+                aviso.style.display = 'none';
             }
         });
     }
