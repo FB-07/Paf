@@ -10,74 +10,57 @@
 {% include "components/header.html" %}
 {% include "components/menulateral.html" %}
 
-<main class="mt-[120px] mb-[90px] mx-auto w-[90%]">
+<main class="mt-[120px] mb-[90px] mx-auto w-[95%] sm:w-[90%]">
 
-  <!-- Quadrados de Meios (compactos, alinhados na mesma linha) -->
-    <section class="mb-6">
-    
-    <!-- Título dos Meios Totais -->
+  <!-- ========================== -->
+  <!-- Meios Totais -->
+  <!-- ========================== -->
+  <section class="mb-6">
     <h3 class="text-2xl font-bold text-red-600 mb-4 text-center">Meios Totais</h3>
 
-    <div class="flex justify-center gap-4 flex-wrap">
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 justify-center">
 
-        <!-- Terrestres -->
-        <div class="flex flex-col items-center justify-center p-6 bg-white rounded-xl border shadow hover:shadow-lg transition text-center w-50">
-            <div class="text-4xl text-red-600 mb-2">🚒</div>
-            <div class="font-semibold text-lg">Terrestres</div>
-            <div id="meios-terrestres" class="text-2xl font-bold text-red-600 mt-1">0</div>
-        </div>
+      <!-- Terrestres -->
+      <div class="flex flex-col items-center justify-center p-4 sm:p-6 bg-white rounded-xl border shadow hover:shadow-lg transition text-center">
+        <div class="text-3xl sm:text-4xl text-red-600 mb-2">🚒</div>
+        <div class="font-semibold text-lg">Terrestres</div>
+        <div id="meios-terrestres" class="text-xl sm:text-2xl font-bold text-red-600 mt-1">0</div>
+      </div>
 
-        <!-- Aquáticos -->
-        <div class="flex flex-col items-center justify-center p-6 bg-white rounded-xl border shadow hover:shadow-lg transition text-center w-50">
-            <div class="text-4xl text-blue-600 mb-2">🛥️</div>
-            <div class="font-semibold text-lg">Aquáticos</div>
-            <div id="meios-aquaticos" class="text-2xl font-bold text-blue-600 mt-1">0</div>
-        </div>
+      <!-- Aquáticos -->
+      <div class="flex flex-col items-center justify-center p-4 sm:p-6 bg-white rounded-xl border shadow hover:shadow-lg transition text-center">
+        <div class="text-3xl sm:text-4xl text-blue-600 mb-2">🛥️</div>
+        <div class="font-semibold text-lg">Aquáticos</div>
+        <div id="meios-aquaticos" class="text-xl sm:text-2xl font-bold text-blue-600 mt-1">0</div>
+      </div>
 
-        <!-- Aéreos -->
-        <div class="flex flex-col items-center justify-center p-6 bg-white rounded-xl border shadow hover:shadow-lg transition text-center w-50">
-            <div class="text-4xl text-green-600 mb-2">🚁</div>
-            <div class="font-semibold text-lg">Aéreos</div>
-            <div id="meios-aereos" class="text-2xl font-bold text-green-600 mt-1">0</div>
-        </div>
+      <!-- Aéreos -->
+      <div class="flex flex-col items-center justify-center p-4 sm:p-6 bg-white rounded-xl border shadow hover:shadow-lg transition text-center">
+        <div class="text-3xl sm:text-4xl text-green-600 mb-2">🚁</div>
+        <div class="font-semibold text-lg">Aéreos</div>
+        <div id="meios-aereos" class="text-xl sm:text-2xl font-bold text-green-600 mt-1">0</div>
+      </div>
 
-        <!-- Operacionais -->
-        <div class="flex flex-col items-center justify-center p-6 bg-white rounded-xl border shadow hover:shadow-lg transition text-center w-50">
-            <div class="text-4xl text-yellow-600 mb-2">👷</div>
-            <div class="font-semibold text-lg">Operacionais</div>
-            <div id="meios-operacionais" class="text-2xl font-bold text-yellow-600 mt-1">0</div>
-        </div>
+      <!-- Operacionais -->
+      <div class="flex flex-col items-center justify-center p-4 sm:p-6 bg-white rounded-xl border shadow hover:shadow-lg transition text-center">
+        <div class="text-3xl sm:text-4xl text-yellow-600 mb-2">👷</div>
+        <div class="font-semibold text-lg">Operacionais</div>
+        <div id="meios-operacionais" class="text-xl sm:text-2xl font-bold text-yellow-600 mt-1">0</div>
+      </div>
 
     </div>
-    </section>
+  </section>
 
   <!-- ========================== -->
-  <!-- Tabela de Incidentes -->
+  <!-- Incidentes Ativos - cards mobile-first -->
   <!-- ========================== -->
-<section class="mb-6">
-  <!-- Título fora da borda -->
-  <h2 class="text-2xl font-bold text-red-600 mb-4 text-center">Incidentes Ativos</h2>
+  <section class="mb-6">
+    <h2 class="text-2xl font-bold text-red-600 mb-4 text-center">Incidentes Ativos</h2>
 
-  <!-- Tabela com borda estilo card -->
-  <div class="bg-white shadow hover:shadow-lg transition overflow-y-auto max-h-[400px]">
-    <table class="min-w-full border-collapse">
-      <thead>
-        <tr class="sticky top-0 z-10">
-          <th class="p-3 text-left border-b bg-red-600 text-white">Natureza</th>
-          <th class="p-3 text-left border-b bg-red-600 text-white">Localização</th>
-          <th class="p-3 text-left border-b bg-red-600 text-white">Status</th>
-          <th class="p-3 text-left border-b bg-red-600 text-white">Atualizado</th>
-          <th class="p-3 text-left border-b bg-red-600 text-white">Meios Envolvidos</th>
-        </tr>
-      </thead>
-      <tbody id="incidentes-tbody" class="divide-y divide-gray-200">
-        <tr>
-          <td colspan="5" class="text-center p-4">Carregando incidentes...</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</section>
+    <div id="incidentes-container" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div class="text-center text-gray-500 p-4 italic">Carregando incidentes...</div>
+    </div>
+  </section>
 
 </main>
 
@@ -94,11 +77,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
       let terrestres = 0, aquaticos = 0, aereos = 0, operacionais = 0;
 
-      const tbody = document.getElementById('incidentes-tbody');
-      tbody.innerHTML = '';
+      const container = document.getElementById('incidentes-container');
+      container.innerHTML = '';
+
+      if(data.length === 0) {
+        container.innerHTML = '<div class="text-center text-gray-500 p-4 italic">Nenhum incidente ativo</div>';
+        return;
+      }
 
       data.forEach(inc => {
-
         terrestres += inc.means.terrain;
         aquaticos += inc.means.aquatic;
         aereos += inc.means.aerial;
@@ -107,47 +94,39 @@ document.addEventListener('DOMContentLoaded', () => {
         const local = [inc.location_name, inc.parish, inc.county, inc.district].filter(Boolean).join(', ');
 
         const meiosHTML = `
-        <div class="flex gap-1 flex-wrap">
-            <div class="flex items-center gap-1 px-2 py-1 bg-gray-300 rounded">
-            <span>🚒</span> <span>${inc.means.terrain || 0}</span>
-            </div>
-            <div class="flex items-center gap-1 px-2 py-1 bg-gray-300 rounded">
-            <span>🛥️</span> <span>${inc.means.aquatic || 0}</span>
-            </div>
-            <div class="flex items-center gap-1 px-2 py-1 bg-gray-300 rounded">
-            <span>🚁</span> <span>${inc.means.aerial || 0}</span>
-            </div>
-            <div class="flex items-center gap-1 px-2 py-1 bg-gray-300 rounded">
-            <span>👷</span> <span>${inc.means.man || 0}</span>
-            </div>
-        </div>
+          <div class="flex flex-wrap gap-2 mt-2">
+            <div class="flex items-center gap-1 px-2 py-1 bg-gray-200 rounded text-sm">🚒 ${inc.means.terrain || 0}</div>
+            <div class="flex items-center gap-1 px-2 py-1 bg-gray-200 rounded text-sm">🛥️ ${inc.means.aquatic || 0}</div>
+            <div class="flex items-center gap-1 px-2 py-1 bg-gray-200 rounded text-sm">🚁 ${inc.means.aerial || 0}</div>
+            <div class="flex items-center gap-1 px-2 py-1 bg-gray-200 rounded text-sm">👷 ${inc.means.man || 0}</div>
+          </div>
         `;
 
-        const tr = document.createElement('tr');
-        tr.className = 'hover:bg-gray-50 transition';
-        tr.innerHTML = `
-          <td class="p-3 border-b border-gray-200">${inc.natureza || '-'}</td>
-          <td class="p-3 border-b border-gray-200">${local || '-'}</td>
-          <td class="p-3 font-semibold border-b border-gray-200" style="color:${inc.status_color || '#333'}">${inc.status || '-'}</td>
-          <td class="p-3 border-b border-gray-200">${inc.updated_at_api ? new Date(inc.updated_at_api).toLocaleString() : '-'}</td>
-          <td class="p-3 border-b border-gray-200">${meiosHTML}</td>
+        const card = document.createElement('div');
+        card.className = 'bg-white p-4 rounded-xl shadow hover:shadow-lg transition';
+        card.innerHTML = `
+          <div class="flex justify-between items-start mb-2">
+            <h4 class="font-bold text-red-600 text-sm sm:text-base">${inc.natureza || '-'}</h4>
+            <span class="font-semibold text-sm sm:text-base" style="color:${inc.status_color || '#333'}">${inc.status || '-'}</span>
+          </div>
+          <div class="text-gray-600 text-sm sm:text-base">${local || '-'}</div>
+          ${meiosHTML}
+          <div class="text-xs text-gray-500 mt-2">${inc.updated_at_api ? new Date(inc.updated_at_api).toLocaleString() : '-'}</div>
         `;
-        tbody.appendChild(tr);
+        container.appendChild(card);
       });
 
+      // Atualiza os contadores de meios
       document.getElementById('meios-terrestres').textContent = terrestres;
       document.getElementById('meios-aquaticos').textContent = aquaticos;
       document.getElementById('meios-aereos').textContent = aereos;
       document.getElementById('meios-operacionais').textContent = operacionais;
 
-      if(data.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" class="text-center p-4 italic text-gray-500">Nenhum incidente ativo</td></tr>';
-      }
     })
     .catch(err => {
       console.error(err);
-      const tbody = document.getElementById('incidentes-tbody');
-      tbody.innerHTML = '<tr><td colspan="5" class="text-center p-4 text-red-500">Erro ao carregar incidentes</td></tr>';
+      const container = document.getElementById('incidentes-container');
+      container.innerHTML = '<div class="text-center text-red-500 p-4">Erro ao carregar incidentes</div>';
     });
 
 });

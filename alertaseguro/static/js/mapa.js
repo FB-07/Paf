@@ -14,6 +14,10 @@ document.addEventListener("DOMContentLoaded", () => {
     zoomDelta: 0.25
   }).setView([39.9, -8.0], 7);
 
+  setTimeout(() => {
+    map.invalidateSize();
+  }, 300);
+
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',

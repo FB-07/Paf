@@ -3,54 +3,69 @@
 
 {% block title %}Precauções - AlertaSeguro{% endblock %}
 
-{% block body_class %}m-0 p-0 bg-gray-100 font-sans caret-transparent{% endblock %}
+{% block body_class %}m-0 p-0 bg-gray-100 font-sans{% endblock %}
 
 {% block content %}
 
 {% include "components/header.html" %}
-
 {% include "components/menulateral.html" %}
 
-<main class="mt-[120px] mb-[90px] mx-auto w-[80%]">
+<main class="mt-[120px] mb-[90px] mx-auto w-full md:w-[80%] px-4 md:px-0">
 
   <section class="text-center mb-[50px]">
-    <h2 class="inline-block bg-gradient-to-b from-[#b43030] via-[#ff1e00] to-[#9c1717] text-white px-[50px] py-[15px] rounded-[30px] text-[35px]">Precauções</h2>
+    <h2 class="inline-block bg-gradient-to-b from-[#b43030] via-[#ff1e00] to-[#9c1717] text-white px-8 py-3 md:px-[50px] md:py-[15px] rounded-[30px] text-2xl md:text-[35px] font-semibold">
+      Precauções
+    </h2>
   </section>
 
-  <section class="flex items-start gap-[40px] bg-[#ffffffcc] p-[30px] mb-[60px] rounded-[20px] shadow-[0_4px_10px_rgba(0,0,0,0.1)]">
-    <div>
-      <img src="{% static 'imagens/797948.png' %}" alt="Incêndio" class="w-[650px] h-auto rounded-[20px] object-cover">
+  <section class="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-[40px] bg-[#ffffffcc] p-6 md:p-[30px] mb-[60px] rounded-[20px] shadow-[0_4px_10px_rgba(0,0,0,0.1)]">
+    <div class="w-full md:w-auto">
+      <img src="{% static 'imagens/797948.png' %}" alt="Incêndio" class="w-full md:w-[650px] h-auto rounded-[20px] object-cover">
     </div>
-    <div class="flex-1">
-      <h2 class="text-center text-[#9c1717] text-[32px] mb-[20px]">Incêndios</h2>
+    
+    <div class="flex-1 w-full">
+      <h2 class="text-center text-[#9c1717] text-2xl md:text-[32px] mb-[20px] font-bold">Incêndios</h2>
 
       <div class="mb-[20px]">
-        <h3 class="bg-gradient-to-r from-[#ff0000] to-[#b60000] text-white p-[10px] rounded-[15px] text-center mb-[10px]">Como prevenir</h3>
-        <p class="text-[18px] ml-[10px]">- Evite fazer fogueiras...<br>- Não deite pontas de cigarro...</p>
+        <h3 class="bg-gradient-to-r from-[#ff0000] to-[#b60000] text-white p-[10px] rounded-[15px] text-center mb-[10px] font-medium">Como prevenir</h3>
+        <p class="text-sm md:text-[18px] ml-[10px] text-gray-800">
+          - Evite fazer fogueiras...<br>
+          - Não deite pontas de cigarro...
+        </p>
       </div>
 
       <div>
-        <h3 class="bg-gradient-to-r from-[#ff0000] to-[#b60000] text-white p-[10px] rounded-[15px] text-center mb-[10px]">Como agir</h3>
-        <p class="text-[18px] ml-[10px]">- Ligue 112 ou 117...<br>- Afaste-se das zonas de perigo...</p>
+        <h3 class="bg-gradient-to-r from-[#ff0000] to-[#b60000] text-white p-[10px] rounded-[15px] text-center mb-[10px] font-medium">Como agir</h3>
+        <p class="text-sm md:text-[18px] ml-[10px] text-gray-800">
+          - Ligue <strong>112</strong> ou <strong>117</strong>...<br>
+          - Afaste-se das zonas de perigo...
+        </p>
       </div>
     </div>
   </section>
 
-  <section class="flex items-start gap-[40px] bg-[#ffffffcc] p-[30px] mb-[60px] rounded-[20px] shadow-[0_4px_10px_rgba(0,0,0,0.1)]">
-    <div>
-      <img src="{% static 'imagens/acidente-de-via-com-carros-esmagados_342744-677.jpg' %}" alt="Acidente Rodoviário" class="w-[650px] h-auto rounded-[20px] object-cover">
+  <section class="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-[40px] bg-[#ffffffcc] p-6 md:p-[30px] mb-[60px] rounded-[20px] shadow-[0_4px_10px_rgba(0,0,0,0.1)]">
+    <div class="w-full md:w-auto">
+      <img src="{% static 'imagens/acidente-de-via-com-carros-esmagados_342744-677.jpg' %}" alt="Acidente Rodoviário" class="w-full md:w-[650px] h-auto rounded-[20px] object-cover">
     </div>
-    <div class="flex-1">
-      <h2 class="text-center text-[#9c1717] text-[32px] mb-[20px]">Acidentes Rodoviários</h2>
+    
+    <div class="flex-1 w-full">
+      <h2 class="text-center text-[#9c1717] text-2xl md:text-[32px] mb-[20px] font-bold">Acidentes Rodoviários</h2>
 
       <div class="mb-[20px]">
-        <h3 class="bg-gradient-to-r from-[#ff0000] to-[#b60000] text-white p-[10px] rounded-[15px] text-center mb-[10px]">Como prevenir</h3>
-        <p class="text-[18px] ml-[10px]">- Respeite os limites de velocidade...<br>- Não use o telemóvel...</p>
+        <h3 class="bg-gradient-to-r from-[#ff0000] to-[#b60000] text-white p-[10px] rounded-[15px] text-center mb-[10px] font-medium">Como prevenir</h3>
+        <p class="text-sm md:text-[18px] ml-[10px] text-gray-800">
+          - Respeite os limites de velocidade...<br>
+          - Não use o telemóvel...
+        </p>
       </div>
 
       <div>
-        <h3 class="bg-gradient-to-r from-[#ff0000] to-[#b60000] text-white p-[10px] rounded-[15px] text-center mb-[10px]">Como agir</h3>
-        <p class="text-[18px] ml-[10px]">- Ligue 112...<br>- Ajude as vítimas apenas se souber como...</p>
+        <h3 class="bg-gradient-to-r from-[#ff0000] to-[#b60000] text-white p-[10px] rounded-[15px] text-center mb-[10px] font-medium">Como agir</h3>
+        <p class="text-sm md:text-[18px] ml-[10px] text-gray-800">
+          - Ligue <strong>112</strong>...<br>
+          - Ajude as vítimas apenas se souber como...
+        </p>
       </div>
     </div>
   </section>

@@ -1,18 +1,16 @@
 <button id="menu-btn"
-  class="fixed top-4 right-8 z-[100000]
-         text-white text-[32px]
-         cursor-pointer
-         transition-transform duration-200">
+  class="fixed top-3 sm:top-4 right-4 sm:right-8 z-[100000]
+         text-white text-[26px] sm:text-[32px]
+         cursor-pointer transition-transform duration-200">
   ☰
 </button>
 
 <nav id="side-menu"
   class="fixed top-0 right-0 h-full w-0 overflow-hidden
          bg-gradient-to-b from-[#b43030] via-[#ff1e00] to-[#9c1717]
-         transition-all duration-300
-         z-[99999]">
+         transition-all duration-300 z-[99999]">
 
-  <div class="pt-24 flex flex-col text-xl">
+  <div class="pt-19 flex flex-col text-lg sm:text-xl">
     <a href="{% url 'mainpage' %}" class="block px-[20px] py-[12px] text-white font-bold transition hover:text-black hover:bg-[#ffdddd] no-underline">Home</a>
     <a href="{% url 'tabela' %}" class="block px-[20px] py-[12px] text-white font-bold transition hover:text-black hover:bg-[#ffdddd] no-underline">Tabela</a>
     <a href="{% url 'precaucoes' %}" class="block px-[20px] py-[12px] text-white font-bold transition hover:text-black hover:bg-[#ffdddd] no-underline">Precauções</a>

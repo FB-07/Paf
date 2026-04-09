@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block body_class %}
-m-0 p-0 font-sans bg-gray-100 caret-transparent
+m-0 p-0 font-sans bg-gray-100 caret-transparent overflow-x-hidden
 {% endblock %}
 
 {% block content %}
@@ -24,78 +24,88 @@ m-0 p-0 font-sans bg-gray-100 caret-transparent
   <div id="incident-overlay" class="fixed inset-0 bg-black/40 hidden z-[1500]"></div>
 
   <div id="incident-panel"
-    class="fixed top-0 left-0 h-screen w-1/3 max-w-[420px] bg-white shadow-xl z-[1600]
-          transform -translate-x-full transition-transform duration-300 flex flex-col overflow-hidden">
+      class="fixed top-0 left-0 
+              w-full h-screen md:w-1/4 md:h-full
+              bg-white shadow-xl z-[100001]
+              transform -translate-x-full transition-transform duration-300
+              flex flex-col overflow-hidden">
 
-    <div class="flex items-center justify-between p-4 border-b text-white
-                bg-gradient-to-b from-[#b43030] via-[#ff1e00] to-[#9c1717]
-                flex-shrink-0">
+      <div class="flex items-center justify-between p-4 border-b text-white
+                  bg-gradient-to-b from-[#b43030] via-[#ff1e00] to-[#9c1717]
+                  flex-shrink-0">
 
-      <h2 class="font-bold text-lg">Ocorrência</h2>
+        <h2 class="font-bold text-lg">Ocorrência</h2>
 
-      <button id="incident-close"
-        class="text-xl font-bold cursor-pointer hover:scale-110 transition">
-        ⛌
-      </button>
+        <button id="incident-close"
+          class="text-xl font-bold cursor-pointer hover:scale-110 transition">
+          ⛌
+        </button>
 
-    </div>
-
-    <div class="flex-1 overflow-hidden">
-      
-      <div id="incident-content"
-          class="p-4 text-sm overflow-y-auto h-full">
       </div>
 
+      <div class="flex-1 overflow-hidden">
+        <div id="incident-content"
+            class="p-4 text-sm overflow-y-auto h-full">
+        </div>
+      </div>
     </div>
-    
-  </div>
 
-  <div id="menu-filtros" class="fixed top-[100px] left-[10px] z-[1000]">
-    <button id="menu-btn-filtros" class="border-0 text-white text-[18px] font-bold rounded-[30px] px-[18px] py-[14px] cursor-pointer transition duration-300 bg-gradient-to-b from-[#b43030] via-[#ff1e00] to-[#9c1717] hover:scale-105">
+  <div id="menu-filtros" class="fixed top-[80px] left-[10px] sm:top-[100px] z-[1000]">
+
+    <button id="menu-btn-filtros"
+      class="text-white text-[16px] sm:text-[18px] font-bold rounded-[30px] 
+            px-[14px] py-[10px] sm:px-[18px] sm:py-[14px]
+            cursor-pointer transition duration-300
+            bg-gradient-to-b from-[#b43030] via-[#ff1e00] to-[#9c1717] hover:scale-105">
       Filtros
     </button>
 
-    <div id="menu-drop-filtros" class="hidden absolute left-0 top-[70px] rounded-[10px] min-w-[220px] shadow-[0_4px_10px_rgba(0,0,0,0.2)] bg-gradient-to-b from-[#b43030] via-[#ff1e00] to-[#9c1717]">
+    <div id="menu-drop-filtros"
+        class="hidden absolute left-0 top-[70px]
+                w-[220px]
+                rounded-[10px] shadow-[0_4px_10px_rgba(0,0,0,0.2)]
+                bg-gradient-to-b from-[#b43030] via-[#ff1e00] to-[#9c1717]">
 
-      <div class="flex items-center gap-[10px] px-[20px] py-[12px] cursor-pointer transition hover:bg-[#ffdddd]">
+      <div class="flex items-center gap-[10px] px-[16px] py-[10px] cursor-pointer transition hover:bg-[#ffdddd]">
         <input type="checkbox" id="toggleMunicipios" class="m-0 scale-110 cursor-pointer">
         <label for="toggleMunicipios" class="text-white font-bold cursor-pointer select-none">Municípios</label>
       </div>
 
-      <div class="flex items-center gap-[10px] px-[20px] py-[12px] cursor-pointer transition hover:bg-[#ffdddd]">
+      <div class="flex items-center gap-[10px] px-[16px] py-[10px] cursor-pointer transition hover:bg-[#ffdddd]">
         <input type="checkbox" id="toggleRisco0" class="m-0 scale-110 cursor-pointer">
         <label for="toggleRisco0" class="text-white font-bold cursor-pointer select-none">Risco de incêndio hoje</label>
       </div>
 
-      <div class="flex items-center gap-[10px] px-[20px] py-[12px] cursor-pointer transition hover:bg-[#ffdddd]">
+      <div class="flex items-center gap-[10px] px-[16px] py-[10px] cursor-pointer transition hover:bg-[#ffdddd]">
         <input type="checkbox" id="toggleRisco1" class="m-0 scale-110 cursor-pointer">
         <label for="toggleRisco1" class="text-white font-bold cursor-pointer select-none">Risco de incêndio amanhã</label>
       </div>
 
-      <div class="flex items-center gap-[10px] px-[20px] py-[12px] cursor-pointer transition hover:bg-[#ffdddd]">
+      <div class="flex items-center gap-[10px] px-[16px] py-[10px] cursor-pointer transition hover:bg-[#ffdddd]">
         <input type="checkbox" id="statusCurso" class="m-0 scale-110 cursor-pointer" checked>
         <label for="statusCurso" class="text-white font-bold cursor-pointer select-none">Em Curso</label>
       </div>
 
-      <div class="flex items-center gap-[10px] px-[20px] py-[12px] cursor-pointer transition hover:bg-[#ffdddd]">
+      <div class="flex items-center gap-[10px] px-[16px] py-[10px] cursor-pointer transition hover:bg-[#ffdddd]">
         <input type="checkbox" id="statusResolucao" class="m-0 scale-110 cursor-pointer" checked>
         <label for="statusResolucao" class="text-white font-bold cursor-pointer select-none">Em Resolução</label>
       </div>
 
-      <div class="flex items-center gap-[10px] px-[20px] py-[12px] cursor-pointer transition hover:bg-[#ffdddd]">
+      <div class="flex items-center gap-[10px] px-[16px] py-[10px] cursor-pointer transition hover:bg-[#ffdddd]">
         <input type="checkbox" id="statusAlerta" class="m-0 scale-110 cursor-pointer" checked>
         <label for="statusAlerta" class="text-white font-bold cursor-pointer select-none">Despacho de 1º Alerta</label>
       </div>
 
-      <div class="flex items-center gap-[10px] px-[20px] py-[12px] cursor-pointer transition hover:bg-[#ffdddd]">
+      <div class="flex items-center gap-[10px] px-[16px] py-[10px] cursor-pointer transition hover:bg-[#ffdddd]">
         <input type="checkbox" id="statusChegada" class="m-0 scale-110 cursor-pointer" checked>
         <label for="statusChegada" class="text-white font-bold cursor-pointer select-none">Chegada ao TO</label>
       </div>
 
-      <div class="flex items-center gap-[10px] px-[20px] py-[12px] cursor-pointer transition hover:bg-[#ffdddd]">
+      <div class="flex items-center gap-[10px] px-[16px] py-[10px] cursor-pointer transition hover:bg-[#ffdddd]">
         <input type="checkbox" id="statusConclusao" class="m-0 scale-110 cursor-pointer" checked>
         <label for="statusConclusao" class="text-white font-bold cursor-pointer select-none">Em Conclusão</label>
       </div>
+
     </div>
   </div>
 
