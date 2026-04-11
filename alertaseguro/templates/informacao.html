@@ -10,20 +10,33 @@
 {% include "components/header.html" %}
 {% include "components/menulateral.html" %}
 
-<div class="mt-[120px] w-full flex flex-col items-center gap-[30px]">
-    <div class="bg-[#ffffffcc] w-[650px] p-[30px] rounded-[25px] shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
+<div class="mt-[120px] w-full flex flex-col items-center gap-[30px] px-4">
+    <div class="bg-[#ffffffcc] w-full md:w-[650px] p-[20px] md:p-[30px] rounded-[25px] shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
 
-        <h1 class="text-[30px] text-white px-[10px] py-[10px] rounded-[15px] text-center mt-[1px] mb-[30px] bg-gradient-to-r from-[#ff0000] to-[#b60000]">Informações</h1>
-<!--        <p class="text-[18px] text-gray-700 mb-[30px]">Tem alguma sugestão ou encontrou um bug? Envie-nos a sua opinião!</p>-->
+        <h1 class="text-[22px] md:text-[30px] text-white px-[10px] py-[10px] rounded-[15px] text-center mt-[1px] mb-[30px] bg-gradient-to-r from-[#ff0000] to-[#b60000]">
+            Informações
+        </h1>
+
+        <h1 class="text-[22px] md:text-[32px] mb-[10px] text-[#9c1717] text-center">
+            De onde vem a informação?
+        </h1>
+        <p class="text-[14px] md:text-[18px] text-gray-700 mb-[30px]">
+            A informação é recolhida através de fontes públicas, como redes sociais, fóruns e sites de notícias. 
+            Utilizamos técnicas avançadas de processamento de linguagem natural para analisar os dados e identificar potenciais ameaças.
+        </p>
         
-        <h1 class="text-[32px] mb-[10px] text-[#9c1717] text-center">De onde vem a informação?</h1>
-        <p class="text-[18px] text-gray-700 mb-[30px]">A informação é recolhida através de fontes públicas, como redes sociais, fóruns e sites de notícias. Utilizamos técnicas avançadas de processamento de linguagem natural para analisar os dados e identificar potenciais ameaças.</p>
+        <h1 class="text-[22px] md:text-[32px] mb-[10px] text-[#9c1717] text-center">
+            Grau de ameaça
+        </h1>
+        <p class="text-[14px] md:text-[18px] text-gray-700 mb-[35px]">
+            O grau de ameaça é determinado com base na análise dos dados recolhidos, considerando fatores como a gravidade do incidente, 
+            a probabilidade de ocorrência e o impacto potencial.
+        </p>
         
-        <h1 class="text-[32px] mb-[10px] text-[#9c1717] text-center">Grau de ameaça</h1>
-        <p class="text-[18px] text-gray-700 mb-[35px]">O grau de ameaça é determinado com base na análise dos dados recolhidos, considerando fatores como a gravidade do incidente, a probabilidade de ocorrência e o impacto potencial.</p>
-        
-        <h2 class="text-[20px] mb-[10px] text-[#9c1717] text-center">Níveis</h2>
-        <ul class="text-[18px] text-gray-700 mb-[30px] list-disc list-inside text-center">
+        <h2 class="text-[16px] md:text-[20px] mb-[10px] text-[#9c1717] text-center">
+            Níveis
+        </h2>
+        <ul class="text-[14px] md:text-[18px] text-gray-700 mb-[30px] list-disc list-inside text-center">
             <li>1 – Muito Baixo</li>
             <li>2 – Baixo</li>
             <li>3 – Moderado</li>

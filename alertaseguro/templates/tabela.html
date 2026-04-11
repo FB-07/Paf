@@ -12,37 +12,30 @@
 
 <main class="mt-[120px] mb-[90px] mx-auto w-[95%] sm:w-[90%]">
 
-  <!-- ========================== -->
-  <!-- Meios Totais -->
-  <!-- ========================== -->
   <section class="mb-6">
     <h3 class="text-2xl font-bold text-red-600 mb-4 text-center">Meios Totais</h3>
 
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 justify-center">
 
-      <!-- Terrestres -->
-      <div class="flex flex-col items-center justify-center p-4 sm:p-6 bg-white rounded-xl border shadow hover:shadow-lg transition text-center">
+      <div class="flex flex-col items-center justify-center p-4 sm:p-6 bg-white rounded-xl shadow hover:shadow-lg transition text-center">
         <div class="text-3xl sm:text-4xl text-red-600 mb-2">🚒</div>
         <div class="font-semibold text-lg">Terrestres</div>
         <div id="meios-terrestres" class="text-xl sm:text-2xl font-bold text-red-600 mt-1">0</div>
       </div>
 
-      <!-- Aquáticos -->
-      <div class="flex flex-col items-center justify-center p-4 sm:p-6 bg-white rounded-xl border shadow hover:shadow-lg transition text-center">
+      <div class="flex flex-col items-center justify-center p-4 sm:p-6 bg-white rounded-xl shadow hover:shadow-lg transition text-center">
         <div class="text-3xl sm:text-4xl text-blue-600 mb-2">🛥️</div>
         <div class="font-semibold text-lg">Aquáticos</div>
         <div id="meios-aquaticos" class="text-xl sm:text-2xl font-bold text-blue-600 mt-1">0</div>
       </div>
 
-      <!-- Aéreos -->
-      <div class="flex flex-col items-center justify-center p-4 sm:p-6 bg-white rounded-xl border shadow hover:shadow-lg transition text-center">
+      <div class="flex flex-col items-center justify-center p-4 sm:p-6 bg-white rounded-xl shadow hover:shadow-lg transition text-center">
         <div class="text-3xl sm:text-4xl text-green-600 mb-2">🚁</div>
         <div class="font-semibold text-lg">Aéreos</div>
         <div id="meios-aereos" class="text-xl sm:text-2xl font-bold text-green-600 mt-1">0</div>
       </div>
 
-      <!-- Operacionais -->
-      <div class="flex flex-col items-center justify-center p-4 sm:p-6 bg-white rounded-xl border shadow hover:shadow-lg transition text-center">
+      <div class="flex flex-col items-center justify-center p-4 sm:p-6 bg-white rounded-xl shadow hover:shadow-lg transition text-center">
         <div class="text-3xl sm:text-4xl text-yellow-600 mb-2">👷</div>
         <div class="font-semibold text-lg">Operacionais</div>
         <div id="meios-operacionais" class="text-xl sm:text-2xl font-bold text-yellow-600 mt-1">0</div>
@@ -51,9 +44,6 @@
     </div>
   </section>
 
-  <!-- ========================== -->
-  <!-- Incidentes Ativos - cards mobile-first -->
-  <!-- ========================== -->
   <section class="mb-6">
     <h2 class="text-2xl font-bold text-red-600 mb-4 text-center">Incidentes Ativos</h2>
 
@@ -116,7 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
         container.appendChild(card);
       });
 
-      // Atualiza os contadores de meios
       document.getElementById('meios-terrestres').textContent = terrestres;
       document.getElementById('meios-aquaticos').textContent = aquaticos;
       document.getElementById('meios-aereos').textContent = aereos;

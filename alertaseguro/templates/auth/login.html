@@ -11,9 +11,13 @@
 
 {% include "components/menulateral.html" %}
 
-<div class="mt-[120px] w-full flex justify-center">
-  <div class="bg-[#ffffffcc] w-[420px] p-[30px] rounded-[25px] shadow-[0_4px_10px_rgba(0,0,0,0.2)] text-center">
-    <h2 class="text-[32px] mb-[20px] text-[#9c1717]">Entrar</h2>
+<div class="mt-[120px] w-full flex justify-center px-4">
+
+  <div class="bg-[#ffffffcc] w-full max-w-[420px] p-[20px] md:p-[30px] rounded-[25px] shadow-[0_4px_10px_rgba(0,0,0,0.2)] text-center">
+
+    <h2 class="text-[26px] md:text-[32px] mb-[20px] text-[#9c1717]">
+      Entrar
+    </h2>
 
     <form method="POST" class="flex flex-col items-center gap-[15px] w-full">
       {% csrf_token %}
@@ -37,7 +41,7 @@
       {% endfor %}
 
       <button type="submit"
-        class="w-full p-[12px] mt-[15px] text-[18px] rounded-[15px] text-white transition duration-200 bg-[#c62828] hover:scale-105 active:scale-95">
+        class="w-full p-[12px] mt-[15px] text-[16px] md:text-[18px] rounded-[15px] text-white transition duration-200 bg-[#c62828] hover:scale-105 active:scale-95">
         Entrar
       </button>
     </form>
@@ -48,8 +52,12 @@
       </p>
     {% endif %}
 
-    <a href="{% url 'registo' %}" class="inline-block mt-[15px] text-[16px] font-bold text-[#9c1717] no-underline">Criar conta</a>
+    <a href="{% url 'registo' %}" class="inline-block mt-[15px] text-[14px] md:text-[16px] font-bold text-[#9c1717] no-underline">
+      Criar conta
+    </a>
+
   </div>
+
 </div>
 
 {% endblock %}
