@@ -112,6 +112,42 @@ m-0 p-0 font-sans bg-gray-100 caret-transparent overflow-x-hidden
   <main>
     <div id="map" class="w-screen h-screen"></div>
   </main>
+
+  <button id="menu-btn-layers"
+    class="fixed bottom-6 sm:bottom-8 left-4 z-[99999]
+          bg-gradient-to-b from-[#b43030] via-[#ff1e00] to-[#9c1717]
+          p-3 rounded-full shadow-lg hover:scale-110 transition">
+
+    <img src="{% static 'icons/layers-map.svg' %}"
+        class="w-8 h-8 invert brightness-0"
+        alt="Layers">
+  </button>
+
+  <div id="layers-menu"
+      class="hidden fixed bottom-20 left-4 z-[99999]
+              bg-white shadow-xl rounded-xl overflow-hidden w-52">
+
+    <button data-layer="road"
+            class="w-full px-4 py-3 text-left hover:bg-gray-200">
+      🛣️ RoadMap
+    </button>
+
+    <button data-layer="claro"
+            class="w-full px-4 py-3 text-left hover:bg-gray-200">
+      ☀️ Claro
+    </button>
+
+    <button data-layer="escuro"
+            class="w-full px-4 py-3 text-left hover:bg-gray-200">
+      🌙 Escuro
+    </button>
+
+    <button data-layer="satelite"
+            class="w-full px-4 py-3 text-left hover:bg-gray-200">
+      🛰️ Satélite
+    </button>
+
+  </div>
 </div>
 
 <script>
@@ -127,4 +163,5 @@ m-0 p-0 font-sans bg-gray-100 caret-transparent overflow-x-hidden
 <script src="{% static 'js/menulateral.js' %}"></script>
 <script src="{% static 'js/menufiltros.js' %}"></script>
 <script type="module" src="{% static 'js/mapa.js' %}"></script>
+<script src="{% static 'js/mapa-layers.js' %}"></script>
 {% endblock %}
