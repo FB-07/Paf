@@ -37,22 +37,26 @@ document.addEventListener("DOMContentLoaded", () => {
   const baseLayers = {
     road: L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,
-      attribution: "&copy; OpenStreetMap"
+      attribution: "&copy; OpenStreetMap",
+      referrerPolicy: "strict-origin-when-cross-origin"
     }),
 
     claro: L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
       maxZoom: 20,
-      attribution: "&copy; OpenStreetMap & CARTO"
+      attribution: "&copy; OpenStreetMap & CARTO",
+      referrerPolicy: "strict-origin-when-cross-origin"
     }),
 
     escuro: L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
       maxZoom: 20,
-      attribution: "&copy; OpenStreetMap & CARTO"
+      attribution: "&copy; OpenStreetMap & CARTO",
+      referrerPolicy: "strict-origin-when-cross-origin"
     }),
 
     satelite: L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
       maxZoom: 19,
-      attribution: "&copy; Esri"
+      attribution: "&copy; Esri",
+      referrerPolicy: "strict-origin-when-cross-origin"
     })
   };
 
