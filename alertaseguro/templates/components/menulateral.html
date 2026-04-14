@@ -1,82 +1,204 @@
 <button id="menu-btn"
   class="fixed top-3 sm:top-4 right-4 sm:right-8 z-[100000]
-         text-white text-[26px] sm:text-[32px]
-         cursor-pointer transition-transform duration-200">
+         text-white text-[30px] sm:text-[36px]
+         cursor-pointer transition-transform duration-200 hover:scale-110">
   ☰
 </button>
 
 <nav id="side-menu"
   class="fixed top-0 right-0 h-full w-0 overflow-hidden
          bg-gradient-to-b from-[#b43030] via-[#ff1e00] to-[#9c1717]
-         transition-all duration-300 z-[99999]">
+         transition-all duration-300 z-[99999] shadow-2xl">
 
-  <div class="pt-19 flex flex-col text-lg sm:text-xl">
+  <!-- USER -->
+  <div class="px-5 py-4 border-b border-white/20 mb-3">
+    <p class="text-white text-sm opacity-80">Olá,</p>
+    <p class="text-white font-bold text-xl">{{ user.username }}</p>
+  </div>
 
-    <!-- 🔹 GERAL -->
-    <div>
+  <div class="flex flex-col px-2 text-lg sm:text-xl">
+
+    <!-- INCIDENTES -->
+    <div class="mb-2">
+
       <button onclick="toggleSubmenu('submenu-geral')"
-        class="w-full flex justify-between items-center px-[20px] py-[12px] text-white font-bold hover:text-black hover:bg-[#ffdddd] transition">
-        Geral
-        <span id="arrow-submenu-geral">&gt;</span>
+        id="btn-submenu-geral"
+        class="w-full flex justify-between items-center px-4 py-3
+               text-white font-semibold text-lg rounded-lg
+               hover:bg-white/10 transition
+               border-l-4 border-transparent">
+
+        <span>Incidentes</span>
+
+        <span id="arrow-submenu-geral"
+          class="text-white/80 transition-transform duration-200">
+          ▸
+        </span>
       </button>
 
-      <div id="submenu-geral" class="hidden flex flex-col ml-4">
-        <a href="{% url 'mainpage' %}" class="px-[20px] py-[10px] text-white font-bold hover:bg-[#ffdddd] hover:text-black">Home</a>
-        <a href="{% url 'tabela' %}" class="px-[20px] py-[10px] text-white font-bold hover:bg-[#ffdddd] hover:text-black">Tabela</a>
-        <a href="{% url 'precaucoes' %}" class="px-[20px] py-[10px] text-white font-bold hover:bg-[#ffdddd] hover:text-black">Precauções</a>
-        <a href="{% url 'doacoes' %}" class="px-[20px] py-[10px] text-white font-bold hover:bg-[#ffdddd] hover:text-black">Doações</a>
+      <div id="submenu-geral"
+        class="hidden flex flex-col ml-6 mt-1 pl-3 border-l border-white/20 space-y-1">
+
+        <a href="{% url 'mainpage' %}"
+           class="text-white/90 text-base py-2 px-2 rounded-md
+                  hover:bg-white/10 hover:text-white transition">
+          Mapa
+        </a>
+
+        <a href="{% url 'tabela' %}"
+           class="text-white/90 text-base py-2 px-2 rounded-md
+                  hover:bg-white/10 hover:text-white transition">
+          Tabela
+        </a>
+
       </div>
     </div>
 
-    <!-- 🔹 INFORMAÇÃO -->
-    <div>
+    <!-- PRECAUÇÕES -->
+    <a href="{% url 'precaucoes' %}"
+       class="px-4 py-3 text-white font-semibold text-lg rounded-lg
+              hover:bg-white/10 transition">
+      Precauções
+    </a>
+
+    <!-- DOAÇÕES -->
+    <a href="{% url 'doacoes' %}"
+       class="px-4 py-3 text-white font-semibold text-lg rounded-lg
+              hover:bg-white/10 transition">
+      Doações
+    </a>
+
+    <!-- AVISOS -->
+    <a href="{% url 'avisos' %}"
+       class="px-4 py-3 text-white font-semibold text-lg rounded-lg
+              hover:bg-white/10 transition">
+      Avisos
+    </a>
+
+    <!-- INFORMAÇÃO -->
+    <div class="mt-2">
+
       <button onclick="toggleSubmenu('submenu-info')"
-        class="w-full flex justify-between items-center px-[20px] py-[12px] text-white font-bold hover:text-black hover:bg-[#ffdddd] transition">
+        id="btn-submenu-info"
+        class="w-full flex justify-between items-center px-4 py-3
+               text-white font-semibold text-lg rounded-lg
+               hover:bg-white/10 transition
+               border-l-4 border-transparent">
+
         Informação
-        <span id="arrow-submenu-info">&gt;</span>
+
+        <span id="arrow-submenu-info"
+          class="text-white/80 transition-transform duration-200">
+          ▸
+        </span>
       </button>
 
-      <div id="submenu-info" class="hidden flex flex-col ml-4">
-        <a href="{% url 'sobre' %}" class="px-[20px] py-[10px] text-white font-bold hover:bg-[#ffdddd] hover:text-black">Sobre nós</a>
-        <a href="{% url 'avisos' %}" class="px-[20px] py-[10px] text-white font-bold hover:bg-[#ffdddd] hover:text-black">Avisos</a>
-        <a href="{% url 'informacao' %}" class="px-[20px] py-[10px] text-white font-bold hover:bg-[#ffdddd] hover:text-black">Informação</a>
-        <a href="{% url 'feedback' %}" class="px-[20px] py-[10px] text-white font-bold hover:bg-[#ffdddd] hover:text-black">Feedback</a>
+      <div id="submenu-info"
+        class="hidden flex flex-col ml-6 mt-1 pl-3 border-l border-white/20 space-y-1">
+
+        <a href="{% url 'sobre' %}"
+           class="text-white/90 text-base py-2 px-2 rounded-md
+                  hover:bg-white/10 hover:text-white transition">
+          Sobre nós
+        </a>
+
+        <a href="{% url 'informacao' %}"
+           class="text-white/90 text-base py-2 px-2 rounded-md
+                  hover:bg-white/10 hover:text-white transition">
+          Informação
+        </a>
+
+        <a href="{% url 'feedback' %}"
+           class="text-white/90 text-base py-2 px-2 rounded-md
+                  hover:bg-white/10 hover:text-white transition">
+          Feedback
+        </a>
+
       </div>
     </div>
 
-    <!-- 🔹 CONTA -->
-    <div>
+    <!-- CONTA -->
+    <div class="mt-2">
+
       <button onclick="toggleSubmenu('submenu-conta')"
-        class="w-full flex justify-between items-center px-[20px] py-[12px] text-white font-bold hover:text-black hover:bg-[#ffdddd] transition">
+        id="btn-submenu-conta"
+        class="w-full flex justify-between items-center px-4 py-3
+               text-white font-semibold text-lg rounded-lg
+               hover:bg-white/10 transition
+               border-l-4 border-transparent">
+
         Conta
-        <span id="arrow-submenu-conta">&gt;</span>
+
+        <span id="arrow-submenu-conta"
+          class="text-white/80 transition-transform duration-200">
+          ▸
+        </span>
       </button>
 
-      <div id="submenu-conta" class="hidden flex flex-col ml-4">
+      <div id="submenu-conta"
+        class="hidden flex flex-col ml-6 mt-1 pl-3 border-l border-white/20 space-y-1">
 
         {% if user.is_authenticated %}
-          <p class="text-white pl-[20px] py-[8px]">Olá, <b>{{ user.username }}</b></p>
-          <a href="{% url 'perfil' %}" class="px-[20px] py-[10px] text-white font-bold hover:bg-[#ffdddd] hover:text-black">Perfil</a>
+
+          <a href="{% url 'perfil' %}"
+             class="text-white/90 text-base py-2 px-2 rounded-md
+                    hover:bg-white/10 hover:text-white transition">
+            Perfil
+          </a>
+
         {% else %}
-          <a href="{% url 'login' %}" class="px-[20px] py-[10px] text-white font-bold hover:bg-[#ffdddd] hover:text-black">Entrar</a>
-          <a href="{% url 'registo' %}" class="px-[20px] py-[10px] text-white font-bold hover:bg-[#ffdddd] hover:text-black">Registar</a>
+
+          <a href="{% url 'login' %}"
+             class="text-white/90 text-base py-2 px-2 rounded-md
+                    hover:bg-white/10 hover:text-white transition">
+            Entrar
+          </a>
+
+          <a href="{% url 'registo' %}"
+             class="text-white/90 text-base py-2 px-2 rounded-md
+                    hover:bg-white/10 hover:text-white transition">
+            Registar
+          </a>
+
         {% endif %}
 
       </div>
     </div>
 
-    <!-- 🔹 ADMIN -->
+    <!-- ADMIN -->
     {% if user.is_authenticated and user.is_staff %}
-    <div>
+    <div class="mt-2">
+
       <button onclick="toggleSubmenu('submenu-admin')"
-        class="w-full flex justify-between items-center px-[20px] py-[12px] text-white font-bold hover:text-black hover:bg-[#ffdddd] transition">
+        id="btn-submenu-admin"
+        class="w-full flex justify-between items-center px-4 py-3
+               text-white font-semibold text-lg rounded-lg
+               hover:bg-white/10 transition
+               border-l-4 border-transparent">
+
         Admin
-        <span id="arrow-submenu-admin">&gt;</span>
+
+        <span id="arrow-submenu-admin"
+          class="text-white/80 transition-transform duration-200">
+          ▸
+        </span>
       </button>
 
-      <div id="submenu-admin" class="hidden flex flex-col ml-4">
-        <a href="{% url 'admin_reports' %}" class="px-[20px] py-[10px] text-white font-bold hover:bg-[#ffdddd] hover:text-black">Reports</a>
-        <a href="/admin" class="px-[20px] py-[10px] text-white font-bold hover:bg-[#ffdddd] hover:text-black">Django Admin</a>
+      <div id="submenu-admin"
+        class="hidden flex flex-col ml-6 mt-1 pl-3 border-l border-white/20 space-y-1">
+
+        <a href="{% url 'admin_reports' %}"
+           class="text-white/90 text-base py-2 px-2 rounded-md
+                  hover:bg-white/10 hover:text-white transition">
+          Reports
+        </a>
+
+        <a href="/admin"
+           class="text-white/90 text-base py-2 px-2 rounded-md
+                  hover:bg-white/10 hover:text-white transition">
+          Django Admin
+        </a>
+
       </div>
     </div>
     {% endif %}
