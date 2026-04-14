@@ -11,25 +11,75 @@
          transition-all duration-300 z-[99999]">
 
   <div class="pt-19 flex flex-col text-lg sm:text-xl">
-    <a href="{% url 'mainpage' %}" class="block px-[20px] py-[12px] text-white font-bold transition hover:text-black hover:bg-[#ffdddd] no-underline">Home</a>
-    <a href="{% url 'tabela' %}" class="block px-[20px] py-[12px] text-white font-bold transition hover:text-black hover:bg-[#ffdddd] no-underline">Tabela</a>
-    <a href="{% url 'precaucoes' %}" class="block px-[20px] py-[12px] text-white font-bold transition hover:text-black hover:bg-[#ffdddd] no-underline">Precauções</a>
-    <a href="{% url 'doacoes' %}" class="block px-[20px] py-[12px] text-white font-bold transition hover:text-black hover:bg-[#ffdddd] no-underline">Doações</a>
-    <a href="{% url 'sobre' %}" class="block px-[20px] py-[12px] text-white font-bold transition hover:text-black hover:bg-[#ffdddd] no-underline">Sobre nós</a>
-    <a href="{% url 'avisos' %}" class="block px-[20px] py-[12px] text-white font-bold transition hover:text-black hover:bg-[#ffdddd] no-underline">Avisos</a>
-    <a href="{% url 'informacao' %}" class="block px-[20px] py-[12px] text-white font-bold transition hover:text-black hover:bg-[#ffdddd] no-underline">Informação</a>
-    <a href="{% url 'feedback' %}" class="block px-[20px] py-[12px] text-white font-bold transition hover:text-black hover:bg-[#ffdddd] no-underline">Feedback</a>
 
-    {% if user.is_authenticated %}
-      <p class="text-white pl-[15px] py-[12px]">Olá, <b>{{ user.username }}</b></p>
-      <a href="{% url 'perfil' %}" class="block px-[20px] py-[12px] text-white font-bold transition hover:text-black hover:bg-[#ffdddd] no-underline">Perfil</a>
-    {% else %}
-      <a href="{% url 'login' %}" class="block px-[20px] py-[12px] text-white font-bold transition hover:text-black hover:bg-[#ffdddd] no-underline">Entrar</a>
-      <a href="{% url 'registo' %}" class="block px-[20px] py-[12px] text-white font-bold transition hover:text-black hover:bg-[#ffdddd] no-underline">Registar</a>
-    {% endif %}
-    
+    <!-- 🔹 GERAL -->
+    <div>
+      <button onclick="toggleSubmenu('submenu-geral')"
+        class="w-full flex justify-between items-center px-[20px] py-[12px] text-white font-bold hover:text-black hover:bg-[#ffdddd] transition">
+        Geral
+        <span id="arrow-submenu-geral">&gt;</span>
+      </button>
+
+      <div id="submenu-geral" class="hidden flex flex-col ml-4">
+        <a href="{% url 'mainpage' %}" class="px-[20px] py-[10px] text-white font-bold hover:bg-[#ffdddd] hover:text-black">Home</a>
+        <a href="{% url 'tabela' %}" class="px-[20px] py-[10px] text-white font-bold hover:bg-[#ffdddd] hover:text-black">Tabela</a>
+        <a href="{% url 'precaucoes' %}" class="px-[20px] py-[10px] text-white font-bold hover:bg-[#ffdddd] hover:text-black">Precauções</a>
+        <a href="{% url 'doacoes' %}" class="px-[20px] py-[10px] text-white font-bold hover:bg-[#ffdddd] hover:text-black">Doações</a>
+      </div>
+    </div>
+
+    <!-- 🔹 INFORMAÇÃO -->
+    <div>
+      <button onclick="toggleSubmenu('submenu-info')"
+        class="w-full flex justify-between items-center px-[20px] py-[12px] text-white font-bold hover:text-black hover:bg-[#ffdddd] transition">
+        Informação
+        <span id="arrow-submenu-info">&gt;</span>
+      </button>
+
+      <div id="submenu-info" class="hidden flex flex-col ml-4">
+        <a href="{% url 'sobre' %}" class="px-[20px] py-[10px] text-white font-bold hover:bg-[#ffdddd] hover:text-black">Sobre nós</a>
+        <a href="{% url 'avisos' %}" class="px-[20px] py-[10px] text-white font-bold hover:bg-[#ffdddd] hover:text-black">Avisos</a>
+        <a href="{% url 'informacao' %}" class="px-[20px] py-[10px] text-white font-bold hover:bg-[#ffdddd] hover:text-black">Informação</a>
+        <a href="{% url 'feedback' %}" class="px-[20px] py-[10px] text-white font-bold hover:bg-[#ffdddd] hover:text-black">Feedback</a>
+      </div>
+    </div>
+
+    <!-- 🔹 CONTA -->
+    <div>
+      <button onclick="toggleSubmenu('submenu-conta')"
+        class="w-full flex justify-between items-center px-[20px] py-[12px] text-white font-bold hover:text-black hover:bg-[#ffdddd] transition">
+        Conta
+        <span id="arrow-submenu-conta">&gt;</span>
+      </button>
+
+      <div id="submenu-conta" class="hidden flex flex-col ml-4">
+
+        {% if user.is_authenticated %}
+          <p class="text-white pl-[20px] py-[8px]">Olá, <b>{{ user.username }}</b></p>
+          <a href="{% url 'perfil' %}" class="px-[20px] py-[10px] text-white font-bold hover:bg-[#ffdddd] hover:text-black">Perfil</a>
+        {% else %}
+          <a href="{% url 'login' %}" class="px-[20px] py-[10px] text-white font-bold hover:bg-[#ffdddd] hover:text-black">Entrar</a>
+          <a href="{% url 'registo' %}" class="px-[20px] py-[10px] text-white font-bold hover:bg-[#ffdddd] hover:text-black">Registar</a>
+        {% endif %}
+
+      </div>
+    </div>
+
+    <!-- 🔹 ADMIN -->
     {% if user.is_authenticated and user.is_staff %}
-      <a href="{% url 'admin_reports' %}" class="block px-[20px] py-[12px] text-white font-bold transition hover:text-black hover:bg-[#ffdddd] no-underline">Reports</a>
+    <div>
+      <button onclick="toggleSubmenu('submenu-admin')"
+        class="w-full flex justify-between items-center px-[20px] py-[12px] text-white font-bold hover:text-black hover:bg-[#ffdddd] transition">
+        Admin
+        <span id="arrow-submenu-admin">&gt;</span>
+      </button>
+
+      <div id="submenu-admin" class="hidden flex flex-col ml-4">
+        <a href="{% url 'admin_reports' %}" class="px-[20px] py-[10px] text-white font-bold hover:bg-[#ffdddd] hover:text-black">Reports</a>
+        <a href="/admin" class="px-[20px] py-[10px] text-white font-bold hover:bg-[#ffdddd] hover:text-black">Django Admin</a>
+      </div>
+    </div>
     {% endif %}
+
   </div>
 </nav>
