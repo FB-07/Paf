@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import include, path
 from . import views
 
 urlpatterns = [
@@ -20,6 +20,8 @@ urlpatterns = [
     path("logout/", views.logout_view, name="logout"),
     path("perfil/", views.perfil_view, name="perfil"),
     path("editar-perfil/", views.editar_perfil, name="editar_perfil"),
+
+    path('accounts/', include('allauth.urls')),
 
     #API
     path("avisos/", views.avisos, name="avisos"),
