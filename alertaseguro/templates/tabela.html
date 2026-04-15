@@ -57,9 +57,9 @@
 {% endblock %}
 
 {% block js %}
-<script src="{% static 'js/menulateral.js' %}"></script>
+{{ block.super }}
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', () => {
 
   fetch("{% url 'api_incidentes' %}")
     .then(res => res.json())

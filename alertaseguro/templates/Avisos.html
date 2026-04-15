@@ -112,7 +112,7 @@
 {% endblock %}
 
 {% block js %}
-<script src="{% static 'js/menulateral.js' %}"></script>
+{{ block.super }}
 <script src="{% static 'js/menufiltros.js' %}"></script>
 <script src="{% static 'js/avisos.js' %}"></script>
 {% endblock %}
