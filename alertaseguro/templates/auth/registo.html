@@ -35,7 +35,13 @@
             {{ field.label }}
           </label>
 
-          {{ field }}
+          {% if field.field.widget.input_type == "password" %}
+
+            {% include "components/password.html" with field=field %}
+
+          {% else %}
+            {{ field }}
+          {% endif %}
 
           {% if field.errors %}
             <p class="text-red-500 text-sm mt-[3px]">

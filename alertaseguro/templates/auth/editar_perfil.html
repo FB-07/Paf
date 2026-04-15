@@ -19,22 +19,36 @@
     </h2>
 
     <form method="POST" class="flex flex-col gap-[12px]">
+      {% csrf_token %}
       {% for field in form %}
-        <div class="w-full text-left">
+        {% if field.name == "password_atual" and not user.has_usable_password %}
           
-          <label class="block mb-[5px] text-[14px] font-semibold text-gray-700">
-            {{ field.label }}
-          </label>
+        {% else %}
 
-          {{ field }}
+          <div class="w-full text-left">
+            
+            <label class="block mb-[5px] text-[14px] font-semibold text-gray-700">
+              {{ field.label }}
+            </label>
 
-          {% if field.errors %}
-            <p class="text-red-500 text-sm mt-[3px]">
-              {{ field.errors|striptags }}
-            </p>
-          {% endif %}
+            {% if field.field.widget.input_type == "password" %}
 
-        </div>
+              {% include "components/password.html" with field=field %}
+
+            {% else %}
+              {{ field }}
+            {% endif %}
+
+            {% if field.errors %}
+              <p class="text-red-500 text-sm mt-[3px]">
+                {{ field.errors|striptags }}
+              </p>
+            {% endif %}
+
+          </div>
+
+        {% endif %}
+
       {% endfor %}
 
       {% if form.non_field_errors %}
