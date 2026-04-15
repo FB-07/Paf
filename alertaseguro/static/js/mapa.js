@@ -170,7 +170,10 @@ document.addEventListener("DOMContentLoaded", () => {
           <h3 class="text-xl font-bold text-red-600">
             ${inc.natureza || "Incidente"}
           </h3>
-          <span class="text-xs px-2 py-1 rounded bg-red-100 text-red-600 font-semibold">
+          <span 
+            class="text-xs px-2 py-1 rounded font-semibold text-white"
+            style="background:${inc.status_color || '#666'}; opacity:0.7;"
+          >
             ${inc.status || ""}
           </span>
         </div>
