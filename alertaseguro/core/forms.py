@@ -283,3 +283,9 @@ class FeedbackForm(forms.ModelForm):
             'titulo': 'Título',
             'descricao': 'Descrição',
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['tipo'].required = True
+        self.fields['titulo'].required = True
+        self.fields['descricao'].required = True
