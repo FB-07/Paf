@@ -213,42 +213,45 @@ def import_incidents():
 
     for item in incidents:
 
-        id = item.get("id")
-        if not id:
+        api_id = item.get("id")
+        if not api_id:
             continue
 
-        active_ids.add(id)
+        active_ids.add(api_id)
 
         last_updated_api = parse_datetime(
             item.get("dates", {}).get("last_updated")
         )
 
-        db_incident = existing.get(id)
+        db_incident = existing.get(api_id)
 
         if not db_incident:
-            to_update.append(id)
+            to_update.append(api_id)
             continue
 
         if last_updated_api and db_incident.updated_at_api != last_updated_api:
-            to_update.append(id)
+            to_update.append(api_id)
 
     print(f"{len(to_update)} incidentes precisam de atualização")
 
     with ThreadPoolExecutor(max_workers=MAX_THREADS) as executor:
-
-        futures = [executor.submit(fetch_incident_detail, id) for id in to_update]
+        futures = [
+            executor.submit(fetch_incident_detail, i)
+            for i in to_update
+        ]
 
         for future in as_completed(futures):
-
             detail = future.result()
+            if detail:
+                save_incident(detail)
 
-            if not detail:
-                continue
+    closed_qs = IncidenteAPI.objects.exclude(
+        api_id__in=active_ids
+    ).exclude(status="Encerrada")
 
-            save_incident(detail)
-
-    closed = IncidenteAPI.objects.exclude(api_id__in=active_ids).update(
-        status="Encerrada"
+    closed = closed_qs.update(
+        status="Encerrada",
+        updated_at_api=timezone.now()
     )
 
     print(f"{closed} incidentes marcados como encerrados")

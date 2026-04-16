@@ -21,6 +21,17 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  document.addEventListener("click", (event) => {
+    if (!menu || !menuBtn) return;
+
+    const clickedInsideMenu = menu.contains(event.target);
+    const clickedButton = menuBtn.contains(event.target);
+
+    if (!menu.classList.contains("hidden") && !clickedInsideMenu && !clickedButton) {
+      menu.classList.add("hidden");
+    }
+  });
+
   // ==========================
   // MAPA
   // ==========================

@@ -1,3 +1,4 @@
+from pyexpat.errors import messages
 from django.shortcuts import render, redirect
 from .. forms import FeedbackForm
 from django.contrib.auth.decorators import login_required
@@ -31,6 +32,7 @@ def feedback(request):
             feedback = form.save(commit=False)
             feedback.user = request.user
             feedback.save()
+            messages.success(request, "Feedback enviado com sucesso!")
             return redirect('feedback')
                 
     return render(request, "feedback.html", {"form": form})
