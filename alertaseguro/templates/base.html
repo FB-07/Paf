@@ -22,18 +22,31 @@
   <div class="fixed top-[80px] sm:bottom-[80px] right-4 z-[9999] space-y-2">
     {% for message in messages %}
 
-        <div class="toast px-4 py-3 rounded-lg shadow-lg text-white
+        <div class="toast px-4 py-3 rounded-lg shadow-lg text-white flex items-center gap-2
                     {% if message.tags == 'success' %}bg-green-600
                     {% elif message.tags == 'error' %}bg-red-600
                     {% elif message.tags == 'warning' %}bg-yellow-500
                     {% else %}bg-blue-600{% endif %}">
 
-            {{ message }}
+            {% if message.tags == "success" %}
+                <img src="{% static 'icons/check.svg' %}" class="w-5 h-5" alt="Success">
+            {% elif message.tags == "error" %}
+                <img src="{% static 'icons/xmark.svg' %}" class="w-5 h-5" alt="Error">
+            {% elif message.tags == "warning" %}
+                <img src="{% static 'icons/warning.svg' %}" class="w-5 h-5" alt="Warning">
+            {% else %}
+                <img src="{% static 'icons/info.svg' %}" class="w-5 h-5" alt="Info">
+            {% endif %}
+
+            <span>{{ message }}</span>
+
         </div>
 
     {% endfor %}
   </div>
 {% endif %}
+
+{% include "components/topo.html" %}
 
 {% block content %}
 
@@ -41,6 +54,7 @@
 
 {% block js %}
 
+<script src="{% static 'js/topo.js' %}"></script>
 <script src="{% static 'js/admin.js' %}"></script>    
 <script src="{% static 'js/toast.js' %}"></script>
 <script src="{% static 'js/menulateral.js' %}"></script>

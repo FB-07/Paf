@@ -33,23 +33,25 @@
 
       <ul class="list-disc pl-[20px] md:pl-[24px]">
         <li class="text-[14px] md:text-[16px] text-black text-left">
-          Os dados são retirados da ANEPC e IPMA
+          Os dados são retirados da ANEPC, IPMA, Acidentes ativos e outros dados públicos.
         </li>
         <li class="text-[14px] md:text-[16px] text-black text-left">
-          A localização é aproximada
+          A localização não é exata, é aproximada.
         </li>
       </ul>
 
       <p class="text-[16px] md:text-[18px] text-black text-left mt-[16px]">
-        Caso tenha sugestões ou bugs contacte:
+        Caso tenha <a href="{% url 'feedback' %}" class="text-red-500 hover:underline cursor-pointer">sugestões ou bugs</a> contacte:
       </p>
 
       <ul class="list-disc pl-[20px] md:pl-[24px]">
         <li class="text-[14px] md:text-[16px] text-black text-left">
           Email: 5477@eclisboa.net
         </li>
+        <li class="text-[14px] md:text-[16px] text-black text-left">
+          Ou preencha o formulário de <a href="{% url 'feedback' %}" class="text-red-500 hover:underline cursor-pointer">Feedback</a>.
+        </li>
       </ul>
-
     </div>
   </div>
 

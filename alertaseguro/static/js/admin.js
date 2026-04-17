@@ -1,16 +1,23 @@
-let buffer = "";
+let buffer = [];
 
 document.addEventListener("keydown", (e) => {
-  buffer += e.key.toLowerCase();
+  buffer.push(e.key);
+  
+  if (buffer.length > 9) buffer.shift();
 
-  buffer = buffer.slice(-5);
+  const sequence = [
+    "ArrowUp",
+    "ArrowUp",
+    "ArrowDown",
+    "ArrowDown",
+    "a",
+    "d",
+    "m",
+    "i",
+    "n"
+  ];
 
-  if (buffer.endsWith("admin")) {
+  if (buffer.join(",") === sequence.join(",")) {
     window.location.href = "/admin";
   }
-  /*
-  if (buffer.endsWith("home") || buffer.endsWith("back")) {
-    window.location.href = "/";
-  }
-  */
 });
