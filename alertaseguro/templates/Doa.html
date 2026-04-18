@@ -8,66 +8,161 @@
 {% block content %}
 
 {% include "components/header.html" %}
-
 {% include "components/menulateral.html" %}
 
-<main class="mt-[120px] mb-[90px] sm:mb-[110px] mx-auto w-full px-4 text-center">
+<main class="mt-[80px] sm:mt-[100px] mb-[60px] mx-auto w-full px-4 text-center">
 
-  <section class="mb-[40px]">
+  <section class="mb-[35px]">
     <h2 class="inline-block bg-gradient-to-b from-[#b43030] via-[#ff1e00] to-[#9c1717] text-white px-6 md:px-[50px] py-3 md:py-[15px] rounded-[30px] text-[22px] md:text-[35px]">
       Doações
     </h2>
   </section>
 
-  <section class="flex flex-wrap justify-center gap-[20px] md:gap-[40px] max-[1000px]:flex-col max-[1000px]:items-center">
+  <section class="grid grid-cols-1 md:grid-cols-4 gap-x-[10px] gap-y-[20px] justify-items-center">
 
-    <div class="bg-[#ffffffcc] rounded-[20px] shadow-[0_4px_10px_rgba(0,0,0,0.1)] p-[20px] md:p-[30px] text-center w-full max-w-[350px] transition hover:scale-105">
+    <a href="https://apoiar.cruzvermelha.pt/" target="_blank" rel="noopener noreferrer">
+      <div class="bg-[#ffffffcc] rounded-[20px] shadow-[0_4px_10px_rgba(0,0,0,0.1)] p-[24px] md:p-[36px] text-center w-full max-w-[420px] transition hover:scale-105">
 
-      <h3 class="bg-gradient-to-r from-[#ff0000] to-[#b60000] text-white p-[10px] rounded-[15px] mb-[15px]">
-        GoFundMe
-      </h3>
+        <h3 class="bg-gradient-to-r from-[#ff0000] to-[#b60000] text-white p-[10px] rounded-[15px] mb-[15px]">
+          Cruz Vermelha
+        </h3>
 
-      <img src="https://cdn.pixabay.com/photo/2016/03/27/21/16/firefighters-1282360_1280.jpg"
-           alt="GoFundMe"
-           class="w-full h-[180px] md:h-[220px] rounded-[20px] object-cover mb-[15px]">
+        <img src="{% static 'imagens/cruz_vermelha.jpg' %}"
+            alt="Cruz Vermelha Portuguesa"
+            class="w-full h-[180px] md:h-[220px] rounded-[20px] object-cover mb-[15px]">
 
-      <p class="text-[14px] md:text-[18px] text-black text-left">
-        Lorem Ipsum é simplesmente um texto fictício da indústria tipográfica...
-      </p>
+        <p class="text-[14px] md:text-[18px] text-black text-left">
+          A missão da Cruz Vermelha Portuguesa é prestar apoio humanitário em situações de emergência, promovendo a saúde, segurança e dignidade das pessoas em todo o país em território nacional atuação.
+        </p>
 
-    </div>
+      </div>
+    </a>
 
-    <div class="bg-[#ffffffcc] rounded-[20px] shadow-[0_4px_10px_rgba(0,0,0,0.1)] p-[20px] md:p-[30px] text-center w-full max-w-[350px] transition hover:scale-105">
+    <a href="https://donativos.msf.org.pt/" target="_blank" rel="noopener noreferrer">
+      <div class="bg-[#ffffffcc] rounded-[20px] shadow-[0_4px_10px_rgba(0,0,0,0.1)] p-[24px] md:p-[36px] text-center w-full max-w-[420px] transition hover:scale-105">
 
-      <h3 class="bg-gradient-to-r from-[#ff0000] to-[#b60000] text-white p-[10px] rounded-[15px] mb-[15px]">
-        IRA
-      </h3>
+        <h3 class="bg-gradient-to-r from-[#ff0000] to-[#b60000] text-white p-[10px] rounded-[15px] mb-[15px]">
+          Médicos Sem Fronteiras
+        </h3>
 
-      <img src="https://cdn.pixabay.com/photo/2017/02/20/19/21/dog-2088428_1280.jpg"
-           alt="IRA"
-           class="w-full h-[180px] md:h-[220px] rounded-[20px] object-cover mb-[15px]">
+        <img src="{% static 'imagens/msf.png' %}"
+            alt="Médicos Sem Fronteiras"
+            class="w-full h-[180px] md:h-[220px] rounded-[20px] object-cover mb-[15px]">
 
-      <p class="text-[14px] md:text-[18px] text-black text-left">
-        Lorem Ipsum é simplesmente um texto fictício da indústria tipográfica...
-      </p>
+        <p class="text-[14px] md:text-[18px] text-black text-left">
+          A missão dos Médicos Sem Fronteiras é prestar cuidados médicos em zonas de guerra, epidemias e catástrofes naturais, atuando de forma independente e imparcial em todo o mundo.
+        </p>
 
-    </div>
+      </div>
+    </a>
 
-    <div class="bg-[#ffffffcc] rounded-[20px] shadow-[0_4px_10px_rgba(0,0,0,0.1)] p-[20px] md:p-[30px] text-center w-full max-w-[350px] transition hover:scale-105">
+    <a href="https://nira.pt/doacoes" target="_blank" rel="noopener noreferrer">
+      <div class="bg-[#ffffffcc] rounded-[20px] shadow-[0_4px_10px_rgba(0,0,0,0.1)] p-[24px] md:p-[36px] text-center w-full max-w-[420px] transition hover:scale-105">
 
-      <h3 class="bg-gradient-to-r from-[#ff0000] to-[#b60000] text-white p-[10px] rounded-[15px] mb-[15px]">
-        Ajuda de berço
-      </h3>
+        <h3 class="bg-gradient-to-r from-[#ff0000] to-[#b60000] text-white p-[10px] rounded-[15px] mb-[15px]">
+          IRA
+        </h3>
 
-      <img src="https://cdn.pixabay.com/photo/2017/01/23/23/57/child-2004344_1280.jpg"
-           alt="Ajuda de berço"
-           class="w-full h-[180px] md:h-[220px] rounded-[20px] object-cover mb-[15px]">
+        <img src="https://nira.pt/media/catalog/product/placeholder/default/image_1.jpg"
+            alt="IRA"
+            class="w-full h-[180px] md:h-[220px] rounded-[20px] object-cover mb-[15px]">
 
-      <p class="text-[14px] md:text-[18px] text-black text-left">
-        Lorem Ipsum é simplesmente um texto fictício da indústria tipográfica...
-      </p>
+        <p class="text-[14px] md:text-[18px] text-black text-left">
+          A missão do IRA é resgatar e proteger animais em risco, atuando em situações de abandono, maus-tratos e emergência, em colaboração com autoridades para uma resposta rápida e eficaz constante.
+        </p>
 
-    </div>
+      </div>
+    </a>
+
+    <a href="https://www.ajudadeberco.pt/ajudar/" target="_blank" rel="noopener noreferrer">
+      <div class="bg-[#ffffffcc] rounded-[20px] shadow-[0_4px_10px_rgba(0,0,0,0.1)] p-[24px] md:p-[36px] text-center w-full max-w-[420px] transition hover:scale-105">
+
+        <h3 class="bg-gradient-to-r from-[#ff0000] to-[#b60000] text-white p-[10px] rounded-[15px] mb-[15px]">
+          Ajuda de Berço
+        </h3>
+
+        <img src="https://www.ajudadeberco.pt/wp-content/uploads/2023/11/Ajuda-de-Berco.png"
+            alt="Ajuda de Berço"
+            class="w-full h-[180px] md:h-[220px] rounded-[20px] object-cover mb-[15px]">
+
+        <p class="text-[14px] md:text-[18px] text-black text-left">
+          A missão da Ajuda de Berço é acolher e proteger crianças e jovens em risco, garantindo cuidados, segurança e apoio até encontrarem uma vida estável e protegida em Portugal presente.
+        </p>
+
+      </div>
+    </a>
+
+    <a href="https://www.bancoalimentar.pt/faca-um-donativo/" target="_blank" rel="noopener noreferrer">
+      <div class="bg-[#ffffffcc] rounded-[20px] shadow-[0_4px_10px_rgba(0,0,0,0.1)] p-[24px] md:p-[36px] text-center w-full max-w-[420px] transition hover:scale-105">
+
+        <h3 class="bg-gradient-to-r from-[#ff0000] to-[#b60000] text-white p-[10px] rounded-[15px] mb-[15px]">
+          Banco Alimentar
+        </h3>
+
+        <img src="{% static 'imagens/banco_alimentar.jpg' %}"
+            alt="Banco Alimentar Contra a Fome"
+            class="w-full h-[180px] md:h-[220px] rounded-[20px] object-cover mb-[15px]">
+
+        <p class="text-[14px] md:text-[18px] text-black text-left">
+          A missão do Banco Alimentar é combater a fome e o desperdício alimentar, recolhendo e distribuindo alimentos a pessoas e famílias em situação de carência em Portugal continental e local.
+        </p>
+
+      </div>
+    </a>
+
+    <a href="https://donativos.unicef.pt/campanha/amigos-unicef/?utm_source=www.google.com&utm_medium=referral" target="_blank" rel="noopener noreferrer">
+      <div class="bg-[#ffffffcc] rounded-[20px] shadow-[0_4px_10px_rgba(0,0,0,0.1)] p-[24px] md:p-[36px] text-center w-full max-w-[420px] transition hover:scale-105">
+
+        <h3 class="bg-gradient-to-r from-[#ff0000] to-[#b60000] text-white p-[10px] rounded-[15px] mb-[15px]">
+          UNICEF
+        </h3>
+
+        <img src="{% static 'imagens/unicef.png' %}"
+            alt="UNICEF Portugal"
+            class="w-full h-[180px] md:h-[220px] rounded-[20px] object-cover mb-[15px]">
+
+        <p class="text-[14px] md:text-[18px] text-black text-left">
+          A missão da UNICEF é proteger os direitos das crianças, promovendo o acesso a saúde, educação e proteção em situações de vulnerabilidade em Portugal e no mundo global e contínua.
+        </p>
+
+      </div>
+    </a>
+
+    <a href="https://donate.wfp.org/1243/donation/regular/?campaign=1517&survey=true" target="_blank" rel="noopener noreferrer">
+      <div class="bg-[#ffffffcc] rounded-[20px] shadow-[0_4px_10px_rgba(0,0,0,0.1)] p-[24px] md:p-[36px] text-center w-full max-w-[420px] transition hover:scale-105">
+
+        <h3 class="bg-gradient-to-r from-[#ff0000] to-[#b60000] text-white p-[10px] rounded-[15px] mb-[15px]">
+          WFP (ONU)
+        </h3>
+
+        <img src="{% static 'imagens/wfp.png' %}"
+            alt="World Food Programme"
+            class="w-full h-[180px] md:h-[220px] rounded-[20px] object-cover mb-[15px]">
+
+        <p class="text-[14px] md:text-[18px] text-black text-left">
+          A missão do Programa Alimentar Mundial é responder a emergências humanitárias em todo o mundo, incluindo catástrofes naturais e crises alimentares, fornecendo ajuda rápida às populações afetadas.
+        </p>
+
+      </div>
+    </a>
+
+    <a href="https://www.gofundme.com/discover" target="_blank" rel="noopener noreferrer">
+      <div class="bg-[#ffffffcc] rounded-[20px] shadow-[0_4px_10px_rgba(0,0,0,0.1)] p-[24px] md:p-[36px] text-center w-full max-w-[420px] transition hover:scale-105">
+
+        <h3 class="bg-gradient-to-r from-[#ff0000] to-[#b60000] text-white p-[10px] rounded-[15px] mb-[15px]">
+          GoFundMe
+        </h3>
+
+        <img src="https://www.gofundme.com/g/GFM-1200x628-1.png"
+            alt="GoFundMe"
+            class="w-full h-[180px] md:h-[220px] rounded-[20px] object-cover mb-[15px]">
+
+        <p class="text-[14px] md:text-[18px] text-black text-left">
+          A missão do GoFundMe é capacitar pessoas e comunidades a ajudarem-se mutuamente, através da angariação de fundos para causas pessoais e emergências, num espaço seguro e transparente online.
+        </p>
+
+      </div>
+    </a>
 
   </section>
 </main>

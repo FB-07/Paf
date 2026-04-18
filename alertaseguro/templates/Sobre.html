@@ -11,7 +11,7 @@
 
 {% include "components/menulateral.html" %}
 
-<main class="mt-[120px] mb-[90px] mx-auto w-full px-4 text-center">
+<main class="mt-[80px] sm:mt-[100px] mx-auto w-full px-4 text-center">
 
   <div class="flex gap-[40px] justify-center max-[1000px]:flex-col max-[1000px]:items-center">
 
@@ -52,6 +52,10 @@
           Ou preencha o formulário de <a href="{% url 'feedback' %}" class="text-red-500 hover:underline cursor-pointer">Feedback</a>.
         </li>
       </ul>
+
+      <p class="text-[16px] md:text-[18px] text-black text-left mt-[16px]">
+        Para mais <a href="{% url 'informacao' %}" class="hover:underline cursor-pointer">informação</a> va a <a href="{% url 'informacao' %}" class="text-red-500 hover:underline cursor-pointer">Informação</a> 
+      </p>
     </div>
   </div>
 
