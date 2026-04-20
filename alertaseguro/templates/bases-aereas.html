@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Bases Aéreas - AlertaSeguro{% endblock %}
+
+{% block body_class %}m-0 p-0 bg-gray-100 font-sans{% endblock %}
+
+{% block content %}
+
+{% include "components/header.html" %}
+{% include "components/menulateral.html" %}
+
+<main class="mt-[80px] mb-[40px] sm:mt-[100px] mx-auto w-full md:w-[80%] px-4 md:px-0">
+
+  <section class="text-center mb-[35px]">
+    <h2 class="inline-block bg-gradient-to-b from-[#b43030] via-[#ff1e00] to-[#9c1717] text-white px-8 py-3 rounded-[30px] text-2xl md:text-[35px] font-semibold">
+      Bases Aéreas
+    </h2>
+  </section>
+
+  {% include "components/search_bar.html" %}
+
+  <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+    {% for base in air_resources %}
+
+    <div class="bg-[#ffffffcc] rounded-[20px] shadow-[0_4px_10px_rgba(0,0,0,0.1)] overflow-hidden aspect-square flex flex-col">
+
+      <div class="h-1/2 bg-gray-200">
+        <img src="{% static 'imagens/bases_aereas.png' %}" class="w-full h-full object-cover">
+      </div>
+
+      <div class="p-4 flex-1 overflow-auto">
+
+        <h3 class="text-[#9c1717] font-bold text-lg mb-2">
+          {{ base.name }}
+        </h3>
+
+        <p class="text-sm text-gray-800">
+          {{ base.type|default:"Base aérea" }}
+        </p>
+
+      </div>
+
+    </div>
+
+    {% endfor %}
+
+  </section>
+
+  <div class="flex justify-center items-center gap-3 mt-10">
+
+    {% if air_resources.has_previous %}
+      <a href="?page={{ air_resources.previous_page_number }}"
+         class="px-4 py-2 bg-gray-300 rounded-[10px]">Anterior</a>
+    {% endif %}
+
+    <span class="px-4 py-2 bg-white rounded-[10px] shadow">
+      Página {{ air_resources.number }} de {{ air_resources.paginator.num_pages }}
+    </span>
+
+    {% if air_resources.has_next %}
+      <a href="?page={{ air_resources.next_page_number }}"
+         class="px-4 py-2 bg-red-500 text-white rounded-[10px]">Seguinte</a>
+    {% endif %}
+
+  </div>
+
+</main>
+
+{% endblock %}

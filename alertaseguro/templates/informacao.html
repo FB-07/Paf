@@ -3,64 +3,135 @@
 
 {% block title %}Informações - AlertaSeguro{% endblock %}
 
-{% block body_class %}m-0 p-0 bg-gray-100 font-sans caret-transparent{% endblock %}
+{% block body_class %}m-0 p-0 bg-gray-100 font-sans text-slate-900{% endblock %}
 
 {% block content %}
 
 {% include "components/header.html" %}
 {% include "components/menulateral.html" %}
 
-<div class="mb-[30px] mt-[80px] sm:mt-[100px] w-full flex flex-col items-center gap-[30px] px-4">
-    <div class="bg-[#ffffffcc] w-full md:w-[650px] p-[20px] md:p-[30px] rounded-[25px] shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
+<main class="mt-[80px] sm:mt-[100px] mx-auto w-full md:w-[80%] px-4 md:px-0">
 
-        <h1 class="text-[22px] md:text-[30px] text-white px-[10px] py-[10px] rounded-[15px] text-center mt-[1px] mb-[30px] bg-gradient-to-r from-[#ff0000] to-[#b60000]">
-            Informações
-        </h1>
+  <section class="text-center mb-[35px]">
+    <h2 class="inline-block bg-gradient-to-b from-[#b43030] via-[#ff1e00] to-[#9c1717] text-white px-8 py-3 md:px-[50px] md:py-[15px] rounded-[30px] text-2xl md:text-[35px] font-semibold">
+      Informações
+    </h2>
+  </section>
 
-        <p class="text-[14px] md:text-[18px] text-gray-700 mb-[10px]">
-            As informações são coletadas a partir de fontes públicas, como ANEPC, IPMA, acidentes ativos e outros dados oficiais. <br>
-            A localização apresentada é <span class="font-bold">aproximada</span>, e não exata.
-        </p>
-        
-        <h1 class="text-[22px] md:text-[32px] mb-[10px] text-[#9c1717] text-center">
-            Graus de Ameaça
-        </h1>
-        
-        <h2 class="text-[16px] md:text-[20px] text-[#9c1717] text-center">
-            Níveis de Risco
-        </h2>
+  <section class="bg-[#ffffffcc] p-6 md:p-[30px] mb-[40px] rounded-[20px] shadow-[0_4px_10px_rgba(0,0,0,0.1)]">
+    <h2 class="text-center text-[#9c1717] text-2xl md:text-[32px] mb-[20px] font-bold">
+      Sobre as Fontes
+    </h2>
 
-        <h3 class="text-[14px] md:text-[18px] text-center">
-            O risco de incêndio é classificado em 5 níveis, variando de verde a vermelho, conforme o aumento do risco. Os níveis são:
-        </h3>
-        <ul class="mb-[15px] list-none text-center">
-            <li class="font-bold text-[#00ff00]">1 – Muito Baixo</li>
-            <li class="font-bold text-[#a6ff00]">2 – Baixo</li>
-            <li class="font-bold text-[#f1c40f]">3 – Moderado</li>
-            <li class="font-bold text-[#e67e22]">4 – Elevado</li>
-            <li class="font-bold text-[#a50000]">5 – Extremo</li>
-        </ul>
+    <p class="text-sm md:text-[18px] text-gray-800 leading-relaxed text-center">
+      As informações são coletadas de fontes públicas e oficiais, incluindo a
+      <span class="font-semibold">ANEPC (Proteção Civil), IPMA, Ocorrências Ativas</span> e outros.
+    </p>
 
-        <h3 class="text-[14px] md:text-[18px] text-center">
-            Os alertas são classificados em 3 níveis, representando a gravidade do perigo. São eles:
-        </h3>
-        <ul class="mb-[15px] list-none text-center">
-            <li class="font-bold text-[#f1c40f]">1 – Moderado</li>
-            <li class="font-bold text-[#e67e22]">2 – Elevado</li>
-            <li class="font-bold text-[#a50000]">3 – Extremo</li>
-        </ul>
-
-        <h3 class="text-[14px] md:text-[18px] text-center">
-            Os incidentes podem estar em 5 estágios, conforme o andamento da situação:
-        </h3>
-        <ul class="mb-[15px] list-none text-center">
-            <li class="font-bold text-[#c62828]">1 – Em Curso</li>
-            <li class="font-bold text-[#f57c00]">2 – Despacho de 1º Alerta</li>
-            <li class="font-bold text-[#c65220]">3 – Chegada ao TO</li>
-            <li class="font-bold text-[#1b86b6]">4 – Em Resolução</li>
-            <li class="font-bold text-[#24bf0c]">5 – Em Conclusão</li>
-        </ul>
+    <div class="mt-5 text-center">
+      <span class="inline-block bg-red-50 text-red-600 px-4 py-2 rounded-full text-sm font-medium border border-red-200">
+        A localização apresentada é aproximada e não exata.
+      </span>
     </div>
-</div>
+  </section>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-[60px]">
+
+    <section class="bg-[#ffffffcc] p-6 md:p-[30px] rounded-[20px] shadow-[0_4px_10px_rgba(0,0,0,0.1)]">
+      <h3 class="text-center text-[#9c1717] text-2xl font-bold mb-3">Risco de Incêndio</h3>
+      <p class="text-center text-sm text-gray-500 mb-4">Classificado em 5 níveis de perigo</p>
+
+      <div class="space-y-3 text-gray-800">
+
+        <div class="flex justify-between p-2 bg-white/60 rounded-lg">
+          <span>1 – Muito Baixo</span>
+          <span class="h-3 w-8 rounded-full bg-[#02BD02]"></span>
+        </div>
+
+        <div class="flex justify-between p-2 bg-white/60 rounded-lg">
+          <span>2 – Baixo</span>
+          <span class="h-3 w-8 rounded-full bg-[#8ED902]"></span>
+        </div>
+
+        <div class="flex justify-between p-2 bg-white/60 rounded-lg">
+          <span>3 – Moderado</span>
+          <span class="h-3 w-8 rounded-full bg-[#f1c40f]"></span>
+        </div>
+
+        <div class="flex justify-between p-2 bg-white/60 rounded-lg">
+          <span>4 – Elevado</span>
+          <span class="h-3 w-8 rounded-full bg-[#e67e22]"></span>
+        </div>
+
+        <div class="flex justify-between p-2 bg-white/60 rounded-lg">
+          <span>5 – Extremo</span>
+          <span class="h-3 w-8 rounded-full bg-[#a50000]"></span>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="bg-[#ffffffcc] p-6 md:p-[30px] rounded-[20px] shadow-[0_4px_10px_rgba(0,0,0,0.1)]">
+      <h3 class="text-center text-[#9c1717] text-2xl font-bold mb-3">Gravidade dos Avisos</h3>
+      <p class="text-center text-sm text-gray-500 mb-4">Níveis de urgência da situação</p>
+
+      <div class="space-y-3 text-gray-800">
+
+        <div class="flex justify-between p-2 bg-white/60 rounded-lg">
+          <span>Nível 1 – Moderado</span>
+          <span class="h-3 w-8 rounded-full bg-[#f1c40f]"></span>
+        </div>
+
+        <div class="flex justify-between p-2 bg-white/60 rounded-lg">
+          <span>Nível 2 – Elevado</span>
+          <span class="h-3 w-8 rounded-full bg-[#e67e22]"></span>
+        </div>
+
+        <div class="flex justify-between p-2 bg-white/60 rounded-lg">
+          <span>Nível 3 – Extremo</span>
+          <span class="h-3 w-8 rounded-full bg-[#a50000]"></span>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <section class="bg-[#ffffffcc] p-6 md:p-[30px] mb-[60px] rounded-[20px] shadow-[0_4px_10px_rgba(0,0,0,0.1)]">
+    <h3 class="text-center text-[#9c1717] text-2xl md:text-[32px] font-bold mb-6">
+      Estágios dos Incidentes
+    </h3>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 text-center">
+
+      <div class="p-3 rounded-xl bg-white/60">
+        <span class="text-xs text-gray-400">Fase 1</span>
+        <div class="font-bold text-[#c62828]">Em Curso</div>
+      </div>
+
+      <div class="p-3 rounded-xl bg-white/60">
+        <span class="text-xs text-gray-400">Fase 2</span>
+        <div class="font-bold text-[#f57c00]">Despacho</div>
+      </div>
+
+      <div class="p-3 rounded-xl bg-white/60">
+        <span class="text-xs text-gray-400">Fase 3</span>
+        <div class="font-bold text-[#c65220]">Chegada TO</div>
+      </div>
+
+      <div class="p-3 rounded-xl bg-white/60">
+        <span class="text-xs text-gray-400">Fase 4</span>
+        <div class="font-bold text-[#1b86b6]">Resolução</div>
+      </div>
+
+      <div class="p-3 rounded-xl bg-white/60">
+        <span class="text-xs text-gray-400">Fase 5</span>
+        <div class="font-bold text-[#24bf0c]">Conclusão</div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
 
 {% endblock %}

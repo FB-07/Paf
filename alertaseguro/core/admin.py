@@ -2,9 +2,9 @@ from django.contrib import admin
 from .models import (
     UsersProfile,
     IncidenteAPI,
-    NearbyFireStation,
-    NearbyEmergency,
-    NearbyAirbase,
+    Hospital,
+    Bombero,
+    AirResource,
     Aviso,
     Notificacao,
     Weather,
@@ -13,9 +13,9 @@ from .models import (
 
 admin.site.register(UsersProfile)
 admin.site.register(IncidenteAPI)
-admin.site.register(NearbyFireStation)
-admin.site.register(NearbyEmergency)
-admin.site.register(NearbyAirbase)
+admin.site.register(Hospital)
+admin.site.register(Bombero)
+admin.site.register(AirResource)
 admin.site.register(Aviso)
 admin.site.register(Notificacao)
 admin.site.register(Weather)

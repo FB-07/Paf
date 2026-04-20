@@ -10,7 +10,7 @@ urlpatterns = [
     path("tabela/", views.tabela, name="tabela"),
     path("informacao/", views.info, name="informacao"),
     path("feedback/", views.feedback, name="feedback"),
-    path("bases-aerias/", views.bases_aerias, name="bases_aerias"),
+    path("bases-aereas/", views.bases_aereas, name="bases_aereas"),
     path("hospitais/", views.hospitais, name="hospitais"),
     path("bombeiros/", views.bombeiros, name="bombeiros"),
 

@@ -10,7 +10,7 @@
 {% include "components/header.html" %}
 {% include "components/menulateral.html" %}
 
-<main class="mt-[80px] sm:mt-[100px] mx-auto w-[95%] sm:w-[90%]">
+<main class="mt-[80px] mb-[40px] sm:mt-[100px] mx-auto w-[95%] sm:w-[90%]">
 
   <section class="mb-6">
     <div class="mb-6 text-center">
@@ -64,7 +64,7 @@
       </div>
     </div>
 
-    <div id="incidentes-container" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div id="incidentes-container" class="grid grid-cols-1 sm:grid-cols-2 gap-4 overflow-y-auto max-h-[480px] pr-2">
       <div class="text-center text-gray-500 p-4 italic">Carregando incidentes...</div>
     </div>
 
@@ -108,10 +108,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const meiosHTML = `
           <div class="flex flex-wrap gap-2 mt-2">
-            <div class="flex items-center gap-1 px-2 py-1 bg-gray-200 rounded text-sm">🚒 ${inc.means?.terrain || 0}</div>
-            <div class="flex items-center gap-1 px-2 py-1 bg-gray-200 rounded text-sm">🛥️ ${inc.means?.aquatic || 0}</div>
-            <div class="flex items-center gap-1 px-2 py-1 bg-gray-200 rounded text-sm">🚁 ${inc.means?.aerial || 0}</div>
-            <div class="flex items-center gap-1 px-2 py-1 bg-gray-200 rounded text-sm">👷 ${inc.means?.man || 0}</div>
+            <div class="flex items-center gap-1 px-2 py-1 bg-gray-200 rounded text-sm">🚒 <span class="text-red-600 font-bold">${inc.means?.terrain || 0}</span></div>
+            <div class="flex items-center gap-1 px-2 py-1 bg-gray-200 rounded text-sm">🛥️ <span class="text-blue-600 font-bold">${inc.means?.aquatic || 0}</span></div>
+            <div class="flex items-center gap-1 px-2 py-1 bg-gray-200 rounded text-sm">🚁 <span class="text-green-600 font-bold">${inc.means?.aerial || 0}</span></div>
+            <div class="flex items-center gap-1 px-2 py-1 bg-gray-200 rounded text-sm">👷 <span class="text-yellow-600 font-bold">${inc.means?.man || 0}</span></div>
           </div>
         `;
 
@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
         card.className = 'bg-white p-4 rounded-xl shadow hover:shadow-lg transition';
 
         card.innerHTML = `
-          <div class="flex justify-between items-start mb-2">
+          <div class="flex justify-between gap-2 sm:gap-0 items-start mb-2">
             <h4 class="font-bold text-red-600 text-sm sm:text-base">${inc.natureza || '-'}</h4>
             <span class="font-semibold text-sm sm:text-base" style="color:${inc.status_color || '#333'}">
               ${inc.status || '-'}

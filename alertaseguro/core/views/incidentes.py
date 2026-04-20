@@ -1,16 +1,22 @@
 from django.http import JsonResponse
 from core.models import IncidenteAPI
 
+
 def api_incidentes(request):
 
-    incidentes = IncidenteAPI.objects.filter(
-        latitude__isnull=False,
-        longitude__isnull=False
-    ).exclude(status="Encerrada")
+    incidentes = (
+        IncidenteAPI.objects
+        .filter(latitude__isnull=False, longitude__isnull=False)
+        .exclude(status="Encerrada")
+        .select_related("weather")
+    )
 
     data = []
 
     for inc in incidentes:
+
+        weather = getattr(inc, "weather", None)
+        nearby = inc.nearby_data or {}
 
         data.append({
             "api_id": inc.api_id,
@@ -31,34 +37,28 @@ def api_incidentes(request):
             "updated_at_api": inc.updated_at_api.isoformat() if inc.updated_at_api else "",
 
             "means": {
-                "aerial": int(inc.means_aerial or 0),
-                "terrain": int(inc.means_terrain or 0),
-                "aquatic": int(inc.means_aquatic or 0),
-                "man": int(inc.means_man or 0),
+                "aerial": inc.means_aerial,
+                "terrain": inc.means_terrain,
+                "aquatic": inc.means_aquatic,
+                "man": inc.means_man,
             },
 
             "kml": inc.kml or None,
 
             "weather": {
-                "temperature_c": inc.weather.temperature_c,
-                "humidity_percent": inc.weather.humidity_percent,
-                "wind_kmh": inc.weather.wind_kmh,
-                "wind_cardinal": inc.weather.wind_cardinal,
-                "wind_degree": inc.weather.wind_degree,
-                "pressure_hpa": inc.weather.pressure_hpa,
-                "precipitation_mmh": inc.weather.precipitation_mmh,
-                "description": inc.weather.description,
-            } if hasattr(inc, "weather") and inc.weather else None,
+                "temperature_c": weather.temperature_c,
+                "humidity_percent": weather.humidity_percent,
+                "wind_kmh": weather.wind_kmh,
+                "wind_cardinal": weather.wind_cardinal,
+                "wind_degree": weather.wind_degree,
+                "pressure_hpa": weather.pressure_hpa,
+                "precipitation_mmh": weather.precipitation_mmh,
+                "description": weather.description,
+            } if weather else None,
 
-            "nearby_fire_stations": list(
-                inc.nearby_fire_stations.values("name", "distance")
-            ),
-            "nearby_emergencies": list(
-                inc.nearby_emergencies.values("name", "distance")
-            ),
-            "nearby_airbases": list(
-                inc.nearby_airbases.values("name", "distance")
-            ),
+            "nearby_fire_stations": nearby.get("fire_stations", []),
+            "nearby_emergencies": nearby.get("hospitals", []),
+            "nearby_airbases": nearby.get("airbases", []),
         })
 
     return JsonResponse(data, safe=False)

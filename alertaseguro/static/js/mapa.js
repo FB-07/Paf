@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ==========================
-  // MAPA
+  // Mapa
   // ==========================
   const mapEl = document.getElementById("map");
   if (!mapEl || typeof L === "undefined") return;
@@ -78,16 +78,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function changeBaseLayer(name) {
     if (!baseLayers[name]) return;
-
     map.removeLayer(currentBase);
     currentBase = baseLayers[name];
     currentBase.addTo(map);
-
     localStorage.setItem("baseLayer", name);
   }
 
+
   // ==========================
-  // INCIDENTES 
+  // Incidentes
   // ==========================
   function getIncidentIconPath(inc) {
     if (inc.natureza && INCIDENT_ICONS.natureza[inc.natureza]) {
@@ -106,16 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const icon = L.divIcon({
       className: "",
       html: `
-        <div style="
-          width:36px;
-          height:36px;
-          border-radius:50%;
-          background:${color};
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          border:2px solid white;
-        ">
+        <div style="width:36px;height:36px;border-radius:50%;background:${color};display:flex;align-items:center;justify-content:center;border:2px solid white;">
           <img src="${iconPath}" style="width:18px;height:18px;filter:brightness(0) invert(1);">
         </div>
       `,
@@ -127,19 +117,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function createIncidentHtml(inc) {
-    const local = [
-      inc.location_name,
-      inc.parish,
-      inc.county,
-      inc.district
-    ].filter(Boolean).join(", ");
 
-    const updated = inc.updated_at_api
-      ? new Date(inc.updated_at_api).toLocaleString()
-      : "";
+    const local = [inc.location_name, inc.parish, inc.county, inc.district].filter(Boolean).join(", ");
+    const updated = inc.updated_at_api ? new Date(inc.updated_at_api).toLocaleString() : "";
 
-    const m = inc.means || {};
-    const weather = inc.weather || {};
+    const m = inc.means;
+    const weather = inc.weather;
 
     const nearbySection = (title, icon, arr) => `
       <div class="bg-white border rounded-xl shadow-sm overflow-hidden">
@@ -148,20 +131,12 @@ document.addEventListener("DOMContentLoaded", () => {
           <h4 class="font-bold text-gray-700">${title}</h4>
         </div>
         <div class="divide-y">
-          ${
-            arr && arr.length
-              ? arr.map(i => `
-                  <div class="flex justify-between items-center px-3 py-2 text-sm hover:bg-gray-50">
-                    <span class="text-gray-800 font-medium truncate max-w-[180px]">
-                      ${i.name}
-                    </span>
-                    <span class="text-gray-500 text-xs">
-                      ${i.distance || "-"}
-                    </span>
-                  </div>
-                `).join("")
-              : `<div class="px-3 py-2 text-sm text-gray-400 italic">Sem dados disponíveis</div>`
-          }
+          ${arr && arr.length ? arr.map(i => `
+            <div class="flex justify-between items-center px-3 py-2 text-sm hover:bg-gray-50">
+              <span class="text-gray-800 font-medium truncate max-w-[180px]">${i.name}</span>
+              <span class="text-gray-500 text-xs">${i.distance || "-"}</span>
+            </div>
+          `).join("") : `<div class="px-3 py-2 text-sm text-gray-400 italic">Sem dados disponíveis</div>`}
         </div>
       </div>
     `;
@@ -178,13 +153,8 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="flex flex-col gap-4 text-gray-800">
 
         <div class="flex justify-between items-center">
-          <h3 class="text-xl font-bold text-red-600">
-            ${inc.natureza || "Incidente"}
-          </h3>
-          <span 
-            class="text-xs px-2 py-1 rounded font-semibold text-white"
-            style="background:${inc.status_color || '#666'}; opacity:0.7;"
-          >
+          <h3 class="text-xl font-bold text-red-600">${inc.natureza || "Incidente"}</h3>
+          <span class="text-xs px-2 py-1 rounded font-semibold text-white" style="background:${inc.status_color || "#666"};opacity:0.7;">
             ${inc.status || ""}
           </span>
         </div>
@@ -195,14 +165,14 @@ document.addEventListener("DOMContentLoaded", () => {
         <div>
           <p class="font-semibold mb-2">Meios envolvidos</p>
           <div class="grid grid-cols-2 gap-2">
-            ${meanBox(ICONS.means.aerial, "Aéreos", m.aerial || 0, "text-green-600")}
-            ${meanBox(ICONS.means.terrain, "Terrestres", m.terrain || 0, "text-red-600")}
-            ${meanBox(ICONS.means.aquatic, "Aquáticos", m.aquatic || 0, "text-blue-600")}
-            ${meanBox(ICONS.means.man, "Operacionais", m.man || 0, "text-yellow-600")}
+            ${meanBox(ICONS.means.aerial, "Aéreos", m.aerial, "text-green-600")}
+            ${meanBox(ICONS.means.terrain, "Terrestres", m.terrain, "text-red-600")}
+            ${meanBox(ICONS.means.aquatic, "Aquáticos", m.aquatic, "text-blue-600")}
+            ${meanBox(ICONS.means.man, "Operacionais", m.man, "text-yellow-600")}
           </div>
         </div>
 
-        ${weather && Object.keys(weather).length ? `
+        ${weather ? `
           <div class="bg-blue-50 p-3 rounded-xl">
             <p class="font-semibold mb-2">🌦️ Meteorologia</p>
             <div class="grid grid-cols-2 gap-2 text-sm">
@@ -239,35 +209,31 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function saveStatusFilters() {
-    const data = {
+    localStorage.setItem("statusFilters", JSON.stringify({
       statusCurso: document.getElementById("statusCurso")?.checked,
       statusResolucao: document.getElementById("statusResolucao")?.checked,
       statusAlerta: document.getElementById("statusAlerta")?.checked,
       statusChegada: document.getElementById("statusChegada")?.checked,
       statusConclusao: document.getElementById("statusConclusao")?.checked,
-    };
-
-    localStorage.setItem("statusFilters", JSON.stringify(data));
+    }));
   }
 
   const savedFilters = JSON.parse(localStorage.getItem("statusFilters") || "{}");
 
-  ["statusCurso", "statusResolucao", "statusAlerta", "statusChegada", "statusConclusao"]
-    .forEach(id => {
-      const el = document.getElementById(id);
-      if (!el) return;
+  ["statusCurso", "statusResolucao", "statusAlerta", "statusChegada", "statusConclusao"].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
 
-      if (savedFilters[id] !== undefined) {
-        el.checked = savedFilters[id];
-      }
+    if (savedFilters[id] !== undefined) el.checked = savedFilters[id];
 
-      el.addEventListener("change", () => {
-        saveStatusFilters();
-        loadIncidentes();
-      });
+    el.addEventListener("change", () => {
+      saveStatusFilters();
+      loadIncidentes();
     });
+  });
 
   function renderIncidentes(data) {
+
     const activeIds = new Set();
     const selectedStatuses = getSelectedStatuses();
 
@@ -315,17 +281,15 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const res = await fetch("/api/incidentes/");
       if (!res.ok) throw new Error(res.status);
-
       const data = await res.json();
       renderIncidentes(data);
-
     } catch (err) {
-      console.error("Erro a carregar incidentes:", err);
+      console.error(err);
     }
   }
 
   loadIncidentes();
-  setInterval(loadIncidentes, 5 * 60 * 1000);
+  setInterval(loadIncidentes, 300000);
 
   // ==========================
   // MUNICÍPIOS

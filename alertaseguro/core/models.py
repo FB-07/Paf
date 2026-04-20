@@ -1,11 +1,13 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser, User
+from django.contrib.auth.models import User
+
 
 class UsersProfile(models.Model):
     TIPOS = [
         ("admin", "Administrador"),
         ("utilizador", "Utilizador"),
     ]
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     tipo_utilizador = models.CharField(max_length=20, choices=TIPOS, default="utilizador")
 
@@ -16,9 +18,11 @@ class UsersProfile(models.Model):
     def __str__(self):
         return f"{self.user.username} ({self.tipo_utilizador})"
 
+
 class IncidenteAPI(models.Model):
     api_id = models.CharField(max_length=200, unique=True, db_index=True)
     dico = models.CharField(max_length=10, blank=True, null=True, db_index=True)
+
     created_at_api = models.DateTimeField(blank=True, null=True)
     updated_at_api = models.DateTimeField(blank=True, null=True)
 
@@ -31,6 +35,7 @@ class IncidenteAPI(models.Model):
     county = models.CharField(max_length=150, blank=True, null=True, db_index=True)
     parish = models.CharField(max_length=200, blank=True, null=True)
     location_name = models.CharField(max_length=200, blank=True, null=True)
+
     region = models.CharField(max_length=200, blank=True, null=True)
     subregion = models.CharField(max_length=200, blank=True, null=True)
 
@@ -49,9 +54,9 @@ class IncidenteAPI(models.Model):
     natureza_code = models.CharField(max_length=20, blank=True, null=True)
     natureza = models.CharField(max_length=200, blank=True, null=True)
     category = models.CharField(max_length=50, blank=True, null=True, db_index=True)
+
     kml = models.TextField(blank=True, null=True)
     significant = models.BooleanField(default=False)
-
     active = models.BooleanField(default=True, db_index=True)
 
     icnf_altitude = models.IntegerField(default=0)
@@ -62,25 +67,32 @@ class IncidenteAPI(models.Model):
     burned_area_agricultural = models.CharField(max_length=50, blank=True, null=True)
     burned_area_bush = models.CharField(max_length=50, blank=True, null=True)
     burned_area_forest = models.CharField(max_length=50, blank=True, null=True)
+
     fire_duration = models.IntegerField(default=0)
+
     burned_area_created_at = models.CharField(max_length=50, blank=True, null=True)
     burned_area_updated_at = models.CharField(max_length=50, blank=True, null=True)
 
-    fetched_at = models.DateTimeField(auto_now=True)
+    nearby_data = models.JSONField(blank=True, null=True)
+
     raw = models.JSONField(blank=True, null=True)
+
+    fetched_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = "Incidente (API)"
         verbose_name_plural = "Incidentes (API)"
 
     def __str__(self):
-        base = self.natureza or self.category or "Incidente"
-        loc = self.location_name or self.county or ""
-        return f"{self.api_id} - {base}{(' - ' + loc) if loc else ''}"
+        return f"{self.api_id} - {self.natureza or self.category or 'Incidente'}"
 
 
 class Weather(models.Model):
-    incidente = models.OneToOneField(IncidenteAPI, on_delete=models.CASCADE, related_name="weather")
+    incidente = models.OneToOneField(
+        IncidenteAPI,
+        on_delete=models.CASCADE,
+        related_name="weather"
+    )
 
     station = models.CharField(max_length=100, blank=True, null=True)
     distance_km = models.FloatField(blank=True, null=True)
@@ -106,77 +118,24 @@ class Weather(models.Model):
         verbose_name_plural = "Tempo"
 
     def __str__(self):
-        return f"Weather for {self.incidente.api_id}"
-
-
-class NearbyFireStation(models.Model):
-    incidente = models.ForeignKey(IncidenteAPI, on_delete=models.CASCADE, related_name="nearby_fire_stations")
-    name = models.CharField(max_length=200)
-    latitude = models.FloatField(blank=True, null=True)
-    longitude = models.FloatField(blank=True, null=True)
-    distance = models.CharField(max_length=50, blank=True, null=True)
-    logo = models.URLField(blank=True, null=True)
-
-    class Meta:
-        verbose_name = "Bombeiros Próximos"
-        verbose_name_plural = "Bombeiros Próximos"
-
-    def __str__(self):
-        return f"{self.name} ({self.distance or '-'})"
-
-
-class NearbyEmergency(models.Model):
-    incidente = models.ForeignKey(IncidenteAPI, on_delete=models.CASCADE, related_name="nearby_emergencies")
-    name = models.CharField(max_length=255)
-    latitude = models.FloatField(blank=True, null=True)
-    longitude = models.FloatField(blank=True, null=True)
-    distance = models.CharField(max_length=50, blank=True, null=True)
-
-    class Meta:
-        verbose_name = "Emergência Próxima"
-        verbose_name_plural = "Emergências Próximas"
-
-    def __str__(self):
-        return f"{self.name} ({self.distance or '-'})"
-
-
-class NearbyAirbase(models.Model):
-    incidente = models.ForeignKey(IncidenteAPI, on_delete=models.CASCADE, related_name="nearby_airbases")
-    name = models.CharField(max_length=255)
-    latitude = models.FloatField(blank=True, null=True)
-    longitude = models.FloatField(blank=True, null=True)
-    distance = models.CharField(max_length=50, blank=True, null=True)
-
-    class Meta:
-        verbose_name = "Base Aérea Próxima"
-        verbose_name_plural = "Bases Aéreas Próximas"
-
-    def __str__(self):
-        return f"{self.name} ({self.distance or '-'})"
+        return f"Weather {self.incidente.api_id}"
 
 
 class Hospital(models.Model):
     api_id = models.IntegerField(unique=True)
     name = models.CharField(max_length=255)
-    description = models.TextField(blank=True, null=True)
+
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
+
     address = models.CharField(max_length=255, blank=True, null=True)
     phone = models.CharField(max_length=50, blank=True, null=True)
     email = models.CharField(max_length=100, blank=True, null=True)
-    district = models.CharField(max_length=100, blank=True, null=True)
-    standbyTimesUrl = models.URLField(blank=True, null=True)
-    shareStandbyTimes = models.CharField(max_length=10, blank=True, null=True)
-    hasCTH = models.CharField(max_length=10, blank=True, null=True)
-    hasSIGLIC = models.CharField(max_length=10, blank=True, null=True)
-    hasEmergency = models.BooleanField(default=False)
-    website = models.URLField(blank=True, null=True)
-    pilot = models.CharField(max_length=10, blank=True, null=True)
-    raw = models.JSONField(blank=True, null=True)
 
-    class Meta:
-        verbose_name = "Hospital"
-        verbose_name_plural = "Hospitais"
+    district = models.CharField(max_length=100, blank=True, null=True)
+    website = models.URLField(blank=True, null=True)
+
+    raw = models.JSONField(blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -185,24 +144,23 @@ class Hospital(models.Model):
 class Bombero(models.Model):
     api_id = models.IntegerField(unique=True)
     name = models.CharField(max_length=255)
+
     type = models.CharField(max_length=50, blank=True, null=True)
+
     district = models.CharField(max_length=100, blank=True, null=True)
     city = models.CharField(max_length=100, blank=True, null=True)
+
     address = models.CharField(max_length=255, blank=True, null=True)
+
     telephone = models.CharField(max_length=50, blank=True, null=True)
     email = models.CharField(max_length=100, blank=True, null=True)
-    website = models.URLField(blank=True, null=True)
+
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
-    photo = models.URLField(blank=True, null=True)
-    logo = models.URLField(blank=True, null=True)
-    foundation_date = models.DateField(blank=True, null=True)
-    code_cb = models.CharField(max_length=20, blank=True, null=True)
-    raw = models.JSONField(blank=True, null=True)
 
-    class Meta:
-        verbose_name = "Bombeiro / Departamento"
-        verbose_name_plural = "Bombeiros / Departamentos"
+    website = models.URLField(blank=True, null=True)
+
+    raw = models.JSONField(blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -211,16 +169,15 @@ class Bombero(models.Model):
 class AirResource(models.Model):
     api_id = models.IntegerField(unique=True)
     name = models.CharField(max_length=255)
+
     type = models.CharField(max_length=100, blank=True, null=True)
+
     district = models.CharField(max_length=100, blank=True, null=True)
+
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
-    decir = models.CharField(max_length=50, blank=True, null=True)
-    raw = models.JSONField(blank=True, null=True)
 
-    class Meta:
-        verbose_name = "Recurso Aéreo"
-        verbose_name_plural = "Recursos Aéreos"
+    raw = models.JSONField(blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -233,27 +190,28 @@ class Aviso(models.Model):
         ("orange", "Laranja"),
         ("red", "Vermelho"),
     ]
+
     api_id = models.CharField(max_length=120, unique=True)
     titulo = models.CharField(max_length=200)
     descricao = models.TextField(blank=True)
+
     gravidade = models.CharField(max_length=10, choices=GRAVIDADE_CHOICES, default="green")
+
     dataInicio = models.DateTimeField()
     dataFim = models.DateTimeField()
+
     idAreaAviso = models.CharField(max_length=10, blank=True)
     AreaNome = models.CharField(max_length=100, blank=True)
+    
     criado_em = models.DateTimeField(auto_now_add=True)
     atualizado_em = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        verbose_name = "Aviso"
-        verbose_name_plural = "Avisos"
-
     def __str__(self):
-        return f"{self.titulo} ({self.gravidade}) {self.dataInicio:%Y-%m-%d %H:%M}"
+        return f"{self.titulo} ({self.gravidade})"
+
 
 class Feedback(models.Model):
     TIPOS = [
-        ("", "---------"),
         ("sugestao", "Sugestão"),
         ("bug", "Bug"),
         ("outro", "Outro"),
@@ -279,14 +237,7 @@ class Feedback(models.Model):
     titulo = models.CharField(max_length=200)
     descricao = models.TextField()
 
-    pagina = models.CharField(
-        max_length=50,
-        choices=PAGINAS,
-        null=True,
-        blank=True
-    )
-
-    #imagem = models.ImageField(upload_to="FeedbackForm_images/", null=True, blank=True)
+    pagina = models.CharField(max_length=50, choices=PAGINAS, null=True, blank=True)
 
     criado_em = models.DateTimeField(auto_now_add=True)
     atualizado_em = models.DateTimeField(auto_now=True)
@@ -294,22 +245,20 @@ class Feedback(models.Model):
     resolvido = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.tipo} | ({self.pagina}) - {self.titulo}"
+        return f"{self.tipo} - {self.titulo}"
+
 
 class Notificacao(models.Model):
     TIPOS = [
-        ("IncidenteAPI", "Incidente (API)"),
+        ("IncidenteAPI", "Incidente"),
         ("Aviso", "Aviso"),
     ]
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     titulo = models.CharField(max_length=255)
     descricao = models.TextField()
     tipo = models.CharField(max_length=15, choices=TIPOS)
     data_envio = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        verbose_name = "Notificação"
-        verbose_name_plural = "Notificações"
-
     def __str__(self):
-        return f"{self.titulo} → {self.user.username}"
+        return self.titulo
