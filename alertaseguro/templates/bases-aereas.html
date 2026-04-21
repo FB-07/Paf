@@ -24,10 +24,10 @@
 
     {% for base in air_resources %}
 
-    <div class="bg-[#ffffffcc] rounded-[20px] shadow-[0_4px_10px_rgba(0,0,0,0.1)] overflow-hidden aspect-square flex flex-col">
+    <div class="bg-[#ffffffcc] rounded-[20px] shadow-[0_4px_10px_rgba(0,0,0,0.1)] overflow-hidden h-[400px] flex flex-col">
 
-      <div class="h-1/2 bg-gray-200">
-        <img src="{% static 'imagens/bases_aereas.png' %}" class="w-full h-full object-cover">
+      <div class="h-50 bg-gray-200 flex items-center justify-center">
+        <img src="{% static 'imagens/heli.png' %}" class="w-full h-full object-cover">
       </div>
 
       <div class="p-4 flex-1 overflow-auto">
@@ -36,8 +36,14 @@
           {{ base.name }}
         </h3>
 
-        <p class="text-sm text-gray-800">
+        <span class="inline-block bg-[#b43030] text-white px-3 py-1 rounded-full text-xs font-bold mb-2">
           {{ base.type|default:"Base aérea" }}
+        </span>
+
+        <p class="bg-black w-full h-[1px] rounded-full mb-2"></p>
+
+        <p class="text-sm text-gray-800">
+          📍 {{ base.address|default:"Sem morada" }}
         </p>
 
       </div>
@@ -61,7 +67,7 @@
 
     {% if air_resources.has_next %}
       <a href="?page={{ air_resources.next_page_number }}"
-         class="px-4 py-2 bg-red-500 text-white rounded-[10px]">Seguinte</a>
+         class="px-4 py-2 bg-[#b43030] text-white rounded-[10px]">Seguinte</a>
     {% endif %}
 
   </div>

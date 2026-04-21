@@ -17,16 +17,16 @@
       Bombeiros
     </h2>
   </section>
-    
+
   {% include "components/search_bar.html" %}
 
   <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
     {% for b in bomberos %}
 
-    <div class="bg-[#ffffffcc] rounded-[20px] shadow-[0_4px_10px_rgba(0,0,0,0.1)] overflow-hidden aspect-square flex flex-col">
+    <div class="bg-[#ffffffcc] rounded-[20px] shadow-[0_4px_10px_rgba(0,0,0,0.1)] overflow-hidden h-[500px] flex flex-col">
 
-      <div class="h-1/2 bg-gray-200">
+      <div class="h-50 bg-gray-200 flex items-center justify-center">
         <img src="{% static 'imagens/bombeiros.png' %}" class="w-full h-full object-cover">
       </div>
 
@@ -36,15 +36,27 @@
           {{ b.name }}
         </h3>
 
+        <span class="inline-block bg-[#b43030] text-white px-3 py-1 rounded-full text-xs font-bold mb-2">
+          {{ b.type|default:"Bombeiro" }}
+        </span>
+
+        <p class="bg-black w-full h-[1px] rounded-full mb-2"></p>
+
         <p class="text-sm text-gray-800 mb-2">
           📍 {{ b.address|default:"Sem morada" }}
         </p>
 
-        <p class="text-sm text-gray-800">
+        <p class="text-sm text-gray-800 mb-2">
           {% if b.telephone %}📞 {{ b.telephone }}<br>{% endif %}
+        </p>
+
+        <p class="text-sm text-gray-800 mb-2">
           {% if b.email %}✉️ {{ b.email }}{% endif %}
         </p>
 
+        <p class="text-sm text-gray-800">
+          {% if b.website %}🌐 <a href="{{ b.website }}" target="_blank" class="text-blue-500 hover:underline">Site</a>{% endif %}
+        </p>
       </div>
 
     </div>
@@ -66,7 +78,7 @@
 
     {% if bomberos.has_next %}
       <a href="?page={{ bomberos.next_page_number }}"
-         class="px-4 py-2 bg-red-500 text-white rounded-[10px]">Seguinte</a>
+         class="px-4 py-2 bg-[#b43030] text-white rounded-[10px]">Seguinte</a>
     {% endif %}
 
   </div>
