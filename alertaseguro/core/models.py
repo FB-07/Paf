@@ -141,7 +141,7 @@ class Hospital(models.Model):
         return self.name
 
 
-class Bombero(models.Model):
+class Bombeiro(models.Model):
     api_id = models.IntegerField(unique=True)
     name = models.CharField(max_length=255)
 

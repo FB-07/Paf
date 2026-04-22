@@ -3,7 +3,7 @@ from .models import (
     UsersProfile,
     IncidenteAPI,
     Hospital,
-    Bombero,
+    Bombeiro,
     AirResource,
     Aviso,
     Notificacao,
@@ -14,7 +14,7 @@ from .models import (
 admin.site.register(UsersProfile)
 admin.site.register(IncidenteAPI)
 admin.site.register(Hospital)
-admin.site.register(Bombero)
+admin.site.register(Bombeiro)
 admin.site.register(AirResource)
 admin.site.register(Aviso)
 admin.site.register(Notificacao)

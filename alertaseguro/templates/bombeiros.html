@@ -22,7 +22,7 @@
 
   <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-    {% for b in bomberos %}
+    {% for b in bombeiros %}
 
     <div class="bg-[#ffffffcc] rounded-[20px] shadow-[0_4px_10px_rgba(0,0,0,0.1)] overflow-hidden h-[500px] flex flex-col">
 
@@ -67,17 +67,17 @@
 
   <div class="flex justify-center items-center gap-3 mt-10">
 
-    {% if bomberos.has_previous %}
-      <a href="?page={{ bomberos.previous_page_number }}"
+    {% if bombeiros.has_previous %}
+      <a href="?page={{ bombeiros.previous_page_number }}"
          class="px-4 py-2 bg-gray-300 rounded-[10px]">Anterior</a>
     {% endif %}
 
     <span class="px-4 py-2 bg-white rounded-[10px] shadow">
-      Página {{ bomberos.number }} de {{ bomberos.paginator.num_pages }}
+      Página {{ bombeiros.number }} de {{ bombeiros.paginator.num_pages }}
     </span>
 
-    {% if bomberos.has_next %}
-      <a href="?page={{ bomberos.next_page_number }}"
+    {% if bombeiros.has_next %}
+      <a href="?page={{ bombeiros.next_page_number }}"
          class="px-4 py-2 bg-[#b43030] text-white rounded-[10px]">Seguinte</a>
     {% endif %}
 

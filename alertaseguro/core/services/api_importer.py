@@ -6,7 +6,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from core.models import (
     IncidenteAPI,
     Hospital,
-    Bombero,
+    Bombeiro,
     AirResource,
     Weather,
 )
@@ -205,7 +205,7 @@ def import_bombeiros():
         return
 
     for item in data.get("data", []):
-        Bombero.objects.update_or_create(
+        Bombeiro.objects.update_or_create(
             api_id=item.get("id"),
             defaults={
                 "name": item.get("name"),

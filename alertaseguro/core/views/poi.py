@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from ..models import Hospital, AirResource, Bombero
+from ..models import Hospital, AirResource, Bombeiro
 from django.core.paginator import Paginator
 
 def bases_aereas(request):
@@ -46,18 +46,18 @@ def hospitais(request):
 def bombeiros(request):
     query = request.GET.get("q")
 
-    bomberos = Bombero.objects.all()
+    bombeiros = Bombeiro.objects.all()
 
     if query:
-        bomberos = bomberos.filter(name__icontains=query)
+        bombeiros = bombeiros.filter(name__icontains=query)
 
-    bomberos = bomberos.order_by("district", "city")
+    bombeiros = bombeiros.order_by("district", "city")
 
-    paginator = Paginator(bomberos, 12)
+    paginator = Paginator(bombeiros, 12)
     page_number = request.GET.get("page")
-    bomberos = paginator.get_page(page_number)
+    bombeiros = paginator.get_page(page_number)
 
     return render(request, "bombeiros.html", {
-        "bomberos": bomberos,
+        "bombeiros": bombeiros,
         "query": query,
     })
