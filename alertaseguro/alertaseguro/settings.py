@@ -22,6 +22,7 @@ CSRF_TRUSTED_ORIGINS = [
     "https://*.onrender.com",
 ]
 
+CRON_TOKEN = "cron_token_@l3rt3s3gur0"
 
 # =========================
 # Apps

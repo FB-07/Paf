@@ -232,33 +232,33 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  const incidentState = new Map();
+
+  function hasChanged(oldInc, newInc) {
+    return (
+      oldInc.status !== newInc.status ||
+      oldInc.latitude !== newInc.latitude ||
+      oldInc.longitude !== newInc.longitude ||
+      oldInc.status_color !== newInc.status_color ||
+      oldInc.updated_at_api !== newInc.updated_at_api
+    );
+  }
+
   function renderIncidentes(data) {
 
     const activeIds = new Set();
-    const selectedStatuses = getSelectedStatuses();
 
     data.forEach(inc => {
-
-      if (!selectedStatuses[inc.status]) return;
-
       activeIds.add(inc.api_id);
 
       const lat = Number(inc.latitude);
       const lon = Number(inc.longitude);
       if (!Number.isFinite(lat) || !Number.isFinite(lon)) return;
 
-      if (markersMap.has(inc.api_id)) {
+      const old = incidentState.get(inc.api_id);
 
-        const marker = markersMap.get(inc.api_id);
-        const newMarker = createIncidentMarker(lat, lon, inc);
-
-        marker.setIcon(newMarker.options.icon);
-        marker.options.data = inc;
-
-      } else {
-
+      if (!old) {
         const marker = createIncidentMarker(lat, lon, inc);
-        marker.options.data = inc;
 
         marker.on("click", () => {
           window.openIncidentPanel(createIncidentHtml(inc));
@@ -266,13 +266,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
         markersMap.set(inc.api_id, marker);
         incidentesLayer.addLayer(marker);
+
+        incidentState.set(inc.api_id, inc);
+        return;
       }
+
+      if (!hasChanged(old, inc)) return;
+
+      const marker = markersMap.get(inc.api_id);
+
+      if (marker) {
+        marker.setIcon(createIncidentMarker(lat, lon, inc).options.icon);
+      }
+
+      incidentState.set(inc.api_id, inc);
     });
 
-    for (const [id, marker] of markersMap) {
+    for (const id of markersMap.keys()) {
       if (!activeIds.has(id)) {
-        incidentesLayer.removeLayer(marker);
+        incidentesLayer.removeLayer(markersMap.get(id));
         markersMap.delete(id);
+        incidentState.delete(id);
       }
     }
   }
@@ -289,7 +303,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   loadIncidentes();
-  setInterval(loadIncidentes, 300000);
+  setInterval(loadIncidentes, 30000);
 
   // ==========================
   // MUNICÍPIOS

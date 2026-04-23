@@ -21,7 +21,13 @@ def make_api_id(item: dict) -> str:
 
 
 def update_ipma_warnings():
-    response = requests.get(IPMA_URL, timeout=20)
+    session = requests.Session()
+    session.headers.update({
+        "User-Agent": "Mozilla/5.0",
+        "Accept": "application/json"
+    })
+
+    response = session.get(IPMA_URL, timeout=20)
     response.raise_for_status()
     data = response.json()
 
