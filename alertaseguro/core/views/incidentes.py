@@ -7,7 +7,6 @@ def api_incidentes(request):
     incidentes = (
         IncidenteAPI.objects
         .filter(latitude__isnull=False, longitude__isnull=False)
-        .exclude(status="Encerrada")
         .select_related("weather")
     )
 

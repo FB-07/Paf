@@ -64,8 +64,22 @@
       </div>
     </div>
 
+    <div class="flex justify-center gap-4 mb-4">
+
+      <button id="btn-ativos"
+        class="px-4 py-2 bg-red-600 text-white rounded-lg cursor-pointer">
+        Ativos
+      </button>
+
+      <button id="btn-historico"
+        class="px-4 py-2 bg-gray-700 text-white rounded-lg cursor-pointer">
+        Histórico
+      </button>
+
+    </div>
+
     <div id="incidentes-container" class="grid grid-cols-1 sm:grid-cols-2 gap-4 overflow-y-auto max-h-[480px] pr-2">
-      <div class="text-center text-gray-500 p-4 italic">Carregando incidentes...</div>
+      <div class="text-center text-gray-500 p-4 italic">A carregar incidentes...</div>
     </div>
 
   </section>
@@ -76,79 +90,5 @@
 
 {% block js %}
 {{ block.super }}
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-
-  fetch("{% url 'api_incidentes' %}")
-    .then(res => res.json())
-    .then(data => {
-
-      let terrestres = 0, aquaticos = 0, aereos = 0, operacionais = 0;
-
-      const container = document.getElementById('incidentes-container');
-      container.innerHTML = '';
-
-      document.getElementById('total-incidentes').textContent = data.length;
-
-      if (data.length === 0) {
-        container.innerHTML = '<div class="text-center text-gray-500 p-4 italic">Nenhum incidente ativo</div>';
-        return;
-      }
-
-      data.forEach(inc => {
-
-        terrestres += inc.means?.terrain || 0;
-        aquaticos += inc.means?.aquatic || 0;
-        aereos += inc.means?.aerial || 0;
-        operacionais += inc.means?.man || 0;
-
-        const local = [inc.location_name, inc.parish, inc.county, inc.district]
-          .filter(Boolean)
-          .join(', ');
-
-        const meiosHTML = `
-          <div class="flex flex-wrap gap-2 mt-2">
-            <div class="flex items-center gap-1 px-2 py-1 bg-gray-200 rounded text-sm">🚒 <span class="text-red-600 font-bold">${inc.means?.terrain || 0}</span></div>
-            <div class="flex items-center gap-1 px-2 py-1 bg-gray-200 rounded text-sm">🛥️ <span class="text-blue-600 font-bold">${inc.means?.aquatic || 0}</span></div>
-            <div class="flex items-center gap-1 px-2 py-1 bg-gray-200 rounded text-sm">🚁 <span class="text-green-600 font-bold">${inc.means?.aerial || 0}</span></div>
-            <div class="flex items-center gap-1 px-2 py-1 bg-gray-200 rounded text-sm">👷 <span class="text-yellow-600 font-bold">${inc.means?.man || 0}</span></div>
-          </div>
-        `;
-
-        const card = document.createElement('div');
-        card.className = 'bg-white p-4 rounded-xl shadow hover:shadow-lg transition';
-
-        card.innerHTML = `
-          <div class="flex justify-between gap-2 sm:gap-0 items-start mb-2">
-            <h4 class="font-bold text-red-600 text-sm sm:text-base">${inc.natureza || '-'}</h4>
-            <span class="font-semibold text-sm sm:text-base" style="color:${inc.status_color || '#333'}">
-              ${inc.status || '-'}
-            </span>
-          </div>
-
-          <div class="text-gray-600 text-sm sm:text-base">${local || '-'}</div>
-
-          ${meiosHTML}
-
-          <div class="text-xs text-gray-500 mt-2">
-            ${inc.updated_at_api ? new Date(inc.updated_at_api).toLocaleString() : '-'}
-          </div>
-        `;
-
-        container.appendChild(card);
-      });
-
-      document.getElementById('meios-terrestres').textContent = terrestres;
-      document.getElementById('meios-aquaticos').textContent = aquaticos;
-      document.getElementById('meios-aereos').textContent = aereos;
-      document.getElementById('meios-operacionais').textContent = operacionais;
-
-    })
-    .catch(err => {
-      console.error(err);
-      document.getElementById('incidentes-container').innerHTML = '<div class="text-center text-red-500 p-4">Erro ao carregar incidentes</div>';
-    });
-
-});
-</script>
+<script type="module" src="{% static 'js/tabela.js' %}"></script>
 {% endblock %}

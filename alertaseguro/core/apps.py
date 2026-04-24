@@ -14,7 +14,7 @@ class CoreConfig(AppConfig):
         from core.services.ipma_service import update_ipma_warnings
 
         def run_startup_tasks():
-            print("Atualizando APIs Ocorrencias...")
+            print("Atualizando Ocorrencias...")
             fetch_all_apis()
 
             print("Atualizando avisos IPMA...")

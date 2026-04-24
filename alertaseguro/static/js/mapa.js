@@ -252,6 +252,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     data.forEach(inc => {
 
+      if (inc.status === "Encerrada") return;
+
       if (!selectedStatuses[inc.status]) return;
       
       activeIds.add(inc.api_id);

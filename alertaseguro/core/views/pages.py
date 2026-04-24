@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from .. forms import FeedbackForm
-from django.contrib.auth.decorators import login_required
+from core.models import IncidenteAPI
 
 def mainpage(request):
     return render(request, "Mainpage.html")
@@ -15,11 +15,11 @@ def doacoes(request):
 def precaucoes(request):
     return render(request, "Preca.html")
 
-def tabela(request):
-    return render(request, "tabela.html")
-
 def info(request):
     return render(request, "informacao.html")
+
+def tabela(request):
+    return render(request, "tabela.html")
 
 def feedback(request):
     if request.method == "POST":
