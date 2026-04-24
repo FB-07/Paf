@@ -1,5 +1,5 @@
 <button id="menu-btn"
-  class="fixed top-0.5 sm:top-3 right-3 sm:right-8 z-[100000]
+  class="fixed top-0.5 sm:top-3 right-3 sm:right-6 z-[100000]
          w-15 h-15 sm:w-14 sm:h-14
          flex items-center justify-center text-white
          rounded-xl sm:shadow-lg
@@ -15,8 +15,12 @@
 
     <div class="px-5 py-4 border-b border-white/20 mb-3">
       {% if user.is_authenticated %}
-        <p class="text-white text-sm opacity-80">Olá,</p>
-        <p class="text-white font-bold text-xl">{{ user.username }}</p>
+        <div class="flex-1 min-w-0">
+          <p class="text-white text-sm opacity-80">Olá,</p>
+          <p class="text-white font-bold text-xl pr-[60px] truncate">
+            {{ user.username }}
+          </p>
+        </div>
       {% else %}
         <p class="mt-[10px] text-white font-bold text-xl">Bem-vindo</p>
         <p class="mb-[15px]"></p>

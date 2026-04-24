@@ -11,7 +11,7 @@ import re
 # -------------------------
 class RegistoForm(forms.ModelForm):
     username = forms.CharField(
-        max_length=15,
+        max_length=12,
         label="Nome de utilizador",
         widget=forms.TextInput(attrs={
             'class': 'w-full p-[12px] rounded-[12px] bg-gray-100 focus:bg-white focus:outline-none focus:ring-2 focus:ring-red-400 transition',
@@ -168,14 +168,19 @@ class EditarPerfilForm(forms.ModelForm):
         })
     )
 
+    username = forms.CharField(
+        max_length=12,
+        label="Nome de utilizador",
+        widget=forms.TextInput(attrs={
+            'class': 'w-full p-[12px] rounded-[12px] bg-gray-100 focus:bg-white focus:outline-none focus:ring-2 focus:ring-red-400 transition',
+            'placeholder': 'Nome de utilizador'
+        })
+    )
+
     class Meta:
         model = User
         fields = ['username', 'email']
         widgets = {
-            'username': forms.TextInput(attrs={
-                'class': 'w-full p-[12px] rounded-[12px] bg-gray-100 focus:bg-white focus:outline-none focus:ring-2 focus:ring-red-400 transition',
-                'placeholder': 'Nome de utilizador'
-            }),
             'email': forms.EmailInput(attrs={
                 'class': 'w-full p-[12px] rounded-[12px] bg-gray-100 focus:bg-white focus:outline-none focus:ring-2 focus:ring-red-400 transition',
                 'placeholder': 'Email'

@@ -215,12 +215,13 @@ document.addEventListener("DOMContentLoaded", () => {
       statusAlerta: document.getElementById("statusAlerta")?.checked,
       statusChegada: document.getElementById("statusChegada")?.checked,
       statusConclusao: document.getElementById("statusConclusao")?.checked,
+      statusVigilancia: document.getElementById("statusVigilancia")?.checked,
     }));
   }
 
   const savedFilters = JSON.parse(localStorage.getItem("statusFilters") || "{}");
 
-  ["statusCurso", "statusResolucao", "statusAlerta", "statusChegada", "statusConclusao"].forEach(id => {
+  ["statusCurso", "statusResolucao", "statusAlerta", "statusChegada", "statusConclusao", "statusVigilancia"].forEach(id => {
     const el = document.getElementById(id);
     if (!el) return;
 
@@ -247,8 +248,12 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderIncidentes(data) {
 
     const activeIds = new Set();
+    const selectedStatuses = getSelectedStatuses();
 
     data.forEach(inc => {
+
+      if (!selectedStatuses[inc.status]) return;
+      
       activeIds.add(inc.api_id);
 
       const lat = Number(inc.latitude);
