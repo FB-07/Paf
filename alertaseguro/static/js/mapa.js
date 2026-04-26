@@ -205,6 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "Despacho de 1º Alerta": document.getElementById("statusAlerta")?.checked,
       "Chegada ao TO": document.getElementById("statusChegada")?.checked,
       "Em Conclusão": document.getElementById("statusConclusao")?.checked,
+      "Vigilância": document.getElementById("statusVigilancia")?.checked,
     };
   }
 

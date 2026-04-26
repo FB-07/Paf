@@ -30,6 +30,7 @@ urlpatterns = [
     path("avisos/", views.avisos, name="avisos"),
 
     path("api/incidentes/", views.api_incidentes, name="api_incidentes"),
+    path("api/incidentes/h/", views.api_incidentesH, name="api_incidentesH"),
     path("api/rcm/hoje/", views.rcm_hoje, name="rcm_hoje"),
     path("api/rcm/amanha/", views.rcm_amanha, name="rcm_amanha"),
 

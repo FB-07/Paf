@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
             card.innerHTML = `
                 <div class="flex justify-between mb-2">
                 <h4 class="font-bold text-red-600">${inc.natureza || '-'}</h4>
-                <span style="color:${inc.status_color || '#333'}">
+                <span style="color:${inc.status === 'Encerrada' ? '#4d4d4d' : (inc.status_color || '#333')}">
                     ${inc.status || '-'}
                 </span>
                 </div>
@@ -119,6 +119,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     👷 <span class="text-yellow-600 font-bold">${inc.means?.man || 0}</span>
                 </div>
                 </div>
+
+                <div class="flex justify-between mt-2 text-sm text-gray-600">
+                    <span>ID: ${inc.api_id || '-'}</span>
+                    <span>Atualizado: ${inc.updated_at_api ? new Date(inc.updated_at_api).toLocaleString() : '-'}</span>
+                </div>
+
             `;
 
             container.appendChild(card);
@@ -154,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 50);
     }
 
-    fetch("/api/incidentes/")
+    fetch("/api/incidentes/h/")
         .then(res => res.json())
         .then(data => {
 

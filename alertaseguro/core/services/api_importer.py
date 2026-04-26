@@ -137,7 +137,9 @@ def save_incident(item):
 
 def import_incidents():
     data = fetch_json(INCIDENTS_API)
-    if not data:
+
+    if data is None:
+        print("API falhou - não vou encerrar incidentes")
         return
 
     incidents = data.get("data", [])
@@ -173,6 +175,7 @@ def import_incidents():
 
     IncidenteAPI.objects.exclude(api_id__in=active_ids).exclude(status="Encerrada").update(
         status="Encerrada",
+        status_color="#4d4d4d",
         updated_at_api=timezone.now()
     )
 
