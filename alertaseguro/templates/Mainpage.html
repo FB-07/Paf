@@ -57,55 +57,52 @@ m-0 p-0 font-sans bg-gray-100 caret-transparent overflow-x-hidden
     </button>
 
     <div id="menu-drop-filtros"
-        class="hidden absolute left-0 top-[70px]
-                w-[220px]
-                rounded-[10px] shadow-[0_4px_10px_rgba(0,0,0,0.2)]
-                bg-gradient-to-b from-[#b43030] via-[#ff1e00] to-[#9c1717]">
+      class="hidden absolute left-0 top-[70px] w-[220px] rounded-[10px] shadow-[0_4px_10px_rgba(0,0,0,0.2)] bg-gradient-to-b from-[#b43030] via-[#ff1e00] to-[#9c1717] text-white">
 
-      <div class="flex items-center gap-[10px] px-[16px] py-[10px] cursor-pointer transition hover:bg-[#ffdddd]">
-        <input type="checkbox" id="toggleMunicipios" class="m-0 scale-110 cursor-pointer">
-        <label for="toggleMunicipios" class="text-white font-bold cursor-pointer select-none">Municípios</label>
-      </div>
+      <details class="accordion-group border-b border-white/20">
+        <summary class="px-4 py-3 font-bold cursor-pointer hover:bg-white/10">
+          Risco de incêndio
+        </summary>
 
-      <div class="flex items-center gap-[10px] px-[16px] py-[10px] cursor-pointer transition hover:bg-[#ffdddd]">
-        <input type="checkbox" id="toggleRisco0" class="m-0 scale-110 cursor-pointer">
-        <label for="toggleRisco0" class="text-white font-bold cursor-pointer select-none">Risco de incêndio hoje</label>
-      </div>
+        <div class="px-4 pb-3 space-y-2">
+          <label class="flex items-center gap-2">
+            <input type="checkbox" id="toggleRisco0">
+            Hoje
+          </label>
 
-      <div class="flex items-center gap-[10px] px-[16px] py-[10px] cursor-pointer transition hover:bg-[#ffdddd]">
-        <input type="checkbox" id="toggleRisco1" class="m-0 scale-110 cursor-pointer">
-        <label for="toggleRisco1" class="text-white font-bold cursor-pointer select-none">Risco de incêndio amanhã</label>
-      </div>
+          <label class="flex items-center gap-2">
+            <input type="checkbox" id="toggleRisco1">
+            Amanhã
+          </label>
+        </div>
+      </details>
 
-      <div class="flex items-center gap-[10px] px-[16px] py-[10px] cursor-pointer transition hover:bg-[#ffdddd]">
-        <input type="checkbox" id="statusCurso" class="m-0 scale-110 cursor-pointer" checked>
-        <label for="statusCurso" class="text-white font-bold cursor-pointer select-none">Em Curso</label>
-      </div>
+      <details class="accordion-group border-b border-white/20">
+        <summary class="px-4 py-3 font-bold cursor-pointer hover:bg-white/10">
+          Estado dos incidentes
+        </summary>
 
-      <div class="flex items-center gap-[10px] px-[16px] py-[10px] cursor-pointer transition hover:bg-[#ffdddd]">
-        <input type="checkbox" id="statusResolucao" class="m-0 scale-110 cursor-pointer" checked>
-        <label for="statusResolucao" class="text-white font-bold cursor-pointer select-none">Em Resolução</label>
-      </div>
+        <div class="px-4 pb-3 space-y-2">
+          <label class="flex items-center gap-2"><input type="checkbox" id="statusCurso" checked> Em Curso</label>
+          <label class="flex items-center gap-2"><input type="checkbox" id="statusResolucao" checked> Em Resolução</label>
+          <label class="flex items-center gap-2"><input type="checkbox" id="statusAlerta" checked> Despacho de 1º Alerta</label>
+          <label class="flex items-center gap-2"><input type="checkbox" id="statusChegada" checked> Chegada ao TO</label>
+          <label class="flex items-center gap-2"><input type="checkbox" id="statusConclusao" checked> Em Conclusão</label>
+          <label class="flex items-center gap-2"><input type="checkbox" id="statusVigilancia" checked> Vigilância</label>
+        </div>
+      </details>
 
-      <div class="flex items-center gap-[10px] px-[16px] py-[10px] cursor-pointer transition hover:bg-[#ffdddd]">
-        <input type="checkbox" id="statusAlerta" class="m-0 scale-110 cursor-pointer" checked>
-        <label for="statusAlerta" class="text-white font-bold cursor-pointer select-none">Despacho de 1º Alerta</label>
-      </div>
+      <details class="accordion-group">
+        <summary class="px-4 py-3 font-bold cursor-pointer hover:bg-white/10">
+          Pontos de Interesse
+        </summary>
 
-      <div class="flex items-center gap-[10px] px-[16px] py-[10px] cursor-pointer transition hover:bg-[#ffdddd]">
-        <input type="checkbox" id="statusChegada" class="m-0 scale-110 cursor-pointer" checked>
-        <label for="statusChegada" class="text-white font-bold cursor-pointer select-none">Chegada ao TO</label>
-      </div>
-
-      <div class="flex items-center gap-[10px] px-[16px] py-[10px] cursor-pointer transition hover:bg-[#ffdddd]">
-        <input type="checkbox" id="statusConclusao" class="m-0 scale-110 cursor-pointer" checked>
-        <label for="statusConclusao" class="text-white font-bold cursor-pointer select-none">Em Conclusão</label>
-      </div>
-
-      <div class="flex items-center gap-[10px] px-[16px] py-[10px] cursor-pointer transition hover:bg-[#ffdddd]">
-        <input type="checkbox" id="statusVigilancia" class="m-0 scale-110 cursor-pointer" checked>
-        <label for="statusVigilancia" class="text-white font-bold cursor-pointer select-none">Vigilância</label>
-      </div>
+        <div class="px-4 pb-3 space-y-2">
+          <label class="flex items-center gap-2"><input type="checkbox"> Hospitais</label>
+          <label class="flex items-center gap-2"><input type="checkbox"> Bombeiros</label>
+          <label class="flex items-center gap-2"><input type="checkbox"> Bases Aéreas</label>
+        </div>
+      </details>
 
     </div>
   </div>

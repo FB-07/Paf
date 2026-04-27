@@ -14,6 +14,20 @@ document.addEventListener("DOMContentLoaded", () => {
       drop.classList.add("hidden");
     }
   });
+
+  const groups = document.querySelectorAll(".accordion-group");
+
+  groups.forEach((group) => {
+    group.addEventListener("toggle", () => {
+      if (group.open) {
+        groups.forEach((other) => {
+          if (other !== group) {
+            other.removeAttribute("open");
+          }
+        });
+      }
+    });
+  });
 });
   
 

@@ -39,6 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!mapEl || typeof L === "undefined") return;
 
   const map = L.map("map", {
+    zoomControl: false,
     zoomSnap: 0.25,
     zoomDelta: 0.25
   }).setView([39.9, -8.0], 7);
@@ -336,10 +337,6 @@ document.addEventListener("DOMContentLoaded", () => {
         municipiosLayer.addData(data);
       });
   }
-
-  document.getElementById("toggleMunicipios")?.addEventListener("change", (e) => {
-    e.target.checked ? map.addLayer(municipiosLayer) : map.removeLayer(municipiosLayer);
-  });
 
   const cores_risco = {
     1: "#00ff00",
