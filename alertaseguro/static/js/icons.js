@@ -52,7 +52,7 @@ export const ICONS = {
     location: "📍",
     time: "⏱️",
 
-    fire: "🚒",
-    hospital: "🏥",
-    air: "✈️"
+    hospital: "/static/icons/hospital_poi.svg",
+    fire: "/static/icons/bombeiro_poi.svg",
+    air: "/static/icons/base_poi.svg"
 };

@@ -29,6 +29,9 @@ urlpatterns = [
     #API
     path("avisos/", views.avisos, name="avisos"),
 
+    path("api/hospitais/", views.api_hospitais, name="api_hospitais"),
+    path("api/bombeiros/", views.api_bombeiros, name="api_bombeiros"),
+    path("api/aereas/", views.api_aereas, name="api_bases_aereas"),
     path("api/incidentes/", views.api_incidentes, name="api_incidentes"),
     path("api/incidentes/h/", views.api_incidentesH, name="api_incidentesH"),
     path("api/rcm/hoje/", views.rcm_hoje, name="rcm_hoje"),

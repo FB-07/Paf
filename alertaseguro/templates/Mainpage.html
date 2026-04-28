@@ -98,9 +98,9 @@ m-0 p-0 font-sans bg-gray-100 caret-transparent overflow-x-hidden
         </summary>
 
         <div class="px-4 pb-3 space-y-2">
-          <label class="flex items-center gap-2"><input type="checkbox"> Hospitais</label>
-          <label class="flex items-center gap-2"><input type="checkbox"> Bombeiros</label>
-          <label class="flex items-center gap-2"><input type="checkbox"> Bases Aéreas</label>
+          <label class="flex items-center gap-2"><input type="checkbox" id="poiHospitais"> Hospitais</label>
+          <label class="flex items-center gap-2"><input type="checkbox" id="poiBombeiros"> Bombeiros</label>
+          <label class="flex items-center gap-2"><input type="checkbox" id="poiBasesAereas"> Bases Aéreas</label>
         </div>
       </details>
 
@@ -161,5 +161,4 @@ m-0 p-0 font-sans bg-gray-100 caret-transparent overflow-x-hidden
 <script src="{% static 'js/incidentPanel.js' %}"></script>
 <script src="{% static 'js/menufiltros.js' %}"></script>
 <script type="module" src="{% static 'js/mapa.js' %}"></script>
-<script src="{% static 'js/mapa-layers.js' %}"></script>
 {% endblock %}

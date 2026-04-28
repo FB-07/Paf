@@ -315,6 +315,93 @@ document.addEventListener("DOMContentLoaded", () => {
   setInterval(loadIncidentes, 30000);
 
   // ==========================
+  // Pontos de interesse
+  // ==========================
+  const hospitaisLayer = L.layerGroup().addTo(map);
+  const bombeirosLayer = L.layerGroup().addTo(map);
+  const basesAereasLayer = L.layerGroup().addTo(map);
+
+  function createPOIMarker(lat, lon, iconPath, color = "#2563eb") {
+    const icon = L.divIcon({
+      className: "",
+      html: `
+        <div style="
+          width:30px;height:30px;border-radius:50%;
+          background:${color};
+          display:flex;align-items:center;justify-content:center;
+          border:2px solid white;">
+          <img src="${iconPath}" style="width:16px;height:16px;filter:brightness(0) invert(1);">
+        </div>
+      `,
+      iconSize: [30, 30],
+      iconAnchor: [15, 15]
+    });
+
+    return L.marker([lat, lon], { icon });
+  }
+
+  async function loadPOI(url, layer, iconPath, color) {
+    layer.clearLayers();
+
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(res.status);
+
+      const data = await res.json();
+
+      data.forEach(p => {
+        const lat = Number(p.latitude);
+        const lon = Number(p.longitude);
+
+        if (!Number.isFinite(lat) || !Number.isFinite(lon)) return;
+
+        const marker = createPOIMarker(lat, lon, iconPath, color);
+
+        marker.bindPopup(`<b>${p.name || "Sem nome"}</b>`);
+
+        layer.addLayer(marker);
+      });
+
+    } catch (err) {
+      console.error("Erro POI:", err);
+    }
+  }
+
+  function setupPOIFilters() {
+    const hospitaisCB = document.getElementById("poiHospitais");
+    const bombeirosCB = document.getElementById("poiBombeiros");
+    const aereasCB = document.getElementById("poiBasesAereas");
+
+    if (!hospitaisCB || !bombeirosCB || !aereasCB) return;
+
+    hospitaisCB.addEventListener("change", () => {
+      if (hospitaisCB.checked) {
+        loadPOI("/api/hospitais/", hospitaisLayer, ICONS.hospital, "#dc2626");
+      } else {
+        hospitaisLayer.clearLayers();
+      }
+    });
+
+    bombeirosCB.addEventListener("change", () => {
+      if (bombeirosCB.checked) {
+        loadPOI("/api/bombeiros/", bombeirosLayer, ICONS.fire, "#ea580c");
+      } else {
+        bombeirosLayer.clearLayers();
+      }
+    });
+
+    aereasCB.addEventListener("change", () => {
+      if (aereasCB.checked) {
+        loadPOI("/api/aereas/", basesAereasLayer, ICONS.air, "#2563eb");
+      } else {
+        basesAereasLayer.clearLayers();
+      }
+    });
+  }
+
+  setupPOIFilters();
+
+  // ==========================
   // MUNICÍPIOS
   // ==========================
   const municipiosLayer = L.geoJSON(null, {
