@@ -38,35 +38,39 @@ document.addEventListener("DOMContentLoaded", () => {
   const mapEl = document.getElementById("map");
   if (!mapEl || typeof L === "undefined") return;
 
+  const bounds = [
+    [-85.0511, -180], 
+    [85.0511, 180]    
+  ];
+
   const map = L.map("map", {
     zoomControl: false,
     zoomSnap: 0.25,
-    zoomDelta: 0.25
+    zoomDelta: 0.25,
+    minZoom: 3,
+    maxBounds: bounds,
+    maxBoundsViscosity: 1.0 
   }).setView([39.9, -8.0], 7);
 
   setTimeout(() => map.invalidateSize(), 300);
 
   const baseLayers = {
     road: L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      maxZoom: 19,
       attribution: "&copy; OpenStreetMap",
       referrerPolicy: "strict-origin-when-cross-origin"
     }),
 
     claro: L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-      maxZoom: 20,
       attribution: "&copy; OpenStreetMap & CARTO",
       referrerPolicy: "strict-origin-when-cross-origin"
     }),
 
     escuro: L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
-      maxZoom: 20,
       attribution: "&copy; OpenStreetMap & CARTO",
       referrerPolicy: "strict-origin-when-cross-origin"
     }),
 
     satelite: L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
-      maxZoom: 19,
       attribution: "&copy; Esri",
       referrerPolicy: "strict-origin-when-cross-origin"
     })
@@ -317,9 +321,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================
   // Pontos de interesse
   // ==========================
-  const hospitaisLayer = L.layerGroup().addTo(map);
-  const bombeirosLayer = L.layerGroup().addTo(map);
-  const basesAereasLayer = L.layerGroup().addTo(map);
+  const hospitaisLayer = L.layerGroup();
+  const bombeirosLayer = L.layerGroup();
+  const basesAereasLayer = L.layerGroup();
 
   function createPOIMarker(lat, lon, iconPath, color = "#2563eb") {
     const icon = L.divIcon({
@@ -367,6 +371,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  function hideIncidentes() {
+    map.removeLayer(incidentesLayer);
+  }
+
+  function showIncidentes() {
+    map.addLayer(incidentesLayer);
+  }
+
+  function hidePOI() {
+    map.removeLayer(hospitaisLayer);
+    map.removeLayer(bombeirosLayer);
+    map.removeLayer(basesAereasLayer);
+  }
+
   function setupPOIFilters() {
     const hospitaisCB = document.getElementById("poiHospitais");
     const bombeirosCB = document.getElementById("poiBombeiros");
@@ -374,27 +392,59 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!hospitaisCB || !bombeirosCB || !aereasCB) return;
 
+    function resetPOI(except) {
+      if (except !== hospitaisCB) hospitaisCB.checked = false;
+      if (except !== bombeirosCB) bombeirosCB.checked = false;
+      if (except !== aereasCB) aereasCB.checked = false;
+
+      hidePOI();
+    }
+
     hospitaisCB.addEventListener("change", () => {
+
       if (hospitaisCB.checked) {
-        loadPOI("/api/hospitais/", hospitaisLayer, ICONS.hospital, "#dc2626");
+        resetPOI(hospitaisCB);
+
+        hideIncidentes();
+
+        loadPOI("/api/hospitais/", hospitaisLayer, ICONS.hospital_icon, "#dc2626");
+        hospitaisLayer.addTo(map);
+
       } else {
-        hospitaisLayer.clearLayers();
+        map.removeLayer(hospitaisLayer);
+        showIncidentes();
       }
     });
 
     bombeirosCB.addEventListener("change", () => {
+
       if (bombeirosCB.checked) {
-        loadPOI("/api/bombeiros/", bombeirosLayer, ICONS.fire, "#ea580c");
+        resetPOI(bombeirosCB);
+
+        hideIncidentes();
+
+        loadPOI("/api/bombeiros/", bombeirosLayer, ICONS.fire_icon, "#ea580c");
+        bombeirosLayer.addTo(map);
+
       } else {
-        bombeirosLayer.clearLayers();
+        map.removeLayer(bombeirosLayer);
+        showIncidentes();
       }
     });
 
     aereasCB.addEventListener("change", () => {
+
       if (aereasCB.checked) {
-        loadPOI("/api/aereas/", basesAereasLayer, ICONS.air, "#2563eb");
+        resetPOI(aereasCB);
+
+        hideIncidentes();
+
+        loadPOI("/api/aereas/", basesAereasLayer, ICONS.air_icon, "#2563eb");
+        basesAereasLayer.addTo(map);
+
       } else {
-        basesAereasLayer.clearLayers();
+        map.removeLayer(basesAereasLayer);
+        showIncidentes();
       }
     });
   }

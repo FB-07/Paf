@@ -111,7 +111,17 @@ m-0 p-0 font-sans bg-gray-100 caret-transparent overflow-x-hidden
     <div id="map" class="w-screen h-screen"></div>
   </main>
 
-  <button id="menu-btn-layers"
+  <button id="portugal-btn"
+    class="fixed bottom-6 sm:bottom-8 left-4 z-[9999]
+          bg-gradient-to-b from-[#b43030] via-[#ff1e00] to-[#9c1717]
+          p-3 rounded-full shadow-lg hover:scale-110 transition">
+
+    <img src="{% static 'icons/portugal-icon.svg' %}"
+        class="w-8 h-8 invert brightness-0"
+        alt="Portugal">
+  </button>
+
+  <!-- <button id="menu-btn-layers"
     class="fixed bottom-6 sm:bottom-8 left-4 z-[9999]
           bg-gradient-to-b from-[#b43030] via-[#ff1e00] to-[#9c1717]
           p-3 rounded-full shadow-lg hover:scale-110 transition">
@@ -119,7 +129,7 @@ m-0 p-0 font-sans bg-gray-100 caret-transparent overflow-x-hidden
     <img src="{% static 'icons/layers-map.svg' %}"
         class="w-8 h-8 invert brightness-0"
         alt="Layers">
-  </button>
+  </button> -->
 
   <div id="layers-menu"
       class="hidden fixed bottom-20 left-4 z-[9999]
