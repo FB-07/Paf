@@ -89,6 +89,9 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("baseLayer", name);
   }
 
+  document.getElementById("portugal-btn").addEventListener("click", function () {
+    map.setView([39.9, -8.0], 7);
+  });
 
   // ==========================
   // Incidentes
