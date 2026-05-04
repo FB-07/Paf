@@ -1,0 +1,40 @@
+{% load static %}
+{% for h in hospitals %}
+
+<div class="bg-[#ffffffcc] rounded-[20px] shadow-[0_4px_10px_rgba(0,0,0,0.1)] overflow-hidden h-[500px] flex flex-col">
+
+  <div class="h-50 bg-gray-200 flex items-center justify-center">
+    <img src="{% static 'imagens/hospital.png' %}" class="w-full h-full object-cover">
+  </div>
+
+  <div class="p-4 flex-1 overflow-auto">
+
+    <h3 class="text-[#9c1717] font-bold text-lg mb-2">
+      {{ h.name }}
+    </h3>
+
+    <span class="inline-block bg-[#b43030] text-white px-3 py-1 rounded-full text-xs font-bold mb-2">
+      {{ h.type|default:"Hospital" }}
+    </span>
+
+    <p class="bg-black w-full h-[1px] rounded-full mb-2"></p>
+
+    <p class="text-sm text-gray-800 mb-2">
+      📍 {{ h.address|default:"Sem morada" }}
+    </p>
+
+    <p class="text-sm text-gray-800 mb-2">
+      {% if h.phone %}📞 {{ h.phone }}<br>{% endif %}
+    </p>
+    <p class="text-sm text-gray-800 mb-2">
+      {% if h.email %}✉️ {{ h.email }}<br>{% endif %}
+    </p>
+    <p class="text-sm text-gray-800">
+      {% if h.website %}🌐 <a href="{{ h.website }}" target="_blank" class="text-blue-500 hover:underline">Site</a>{% endif %}
+    </p>
+
+  </div>
+
+</div>
+
+{% endfor %}

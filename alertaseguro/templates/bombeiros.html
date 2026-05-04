@@ -3,8 +3,6 @@
 
 {% block title %}Bombeiros - AlertaSeguro{% endblock %}
 
-{% block body_class %}m-0 p-0 bg-gray-100 font-sans{% endblock %}
-
 {% block content %}
 
 {% include "components/header.html" %}
@@ -20,55 +18,16 @@
 
   {% include "components/search_bar.html" %}
 
-  <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  <section id="results" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-    {% for b in bombeiros %}
-
-    <div class="bg-[#ffffffcc] rounded-[20px] shadow-[0_4px_10px_rgba(0,0,0,0.1)] overflow-hidden h-[500px] flex flex-col">
-
-      <div class="h-50 bg-gray-200 flex items-center justify-center">
-        <img src="{% static 'imagens/bombeiros.png' %}" class="w-full h-full object-cover">
-      </div>
-
-      <div class="p-4 flex-1 overflow-auto">
-
-        <h3 class="text-[#9c1717] font-bold text-lg mb-2">
-          {{ b.name }}
-        </h3>
-
-        <span class="inline-block bg-[#b43030] text-white px-3 py-1 rounded-full text-xs font-bold mb-2">
-          {{ b.type|default:"Bombeiro" }}
-        </span>
-
-        <p class="bg-black w-full h-[1px] rounded-full mb-2"></p>
-
-        <p class="text-sm text-gray-800 mb-2">
-          📍 {{ b.address|default:"Sem morada" }}
-        </p>
-
-        <p class="text-sm text-gray-800 mb-2">
-          {% if b.telephone %}📞 {{ b.telephone }}<br>{% endif %}
-        </p>
-
-        <p class="text-sm text-gray-800 mb-2">
-          {% if b.email %}✉️ {{ b.email }}{% endif %}
-        </p>
-
-        <p class="text-sm text-gray-800">
-          {% if b.website %}🌐 <a href="{{ b.website }}" target="_blank" class="text-blue-500 hover:underline">Site</a>{% endif %}
-        </p>
-      </div>
-
-    </div>
-
-    {% endfor %}
+    {% include "partials/bombeiros_results.html" %}
 
   </section>
 
   <div class="flex justify-center items-center gap-3 mt-10">
 
     {% if bombeiros.has_previous %}
-      <a href="?page={{ bombeiros.previous_page_number }}"
+      <a href="?page={{ bombeiros.previous_page_number }}&q={{ query }}"
          class="px-4 py-2 bg-gray-300 rounded-[10px]">Anterior</a>
     {% endif %}
 
@@ -77,7 +36,7 @@
     </span>
 
     {% if bombeiros.has_next %}
-      <a href="?page={{ bombeiros.next_page_number }}"
+      <a href="?page={{ bombeiros.next_page_number }}&q={{ query }}"
          class="px-4 py-2 bg-[#b43030] text-white rounded-[10px]">Seguinte</a>
     {% endif %}
 
@@ -85,4 +44,9 @@
 
 </main>
 
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+<script src="{% static 'js/search_bar.js' %}"></script>
 {% endblock %}

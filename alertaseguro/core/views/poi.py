@@ -1,39 +1,49 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from ..models import Hospital, AirResource, Bombeiro
+from django.shortcuts import render
 from django.core.paginator import Paginator
+from ..models import Hospital, AirResource, Bombeiro
 
-def bases_aereas(request):
-    query = request.GET.get("q")
 
-    air_resources = AirResource.objects.all()
+def bombeiros(request):
+    query = request.GET.get("q", "").strip()
+
+    qs = Bombeiro.objects.all()
 
     if query:
-        air_resources = air_resources.filter(name__icontains=query)
+        qs = qs.filter(name__icontains=query)
 
-    air_resources = air_resources.order_by("district", "name")
+    qs = qs.order_by("district", "city")
 
-    paginator = Paginator(air_resources, 12)
+    if request.headers.get("x-requested-with") == "XMLHttpRequest":
+        return render(request, "partials/bombeiros_results.html", {
+            "bombeiros": qs
+        })
+
+    paginator = Paginator(qs, 12)
     page_number = request.GET.get("page")
-    air_resources = paginator.get_page(page_number)
+    bombeiros = paginator.get_page(page_number)
 
-    return render(request, "bases-aereas.html", {
-        "air_resources": air_resources,
+    return render(request, "bombeiros.html", {
+        "bombeiros": bombeiros,
         "query": query,
     })
 
 
 def hospitais(request):
-    query = request.GET.get("q")
+    query = request.GET.get("q", "").strip()
 
-    hospitals = Hospital.objects.all()
+    qs = Hospital.objects.all()
 
     if query:
-        hospitals = hospitals.filter(name__icontains=query)
+        qs = qs.filter(name__icontains=query)
 
-    hospitals = hospitals.order_by("district", "name")
+    qs = qs.order_by("district", "name")
 
-    paginator = Paginator(hospitals, 12)
+    if request.headers.get("x-requested-with") == "XMLHttpRequest":
+        return render(request, "partials/hospitais_results.html", {
+            "hospitals": qs
+        })
+
+    paginator = Paginator(qs, 12)
     page_number = request.GET.get("page")
     hospitals = paginator.get_page(page_number)
 
@@ -43,21 +53,26 @@ def hospitais(request):
     })
 
 
-def bombeiros(request):
-    query = request.GET.get("q")
+def bases_aereas(request):
+    query = request.GET.get("q", "").strip()
 
-    bombeiros = Bombeiro.objects.all()
+    qs = AirResource.objects.all()
 
     if query:
-        bombeiros = bombeiros.filter(name__icontains=query)
+        qs = qs.filter(name__icontains=query)
 
-    bombeiros = bombeiros.order_by("district", "city")
+    qs = qs.order_by("district", "name")
 
-    paginator = Paginator(bombeiros, 12)
+    if request.headers.get("x-requested-with") == "XMLHttpRequest":
+        return render(request, "partials/bases_results.html", {
+            "air_resources": qs
+        })
+
+    paginator = Paginator(qs, 12)
     page_number = request.GET.get("page")
-    bombeiros = paginator.get_page(page_number)
+    air_resources = paginator.get_page(page_number)
 
-    return render(request, "bombeiros.html", {
-        "bombeiros": bombeiros,
+    return render(request, "bases-aereas.html", {
+        "air_resources": air_resources,
         "query": query,
     })
