@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from ..models import UsersProfile
 from django.contrib.auth.models import User
 from django.contrib import messages
 from ..forms import RegistoForm
@@ -36,8 +35,7 @@ def logout_view(request):
 
 @login_required
 def perfil_view(request):
-    profile, created = UsersProfile.objects.get_or_create(user=request.user)
-    return render(request, "auth/perfil.html", {"profile": profile})
+    return render(request, "auth/perfil.html")
 
 @login_required
 def editar_perfil(request):

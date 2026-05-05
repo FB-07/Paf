@@ -2,23 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class UsersProfile(models.Model):
-    TIPOS = [
-        ("admin", "Administrador"),
-        ("utilizador", "Utilizador"),
-    ]
-
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    tipo_utilizador = models.CharField(max_length=20, choices=TIPOS, default="utilizador")
-
-    class Meta:
-        verbose_name = "Perfil de Utilizador"
-        verbose_name_plural = "Perfis de Utilizador"
-
-    def __str__(self):
-        return f"{self.user.username} ({self.tipo_utilizador})"
-
-
 class IncidenteAPI(models.Model):
     api_id = models.CharField(max_length=200, unique=True, db_index=True)
     dico = models.CharField(max_length=10, blank=True, null=True, db_index=True)

@@ -1,6 +1,5 @@
 from django.contrib import admin
 from .models import (
-    UsersProfile,
     IncidenteAPI,
     Hospital,
     Bombeiro,
@@ -11,7 +10,6 @@ from .models import (
     Feedback,
 )
 
-admin.site.register(UsersProfile)
 admin.site.register(IncidenteAPI)
 admin.site.register(Hospital)
 admin.site.register(Bombeiro)
