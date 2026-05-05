@@ -309,9 +309,6 @@
   .z-\[100001\] {
     z-index: 100001;
   }
-  .col-span-3 {
-    grid-column: span 3 / span 3;
-  }
   .container {
     width: 100%;
     @media (width >= 40rem) {
@@ -480,8 +477,11 @@
   .h-\[180px\] {
     height: 180px;
   }
-  .h-\[400px\] {
-    height: 400px;
+  .h-\[350px\] {
+    height: 350px;
+  }
+  .h-\[450px\] {
+    height: 450px;
   }
   .h-\[500px\] {
     height: 500px;
