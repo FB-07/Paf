@@ -172,9 +172,11 @@ def verify_email(request, uidb64, token):
     if user and default_token_generator.check_token(user, token):
         user.is_active = True
         user.save()
-        return HttpResponse("Email verificado com sucesso!")
-
-    return HttpResponse("Link inválido ou expirado.")
+        messages.success(request, "Email verificado com sucesso.")
+    else:
+        messages.error(request, "Link inválido.")
+    
+    return redirect("login")
 
 def delete_account(request, uidb64, token):
     try:
@@ -217,11 +219,14 @@ def forgot_password_view(request):
                 )
             )
 
+            domain = request.build_absolute_uri("/")[:-1]
+            
             html_content = render_to_string(
                 "emails/reset_password.html",
                 {
                     "user": user,
-                    "link": link
+                    "link": link,
+                    "domain": domain,
                 }
             )
 
