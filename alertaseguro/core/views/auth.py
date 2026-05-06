@@ -9,6 +9,10 @@ from django.utils.encoding import force_bytes
 from django.urls import reverse
 from django.http import HttpResponse
 
+import logging
+import traceback
+import threading
+
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
@@ -55,13 +59,15 @@ def login_view(request):
 
     return render(request, "auth/login.html", {"form": form})
 
+logger = logging.getLogger("email")
+
+
 def registo_view(request):
     form = RegistoForm(request.POST or None)
 
     if request.method == "POST" and form.is_valid():
         user = form.save(commit=False)
         user.set_password(form.cleaned_data["password"])
-
         user.is_active = False
         user.save()
 
@@ -69,22 +75,16 @@ def registo_view(request):
         token = default_token_generator.make_token(user)
 
         link = request.build_absolute_uri(
-            reverse("verify_email", kwargs={
-                "uidb64": uid,
-                "token": token
-            })
+            reverse("verify_email", kwargs={"uidb64": uid, "token": token})
         )
 
         delete_token = default_token_generator.make_token(user)
 
         delete_link = request.build_absolute_uri(
-            reverse("delete_account", kwargs={
-                "uidb64": uid,
-                "token": delete_token
-            })
+            reverse("delete_account", kwargs={"uidb64": uid, "token": delete_token})
         )
 
-        domain = request.build_absolute_uri('/')[:-1]
+        domain = request.build_absolute_uri("/")[:-1]
 
         html_content = render_to_string("emails/verify_email.html", {
             "user": user,
@@ -103,23 +103,21 @@ def registo_view(request):
         )
 
         email.attach_alternative(html_content, "text/html")
-        import threading
-        import logging
-        import traceback
-
-        logger = logging.getLogger("email")
-
 
         def send_email(email_obj):
             try:
-                print(f"A enviar email para: {email_obj.to}")
+                print("📧 A enviar email...")
+                print(f"📧 Destinatário: {email_obj.to}")
+
                 result = email_obj.send(fail_silently=False)
-                print(f"Email enviado com resultado: {result}")
+
+                print(f"📧 Resultado: {result}")
+                print("📧 Email enviado com sucesso")
 
             except Exception as e:
-                print(f"Erro ao enviar email: {e}")
+                print("❌ Erro ao enviar email:")
+                print(str(e))
                 print(traceback.format_exc())
-
 
         threading.Thread(target=send_email, args=(email,)).start()
 
