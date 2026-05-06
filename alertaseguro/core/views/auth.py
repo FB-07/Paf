@@ -61,7 +61,6 @@ def login_view(request):
 
 logger = logging.getLogger("email")
 
-
 def registo_view(request):
     form = RegistoForm(request.POST or None)
 
