@@ -109,7 +109,8 @@ def registo_view(request):
             send_gmail_api(
                 user.email,
                 "AlertaSeguro: Verifica o teu email",
-                text_content
+                text_content,
+                html_content
             )
 
             messages.success(
