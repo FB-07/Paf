@@ -103,7 +103,8 @@ def registo_view(request):
         )
 
         email.attach_alternative(html_content, "text/html")
-        email.send()
+        import threading
+        threading.Thread(target=lambda: email.send()).start()
 
         messages.success(request, "Conta criada! Verifica o teu email.")
         return redirect("login")
