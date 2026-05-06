@@ -119,22 +119,7 @@ class LoginForm(forms.Form):
 
     def clean(self):
         cleaned = super().clean()
-        identifier = cleaned.get("username")
-        password = cleaned.get("password")
-
-        user = authenticate(username=identifier, password=password)
-
-        if not user:
-            try:
-                user_obj = User.objects.get(email=identifier)
-                user = authenticate(username=user_obj.username, password=password)
-            except User.DoesNotExist:
-                user = None
-
-        if not user:
-            raise ValidationError("Credenciais inválidas")
-
-        self.user = user
+        self.user = None
         return cleaned
 
 # -------------------------

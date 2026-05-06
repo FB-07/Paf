@@ -1,4 +1,5 @@
 from django.urls import include, path
+from core.views.auth import verify_email
 from . import views
 
 urlpatterns = [
@@ -19,7 +20,11 @@ urlpatterns = [
 
     #Login/Logout/Registo/Perfil
     path("login/", views.login_view, name="login"),
+
     path("registo/", views.registo_view, name="registo"),
+    path("verify-email/<uidb64>/<token>/", views.verify_email,name="verify_email"),
+    path("delete/<uidb64>/<token>/", views.delete_account, name="delete_account"),
+
     path("logout/", views.logout_view, name="logout"),
     path("perfil/", views.perfil_view, name="perfil"),
     path("editar-perfil/", views.editar_perfil, name="editar_perfil"),
