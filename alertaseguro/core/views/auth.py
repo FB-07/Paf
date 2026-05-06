@@ -9,7 +9,8 @@ from django.utils.encoding import force_bytes
 from django.urls import reverse
 from django.http import HttpResponse
 
-from django.core.mail import EmailMultiAlternatives
+from core.gmail_service import send_gmail_api
+
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
@@ -69,19 +70,25 @@ def registo_view(request):
         token = default_token_generator.make_token(user)
 
         link = request.build_absolute_uri(
-            reverse("verify_email", kwargs={
-                "uidb64": uid,
-                "token": token
-            })
+            reverse(
+                "verify_email",
+                kwargs={
+                    "uidb64": uid,
+                    "token": token
+                }
+            )
         )
 
         delete_token = default_token_generator.make_token(user)
 
         delete_link = request.build_absolute_uri(
-            reverse("delete_account", kwargs={
-                "uidb64": uid,
-                "token": delete_token
-            })
+            reverse(
+                "delete_account",
+                kwargs={
+                    "uidb64": uid,
+                    "token": delete_token
+                }
+            )
         )
 
         domain = request.build_absolute_uri("/")[:-1]
@@ -98,23 +105,21 @@ def registo_view(request):
 
         text_content = strip_tags(html_content)
 
-        email = EmailMultiAlternatives(
-            "AlertaSeguro: Verifica o teu email",
-            text_content,
-            "alertaseguropt@gmail.com",
-            [user.email],
-        )
-
-        email.attach_alternative(html_content, "text/html")
-
         try:
-            email.send(fail_silently=False)
+            send_gmail_api(
+                user.email,
+                "AlertaSeguro: Verifica o teu email",
+                text_content
+            )
+
             messages.success(
                 request,
                 "Conta criada! Verifica o teu email."
             )
+
         except Exception as e:
             print(e)
+
             messages.error(
                 request,
                 "Erro ao enviar email."
@@ -122,7 +127,7 @@ def registo_view(request):
 
         return redirect("login")
 
-    return render(request, "auth/registo.html", {"form": form})
+    return render(request,"auth/registo.html",{"form": form})
 
 def verify_email(request, uidb64, token):
     try:
