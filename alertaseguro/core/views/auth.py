@@ -9,10 +9,6 @@ from django.utils.encoding import force_bytes
 from django.urls import reverse
 from django.http import HttpResponse
 
-import logging
-import traceback
-import threading
-
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
@@ -59,7 +55,6 @@ def login_view(request):
 
     return render(request, "auth/login.html", {"form": form})
 
-logger = logging.getLogger("email")
 
 def registo_view(request):
     form = RegistoForm(request.POST or None)
@@ -74,23 +69,32 @@ def registo_view(request):
         token = default_token_generator.make_token(user)
 
         link = request.build_absolute_uri(
-            reverse("verify_email", kwargs={"uidb64": uid, "token": token})
+            reverse("verify_email", kwargs={
+                "uidb64": uid,
+                "token": token
+            })
         )
 
         delete_token = default_token_generator.make_token(user)
 
         delete_link = request.build_absolute_uri(
-            reverse("delete_account", kwargs={"uidb64": uid, "token": delete_token})
+            reverse("delete_account", kwargs={
+                "uidb64": uid,
+                "token": delete_token
+            })
         )
 
         domain = request.build_absolute_uri("/")[:-1]
 
-        html_content = render_to_string("emails/verify_email.html", {
-            "user": user,
-            "link": link,
-            "delete_link": delete_link,
-            "domain": domain,
-        })
+        html_content = render_to_string(
+            "emails/verify_email.html",
+            {
+                "user": user,
+                "link": link,
+                "delete_link": delete_link,
+                "domain": domain,
+            }
+        )
 
         text_content = strip_tags(html_content)
 
@@ -103,24 +107,19 @@ def registo_view(request):
 
         email.attach_alternative(html_content, "text/html")
 
-        def send_email(email_obj):
-            try:
-                print("📧 A enviar email...")
-                print(f"📧 Destinatário: {email_obj.to}")
+        try:
+            email.send(fail_silently=False)
+            messages.success(
+                request,
+                "Conta criada! Verifica o teu email."
+            )
+        except Exception as e:
+            print(e)
+            messages.error(
+                request,
+                "Erro ao enviar email."
+            )
 
-                result = email_obj.send(fail_silently=False)
-
-                print(f"📧 Resultado: {result}")
-                print("📧 Email enviado com sucesso")
-
-            except Exception as e:
-                print("❌ Erro ao enviar email:")
-                print(str(e))
-                print(traceback.format_exc())
-
-        threading.Thread(target=send_email, args=(email,)).start()
-
-        messages.success(request, "Conta criada! Verifica o teu email.")
         return redirect("login")
 
     return render(request, "auth/registo.html", {"form": form})
