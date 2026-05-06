@@ -104,7 +104,24 @@ def registo_view(request):
 
         email.attach_alternative(html_content, "text/html")
         import threading
-        threading.Thread(target=lambda: email.send()).start()
+        import logging
+        import traceback
+
+        logger = logging.getLogger("email")
+
+
+        def send_email(email_obj):
+            try:
+                logger.info(f"A enviar email para: {email_obj.to}")
+                result = email_obj.send(fail_silently=False)
+                logger.info(f"Email enviado com resultado: {result}")
+
+            except Exception as e:
+                logger.error(f"Erro ao enviar email: {e}")
+                logger.error(traceback.format_exc())
+
+
+        threading.Thread(target=send_email, args=(email,)).start()
 
         messages.success(request, "Conta criada! Verifica o teu email.")
         return redirect("login")
