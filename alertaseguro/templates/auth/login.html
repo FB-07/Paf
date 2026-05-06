@@ -46,6 +46,10 @@
         </div>
       {% endfor %}
 
+      <a href="{% url 'forgot_password' %}" class="inline-block mt-[15px] text-[8px] md:text-[12px] font-bold text-[#9c1717] no-underline">
+        Esqueceste-te da palavra-passe?
+      </a>
+
       {% if form.non_field_errors %}
         <p class="text-red-600 mt-[12px]">
           {{ form.non_field_errors }}

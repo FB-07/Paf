@@ -8,15 +8,21 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.urls import reverse
 from django.http import HttpResponse
-
-from core.gmail_service import send_gmail_api
-
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
-from ..forms import RegistoForm, LoginForm, EditarPerfilForm
+from ..gmail_service import send_gmail_api
+from ..forms import (
+    RegistoForm,
+    LoginForm,
+    EditarPerfilForm,
+    ForgotPasswordForm,
+    ResetPasswordForm
+)
 
-
+# -------------------------
+# Login/Logout/Registo/Perfil
+# -------------------------
 def login_view(request):
     form = LoginForm(request.POST or None)
 
@@ -55,7 +61,6 @@ def login_view(request):
         return redirect("mainpage")
 
     return render(request, "auth/login.html", {"form": form})
-
 
 def registo_view(request):
     form = RegistoForm(request.POST or None)
@@ -130,6 +135,33 @@ def registo_view(request):
 
     return render(request,"auth/registo.html",{"form": form})
 
+def logout_view(request):
+    logout(request)
+    messages.success(request, "Successfully signed out.")
+    return redirect("mainpage")
+
+@login_required
+def perfil_view(request):
+    return render(request, "auth/perfil.html")
+
+@login_required
+def editar_perfil(request):
+    form = EditarPerfilForm(request.POST or None, instance=request.user)
+
+    if request.method == "POST" and form.is_valid():
+        user = form.save()
+
+        from django.contrib.auth import update_session_auth_hash
+        update_session_auth_hash(request, user)
+
+        messages.success(request, "Perfil atualizado com sucesso!")
+        return redirect("perfil")
+
+    return render(request, "auth/editar_perfil.html", {"form": form})
+
+# -------------------------
+# Verificar email e apagar conta
+# -------------------------
 def verify_email(request, uidb64, token):
     try:
         uid = urlsafe_base64_decode(uidb64).decode()
@@ -159,26 +191,88 @@ def delete_account(request, uidb64, token):
 
     return redirect("login")
 
-def logout_view(request):
-    logout(request)
-    messages.success(request, "Successfully signed out.")
-    return redirect("mainpage")
+# -------------------------
+# Forgot/reset password
+# -------------------------
 
-@login_required
-def perfil_view(request):
-    return render(request, "auth/perfil.html")
-
-@login_required
-def editar_perfil(request):
-    form = EditarPerfilForm(request.POST or None, instance=request.user)
+def forgot_password_view(request):
+    form = ForgotPasswordForm(request.POST or None)
 
     if request.method == "POST" and form.is_valid():
-        user = form.save()
+        email = form.cleaned_data["email"]
 
-        from django.contrib.auth import update_session_auth_hash
-        update_session_auth_hash(request, user)
+        try:
+            user = User.objects.get(email=email)
 
-        messages.success(request, "Perfil atualizado com sucesso!")
-        return redirect("perfil")
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            token = default_token_generator.make_token(user)
 
-    return render(request, "auth/editar_perfil.html", {"form": form})
+            link = request.build_absolute_uri(
+                reverse(
+                    "reset_password",
+                    kwargs={
+                        "uidb64": uid,
+                        "token": token
+                    }
+                )
+            )
+
+            html_content = render_to_string(
+                "emails/reset_password.html",
+                {
+                    "user": user,
+                    "link": link
+                }
+            )
+
+            text_content = strip_tags(html_content)
+
+            send_gmail_api(
+                user.email,
+                "AlertaSeguro: Recuperação de palavra-passe",
+                text_content,
+                html_content
+            )
+
+            messages.success(
+                request,
+                "Enviámos um email para redefinires a tua palavra-passe."
+            )
+
+        except User.DoesNotExist:
+            messages.error(
+                request,
+                "Não existe nenhuma conta associada a esse email."
+            )
+
+        return redirect("login")
+
+    return render(request, "auth/forgot_password.html", {"form": form})
+
+
+def reset_password_view(request, uidb64, token):
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = User.objects.get(pk=uid)
+    except:
+        user = None
+
+    if not user or not default_token_generator.check_token(user, token):
+        return HttpResponse("Link inválido ou expirado.")
+
+    form = ResetPasswordForm(request.POST or None)
+
+    if request.method == "POST" and form.is_valid():
+        new_password = form.cleaned_data["password"]
+
+        user.set_password(new_password)
+        user.save()
+
+        messages.success(
+            request,
+            "Palavra-passe alterada com sucesso."
+        )
+
+        return redirect("login")
+
+    return render(request, "auth/reset_password.html", {"form": form})

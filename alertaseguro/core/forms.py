@@ -279,3 +279,61 @@ class FeedbackForm(forms.ModelForm):
         self.fields['tipo'].required = True
         self.fields['titulo'].required = True
         self.fields['descricao'].required = True
+
+# -------------------------
+# Forgot/reset password
+# -------------------------
+class ForgotPasswordForm(forms.Form):
+    email = forms.EmailField(
+        label="Email",
+        widget=forms.EmailInput(attrs={
+            "class": "w-full p-[12px] rounded-[12px] bg-gray-100 focus:bg-white focus:outline-none focus:ring-2 focus:ring-red-400 transition",
+            "placeholder": "Introduz o teu email"
+        })
+    )
+
+
+class ResetPasswordForm(forms.Form):
+    password = forms.CharField(
+        label="Nova palavra-passe",
+        widget=forms.PasswordInput(attrs={
+            "class": "w-full",
+            "placeholder": "Nova palavra-passe"
+        })
+    )
+
+    confirmar_password = forms.CharField(
+        label="Confirmar palavra-passe",
+        widget=forms.PasswordInput(attrs={
+            "class": "w-full",
+            "placeholder": "Confirma a nova palavra-passe"
+        })
+    )
+
+    def clean_password(self):
+        password = self.cleaned_data.get("password")
+
+        if len(password) < 6:
+            raise ValidationError("Mínimo 6 caracteres.")
+
+        if not re.search(r"\d", password):
+            raise ValidationError("Deve conter pelo menos um número.")
+
+        if not re.search(r'[!@#$%^&*(),.?\":{}|<>]', password):
+            raise ValidationError("Deve conter pelo menos um carácter especial.")
+
+        return password
+
+    def clean(self):
+        cleaned = super().clean()
+
+        p1 = cleaned.get("password")
+        p2 = cleaned.get("confirmar_password")
+
+        if p1 and p2 and p1 != p2:
+            self.add_error(
+                "confirmar_password",
+                "As palavras-passe não coincidem!"
+            )
+
+        return cleaned
