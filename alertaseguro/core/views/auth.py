@@ -112,13 +112,13 @@ def registo_view(request):
 
         def send_email(email_obj):
             try:
-                logger.info(f"A enviar email para: {email_obj.to}")
+                print(f"A enviar email para: {email_obj.to}")
                 result = email_obj.send(fail_silently=False)
-                logger.info(f"Email enviado com resultado: {result}")
+                print(f"Email enviado com resultado: {result}")
 
             except Exception as e:
-                logger.error(f"Erro ao enviar email: {e}")
-                logger.error(traceback.format_exc())
+                print(f"Erro ao enviar email: {e}")
+                print(traceback.format_exc())
 
 
         threading.Thread(target=send_email, args=(email,)).start()
