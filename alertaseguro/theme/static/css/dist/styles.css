@@ -360,6 +360,9 @@
   .mt-\[3px\] {
     margin-top: 3px;
   }
+  .mt-\[5px\] {
+    margin-top: 5px;
+  }
   .mt-\[10px\] {
     margin-top: 10px;
   }
@@ -1085,8 +1088,8 @@
     font-size: var(--text-xs);
     line-height: var(--tw-leading, var(--text-xs--line-height));
   }
-  .text-\[8px\] {
-    font-size: 8px;
+  .text-\[12px\] {
+    font-size: 12px;
   }
   .text-\[14px\] {
     font-size: 14px;
@@ -1774,9 +1777,9 @@
       line-height: var(--tw-leading, var(--text-lg--line-height));
     }
   }
-  .md\:text-\[12px\] {
+  .md\:text-\[14px\] {
     @media (width >= 48rem) {
-      font-size: 12px;
+      font-size: 14px;
     }
   }
   .md\:text-\[16px\] {
