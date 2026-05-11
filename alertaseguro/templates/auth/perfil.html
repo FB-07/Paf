@@ -50,7 +50,7 @@
       </div>
     </div>
 
-    <div class="mb-[25px]">
+    <div class="mb-[20px]">
       <label class="block text-[14px] text-gray-600 mb-[5px] font-semibold">
         Conta criada
       </label>
@@ -58,6 +58,15 @@
         {{ user.date_joined|date:"d/m/Y H:i" }}
       </div>
     </div>
+
+    <form method="POST" action="{% url 'delete_account_logged' %}">
+      {% csrf_token %}
+
+      <button type="submit" onclick="return confirm('Tens a certeza que queres apagar a conta?');"
+        class="cursor-pointer w-full text-center p-[12px] rounded-[15px] text-white text-[16px] transition duration-200 bg-[#c62828] hover:shadow-lg active:scale-95">
+          Apagar Conta
+      </button>
+    </form>
 
     <div class="flex flex-col gap-[12px] mt-[10px]">
 

@@ -20,6 +20,7 @@ urlpatterns = [
 
     #Login/Logout/Registo/Perfil
     path("login/", views.login_view, name="login"),
+    path("apagar-conta/", views.delete_account_logged, name="delete_account_logged"),
     path("registo/", views.registo_view, name="registo"),
     
     path("verify-email/<uidb64>/<token>/", views.verify_email,name="verify_email"),

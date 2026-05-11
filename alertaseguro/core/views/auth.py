@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.tokens import default_token_generator
@@ -159,6 +160,17 @@ def editar_perfil(request):
 
     return render(request, "auth/editar_perfil.html", {"form": form})
 
+@login_required
+@require_POST
+def delete_account_logged(request):
+    user = request.user
+
+    logout(request)
+    user.delete()
+
+    messages.success(request, "Conta apagada com sucesso.")
+    return redirect("mainpage")
+
 # -------------------------
 # Verificar email e apagar conta
 # -------------------------
@@ -191,7 +203,7 @@ def delete_account(request, uidb64, token):
     else:
         messages.error(request, "Link inválido.")
 
-    return redirect("login")
+    return redirect("mainpage")
 
 # -------------------------
 # Forgot/reset password
