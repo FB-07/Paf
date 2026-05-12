@@ -47,9 +47,16 @@ session.mount("http://", adapter)
 
 def fetch_json(url):
     try:
-        r = session.get(url, timeout=20)
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36",
+            "Accept": "application/json",
+            "Referer": "https://ocorrenciasativas.pt/",
+        }
+
+        r = session.get(url, timeout=20, headers=headers)
         r.raise_for_status()
         return r.json()
+
     except Exception as e:
         print(f"[API ERROR] {url}: {e}")
         return None
