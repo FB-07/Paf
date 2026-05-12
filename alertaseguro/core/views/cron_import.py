@@ -6,16 +6,17 @@ from core.services.ipma_service import update_ipma_warnings
 
 CRON_TOKEN = "cron_token_@l3rt4s3gur0"
 
-def cron_import(request):
-    print("CRON EXECUTADO")
-
-    token = request.GET.get("token")
+def cron_import(request, token):
     if token != CRON_TOKEN:
         return JsonResponse({"error": "Token inválido"}, status=403)
 
+    print("CRON EXECUTADO")
+
     before = IncidenteAPI.objects.count()
+
     fetch_all_apis()
     update_ipma_warnings()
+
     after = IncidenteAPI.objects.count()
 
     return JsonResponse({

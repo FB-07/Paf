@@ -16,9 +16,11 @@ class CoreConfig(AppConfig):
         def run_startup_tasks():
             print("Atualizando Ocorrencias...")
             fetch_all_apis()
+            print("Ocorrencias atualizados.")
 
             print("Atualizando avisos IPMA...")
             update_ipma_warnings()
+            print("Avisos IPMA atualizados.")
 
             print("Startup fetch completo")
 
