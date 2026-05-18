@@ -8,9 +8,7 @@ flow = InstalledAppFlow.from_client_secrets_file(
     SCOPES
 )
 
-creds = flow.run_local_server(
-        port=0
-    )
+creds = flow.run_local_server(port=0)
 
 with open("token.pkl", "wb") as token:
     pickle.dump(creds, token)
