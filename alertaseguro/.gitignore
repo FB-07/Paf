@@ -19,5 +19,5 @@ theme/static_src/node_modules/
 # VS Code
 .vscode/
 
-credentials.json
-token.pkl
+#credentials.json
+#token.pkl

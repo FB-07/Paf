@@ -8,13 +8,8 @@ from googleapiclient.discovery import build
 
 
 def get_google_credentials():
-    token_base64 = os.environ.get("GOOGLE_TOKEN_BASE64")
-    
-    if not token_base64:
-        raise Exception("GOOGLE_TOKEN_BASE64 não encontrada")
-
-    token_bytes = base64.b64decode(token_base64)
-    creds = pickle.loads(token_bytes)
+    with open("token.pkl", "rb") as token:
+        creds = pickle.load(token)
 
     return creds
 
