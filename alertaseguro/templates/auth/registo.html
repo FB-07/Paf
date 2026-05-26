@@ -49,7 +49,7 @@
 
       {% include "components/google-login.html" %}
 
-      <button type="submit"
+      <button id="registerBtn" type="submit"
         class="w-full p-[12px] text-[16px] md:text-[18px] rounded-[15px] text-white transition duration-200 bg-[#c62828] hover:shadow-lg active:scale-95">
         Registar
       </button>
@@ -69,4 +69,20 @@
 {% block js %}
 {{ block.super }}
 <script src="{% static 'js/password.js' %}"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    const form = document.querySelector("form");
+    const button = document.getElementById("registerBtn");
+
+    form.addEventListener("submit", () => {
+
+        button.disabled = true;
+        button.innerText = "A registar...";
+
+    });
+
+});
+</script>
 {% endblock %}

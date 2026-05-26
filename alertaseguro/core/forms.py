@@ -35,15 +35,18 @@ class RegistoForm(forms.ModelForm):
         })
     )
 
+    email = forms.EmailField(
+        required=True,
+        label="Email",
+        widget=forms.EmailInput(attrs={
+            'class': 'w-full p-[12px] rounded-[12px] bg-gray-100 focus:bg-white focus:outline-none focus:ring-2 focus:ring-red-400 transition',
+            'placeholder': 'Email'
+        })
+    )
+    
     class Meta:
         model = User
         fields = ['username', 'email']
-        widgets = {
-            'email': forms.EmailInput(attrs={
-                'class': 'w-full p-[12px] rounded-[12px] bg-gray-100 focus:bg-white focus:outline-none focus:ring-2 focus:ring-red-400 transition',
-                'placeholder': 'Email'
-            }),
-        }
 
     def clean_username(self):
         username = self.cleaned_data.get('username')

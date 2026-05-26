@@ -259,7 +259,7 @@ def forgot_password_view(request):
         except User.DoesNotExist:
             messages.error(
                 request,
-                "Não existe nenhuma conta associada a esse email."
+                "Se existir uma conta, enviámos um email."
             )
 
         return redirect("login")

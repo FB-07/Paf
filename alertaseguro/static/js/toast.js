@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const TOAST_DURATION = 2500;
+  const TOAST_DURATION = 5000;
 
   setTimeout(() => {
     document.querySelectorAll(".toast").forEach(el => {
