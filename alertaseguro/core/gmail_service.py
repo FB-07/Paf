@@ -5,16 +5,19 @@ import pickle
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from googleapiclient.discovery import build
-
+from google.auth.transport.requests import Request
 
 def get_google_credentials():
     token_base64 = os.environ.get("GOOGLE_TOKEN_BASE64")
-    
+
     if not token_base64:
         raise Exception("GOOGLE_TOKEN_BASE64 não encontrada")
 
     token_bytes = base64.b64decode(token_base64)
     creds = pickle.loads(token_bytes)
+
+    if creds.expired and creds.refresh_token:
+        creds.refresh(Request())
 
     return creds
 
